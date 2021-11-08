@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainApp", "MainApp\MainApp.csproj", "{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SfmlTests", "SfmlTests\SfmlTests.csproj", "{693D37B1-35F6-4266-8244-F75C34E165BE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{693D37B1-35F6-4266-8244-F75C34E165BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{693D37B1-35F6-4266-8244-F75C34E165BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{693D37B1-35F6-4266-8244-F75C34E165BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{693D37B1-35F6-4266-8244-F75C34E165BE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
