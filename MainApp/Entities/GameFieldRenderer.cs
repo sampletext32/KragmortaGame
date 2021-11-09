@@ -5,22 +5,38 @@ namespace MainApp.Entities
 {
     public class GameFieldRenderer
     {
-        public void Render(GameField field, RenderTarget target)
-        {
-            int cellSize = 128;
+        private readonly GameField _field;
+        private RectangleShape _shape;
 
-            RectangleShape shape = new RectangleShape()
+        public GameFieldRenderer(GameField field)
+        {
+            _field = field;
+            _shape = new RectangleShape()
             {
-                Size      = new Vector2f(cellSize, cellSize),
+                Size      = new Vector2f(field.CellSize, field.CellSize),
                 FillColor = Color.Red
             };
+        }
 
-            int margin = 6;
-
-            for (var i = 0; i < field.Cells.Count; i++)
+        public void Render(RenderTarget target)
+        {
+            for (var i = 0; i < _field.Cells.Count; i++)
             {
-                shape.Position = new Vector2f((cellSize + margin) * field.Cells[i].X, (cellSize + margin) * field.Cells[i].Y);
-                target.Draw(shape);
+                if (_field.Cells[i].Hovered)
+                {
+                    _shape.OutlineColor     = Color.White;
+                    _shape.OutlineThickness = _field.CellMargin;
+                }
+                else
+                {
+                    _shape.OutlineColor     = Color.Transparent;
+                    _shape.OutlineThickness = 0;
+                }
+
+                var positionX = (_field.CellSize + _field.CellMargin) * _field.Cells[i].X;
+                var positionY = (_field.CellSize + _field.CellMargin) * _field.Cells[i].Y;
+                _shape.Position = new Vector2f(positionX, positionY);
+                target.Draw(_shape);
             }
         }
     }

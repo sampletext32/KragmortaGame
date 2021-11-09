@@ -29,6 +29,8 @@ namespace MainApp
 
             window.Closed += (sender, eventArgs) => { window.Close(); };
 
+            window.MouseMoved += (sender, eventArgs) => { game.OnMouseMoved(eventArgs.X, eventArgs.Y); };
+
             Clock clock = new Clock();
 
             window.SetFramerateLimit(60);
@@ -40,6 +42,7 @@ namespace MainApp
                 float deltaTime = clock.Restart().AsSeconds();
                 game.OnUpdate(deltaTime);
 
+                window.Clear();
                 game.OnRender(window);
 
                 window.Display();

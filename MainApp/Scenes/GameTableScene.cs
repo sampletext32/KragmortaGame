@@ -20,5 +20,10 @@ namespace MainApp.Scenes
         {
             _field.OnRender(renderTarget);
         }
+
+        public override void OnMouseMoved(int x, int y)
+        {
+            _field.OnMouseMoved(x, y);
+        }
     }
 }
