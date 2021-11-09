@@ -27,12 +27,11 @@ namespace MainApp
 
             window.Resized += (sender, eventArgs) => { window.SetView(new View(new FloatRect(0, 0, window.Size.X, window.Size.Y))); };
 
-            window.Closed += (sender, eventArgs) =>
-            {
-                window.Close();
-            };
-            
+            window.Closed += (sender, eventArgs) => { window.Close(); };
+
             Clock clock = new Clock();
+
+            window.SetFramerateLimit(60);
 
             while (window.IsOpen)
             {
@@ -45,7 +44,7 @@ namespace MainApp
 
                 window.Display();
             }
-            
+
             Console.WriteLine("Exiting");
         }
     }
