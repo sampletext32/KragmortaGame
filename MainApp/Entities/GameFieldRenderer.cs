@@ -1,4 +1,6 @@
-﻿using SFML.Graphics;
+﻿using System.Collections.Generic;
+using System.Linq;
+using SFML.Graphics;
 using SFML.System;
 
 namespace MainApp.Entities
@@ -6,37 +8,33 @@ namespace MainApp.Entities
     public class GameFieldRenderer
     {
         private readonly GameField _field;
-        private RectangleShape _shape;
+        private List<FieldCellDrawable> _drawables;
 
         public GameFieldRenderer(GameField field)
         {
-            _field = field;
-            _shape = new RectangleShape()
+            _field     = field;
+            _drawables = new List<FieldCellDrawable>(field.Cells.Count);
+            _drawables.AddRange(field.Cells.Select(cell =>
             {
-                Size      = new Vector2f(field.CellSize, field.CellSize),
-                FillColor = Color.Red
-            };
+                var drawable = new FieldCellDrawable(field.CellSize);
+                drawable.SetOutlineThickness(field.CellMargin);
+
+                var positionX = (_field.CellSize + _field.CellMargin) * cell.X;
+                var positionY = (_field.CellSize + _field.CellMargin) * cell.Y;
+
+                drawable.SetPosition(positionX, positionY);
+                return drawable;
+            }));
         }
 
         public void Render(RenderTarget target)
         {
             for (var i = 0; i < _field.Cells.Count; i++)
             {
-                if (_field.Cells[i].Hovered)
-                {
-                    _shape.OutlineColor     = Color.White;
-                    _shape.OutlineThickness = _field.CellMargin;
-                }
-                else
-                {
-                    _shape.OutlineColor     = Color.Transparent;
-                    _shape.OutlineThickness = 0;
-                }
-
-                var positionX = (_field.CellSize + _field.CellMargin) * _field.Cells[i].X;
-                var positionY = (_field.CellSize + _field.CellMargin) * _field.Cells[i].Y;
-                _shape.Position = new Vector2f(positionX, positionY);
-                target.Draw(_shape);
+                _drawables[i].SetOutlineVisible(_field.Cells[i].Hovered);
+                _drawables[i].SetFlagsVisibility(_field.Cells[i].Type);
+                
+                target.Draw(_drawables[i]);
             }
         }
     }

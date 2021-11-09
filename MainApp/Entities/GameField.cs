@@ -11,7 +11,11 @@ namespace MainApp.Entities
 
         public int CellSize = 96;
         public int CellMargin = 6;
-        public readonly List<FieldCell> Cells;
+
+        private FieldCell _lastMouseOverCell = null;
+
+        private readonly List<FieldCell> _cells;
+        public IReadOnlyList<FieldCell> Cells => _cells;
 
         private GameFieldRenderer _renderer;
 
@@ -19,16 +23,18 @@ namespace MainApp.Entities
         {
             _sizeX = sizeX;
             _sizeY = sizeY;
-            Cells  = new List<FieldCell>(sizeX * sizeY);
+            _cells = new List<FieldCell>(sizeX * sizeY);
+            var random = new Random(DateTime.Now.Millisecond);
             for (int i = 0; i < sizeX; i++)
             {
                 for (int j = 0; j < sizeY; j++)
                 {
-                    Cells.Add(
+                    _cells.Add(
                         new FieldCell()
                         {
-                            X = i,
-                            Y = j
+                            X    = i,
+                            Y    = j,
+                            Type = (FieldType)(1 << random.Next(4))
                         }
                     );
                 }
@@ -44,26 +50,29 @@ namespace MainApp.Entities
 
         public void OnMouseMoved(int x, int y)
         {
-            if (x > (CellSize + CellMargin) * _sizeX ||
-                y > (CellSize + CellMargin) * _sizeY)
+            if (x >= (CellSize + CellMargin) * _sizeX ||
+                y >= (CellSize + CellMargin) * _sizeY)
             {
-                Console.WriteLine("Hit no cell");
+                if (_lastMouseOverCell is not null)
+                {
+                    _lastMouseOverCell.Hovered = false;
+                    _lastMouseOverCell         = null;
+                }
+
                 return;
             }
+
             int cX = x / (CellSize + CellMargin);
             int cY = y / (CellSize + CellMargin);
-            
-            for (var i = 0; i < Cells.Count; i++)
+
+            if (_lastMouseOverCell is not null)
             {
-                if (Cells[i].X == cX && Cells[i].Y == cY)
-                {
-                    Cells[i].Hovered = true;
-                }
-                else
-                {
-                    Cells[i].Hovered = false;
-                }
+                _lastMouseOverCell.Hovered = false;
             }
+
+            // Don't ask why this formula works, because it just works
+            _lastMouseOverCell         = Cells[cY + cX * _sizeY];
+            _lastMouseOverCell.Hovered = true;
         }
     }
 }
