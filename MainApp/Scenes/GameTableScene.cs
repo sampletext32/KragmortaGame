@@ -25,5 +25,15 @@ namespace MainApp.Scenes
         {
             _field.OnMouseMoved(x, y);
         }
+
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        {
+            _field.OnMouseButtonPressed(x, y, mouseButton);
+        }
+
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+            _field.OnMouseButtonReleased(x, y, mouseButton);
+        }
     }
 }

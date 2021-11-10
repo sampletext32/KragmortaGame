@@ -5,11 +5,28 @@ namespace MainApp.Entities
 {
     public class FieldCellDrawable : Drawable
     {
+        /// <summary>
+        /// Background rectangle
+        /// </summary>
         private RectangleShape _cell;
 
+        /// <summary>
+        /// Red sub-rect
+        /// </summary>
         private RectangleShape _red;
+
+        /// <summary>
+        /// Green sub-rect
+        /// </summary>
         private RectangleShape _green;
+
+        /// <summary>
+        /// Blue sub-rect
+        /// </summary>
         private RectangleShape _blue;
+
+
+        // Visibility flags
 
         private bool _isRedVisible;
         private bool _isGreenVisible;
@@ -24,12 +41,24 @@ namespace MainApp.Entities
             _isBlueVisible  = (type & FieldType.Blue) == FieldType.Blue;
         }
 
+        public void SetClicked(bool selected)
+        {
+            if (selected)
+            {
+                _cell.FillColor = new Color(127, 127, 127);
+            }
+            else
+            {
+                _cell.FillColor = Color.White;
+            }
+        }
+
         public void SetPosition(int x, int y)
         {
-            _cell.Position = new Vector2f(x, y);
-            _red.Position = new Vector2f(x + 10, y + 10);
+            _cell.Position  = new Vector2f(x, y);
+            _red.Position   = new Vector2f(x + 10, y + 10);
             _green.Position = new Vector2f(x + 30, y + 10);
-            _blue.Position = new Vector2f(x + 50, y + 10);
+            _blue.Position  = new Vector2f(x + 50, y + 10);
         }
 
         public void SetOutlineThickness(float thickness)

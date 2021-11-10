@@ -67,5 +67,15 @@ namespace MainApp
         {
             _activeScene?.OnMouseMoved(x, y);
         }
+
+        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        {
+            _activeScene?.OnMouseButtonPressed(x, y, mouseButton);
+        }
+
+        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+            _activeScene?.OnMouseButtonReleased(x, y, mouseButton);
+        }
     }
 }
