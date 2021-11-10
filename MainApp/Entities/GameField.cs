@@ -79,8 +79,8 @@ namespace MainApp.Entities
             }
 
             var fieldCell = GetCell(cX, cY);
-            _lastMouseOverCell.Hovered = true;
-            _lastMouseOverCell         = fieldCell;
+            fieldCell.Hovered  = true;
+            _lastMouseOverCell = fieldCell;
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
