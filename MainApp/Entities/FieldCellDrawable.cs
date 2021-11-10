@@ -25,20 +25,27 @@ namespace MainApp.Entities
         /// </summary>
         private RectangleShape _blue;
 
+        /// <summary>
+        /// Orange sub-rect
+        /// </summary>
+        private RectangleShape _orange;
+
 
         // Visibility flags
 
         private bool _isRedVisible;
         private bool _isGreenVisible;
         private bool _isBlueVisible;
+        private bool _isOrangeVisible;
 
         private float _outlineThickness;
 
         public void SetFlagsVisibility(FieldType type)
         {
-            _isRedVisible   = (type & FieldType.Red) == FieldType.Red;
-            _isGreenVisible = (type & FieldType.Green) == FieldType.Green;
-            _isBlueVisible  = (type & FieldType.Blue) == FieldType.Blue;
+            _isRedVisible    = (type & FieldType.Red) == FieldType.Red;
+            _isGreenVisible  = (type & FieldType.Green) == FieldType.Green;
+            _isBlueVisible   = (type & FieldType.Blue) == FieldType.Blue;
+            _isOrangeVisible = (type & FieldType.Orange) == FieldType.Orange;
         }
 
         public void SetClicked(bool selected)
@@ -55,10 +62,11 @@ namespace MainApp.Entities
 
         public void SetPosition(int x, int y)
         {
-            _cell.Position  = new Vector2f(x, y);
-            _red.Position   = new Vector2f(x + 10, y + 10);
-            _green.Position = new Vector2f(x + 30, y + 10);
-            _blue.Position  = new Vector2f(x + 50, y + 10);
+            _cell.Position   = new Vector2f(x, y);
+            _red.Position    = new Vector2f(x + 10, y + 10);
+            _green.Position  = new Vector2f(x + 30, y + 10);
+            _blue.Position   = new Vector2f(x + 50, y + 10);
+            _orange.Position = new Vector2f(x + 70, y + 10);
         }
 
         public void SetOutlineThickness(float thickness)
@@ -102,6 +110,11 @@ namespace MainApp.Entities
                 Size      = new Vector2f(10, 10),
                 FillColor = Color.Blue
             };
+            _orange = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = new Color(255, 165, 0)
+            };
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -110,6 +123,7 @@ namespace MainApp.Entities
             if (_isRedVisible) target.Draw(_red);
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
+            if (_isOrangeVisible) target.Draw(_orange);
         }
     }
 }

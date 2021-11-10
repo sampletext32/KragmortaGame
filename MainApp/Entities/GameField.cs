@@ -35,7 +35,7 @@ namespace MainApp.Entities
                         {
                             X    = j,
                             Y    = i,
-                            Type = (FieldType)(1 << random.Next(4))
+                            Type = (FieldType)(1 << random.Next(5))
                         }
                     );
                 }
