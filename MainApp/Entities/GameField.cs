@@ -24,15 +24,17 @@ namespace MainApp.Entities
             SizeY  = sizeY;
             _cells = new List<FieldCell>(sizeX * sizeY);
             var random = new Random(DateTime.Now.Millisecond);
-            for (int i = 0; i < sizeX; i++)
+
+            // Here we write cells with row-first order, so that addressing is correct
+            for (int i = 0; i < sizeY; i++)
             {
-                for (int j = 0; j < sizeY; j++)
+                for (int j = 0; j < sizeX; j++)
                 {
                     _cells.Add(
                         new FieldCell()
                         {
-                            X    = i,
-                            Y    = j,
+                            X    = j,
+                            Y    = i,
                             Type = (FieldType)(1 << random.Next(4))
                         }
                     );
@@ -40,6 +42,14 @@ namespace MainApp.Entities
             }
 
             _presenter = new GameFieldPresenter(this);
+        }
+
+        /// <summary>
+        /// Retrieves field cell by it's field coordinates
+        /// </summary>
+        private FieldCell GetCell(int cX, int cY)
+        {
+            return _cells[cX + cY * SizeX];
         }
 
         public void OnRender(RenderTarget target)
@@ -68,9 +78,9 @@ namespace MainApp.Entities
                 _lastMouseOverCell.Hovered = false;
             }
 
-            // Don't ask why this formula works, because it just works
-            _lastMouseOverCell         = Cells[cY + cX * SizeY];
+            var fieldCell = GetCell(cX, cY);
             _lastMouseOverCell.Hovered = true;
+            _lastMouseOverCell         = fieldCell;
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
@@ -83,7 +93,7 @@ namespace MainApp.Entities
             var cX = _presenter.ConvertMouseXToCellX(x);
             var cY = _presenter.ConvertMouseYToCellY(y);
 
-            var fieldCell = Cells[cY + cX * SizeY];
+            var fieldCell = GetCell(cX, cY);
             fieldCell.Clicked      = true;
             _lastMouseDownOverCell = fieldCell;
         }
@@ -105,7 +115,7 @@ namespace MainApp.Entities
             var cX = _presenter.ConvertMouseXToCellX(x);
             var cY = _presenter.ConvertMouseYToCellY(y);
 
-            var fieldCell = Cells[cY + cX * SizeY];
+            var fieldCell = GetCell(cX, cY);
             fieldCell.Clicked = false;
         }
     }
