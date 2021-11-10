@@ -23,5 +23,15 @@ namespace MainApp.Scenes
         {
             throw new System.NotImplementedException();
         }
+
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

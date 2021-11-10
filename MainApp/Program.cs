@@ -31,6 +31,9 @@ namespace MainApp
 
             window.MouseMoved += (sender, eventArgs) => { game.OnMouseMoved(eventArgs.X, eventArgs.Y); };
 
+            window.MouseButtonPressed  += (sender, eventArgs) => { game.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonReleased += (sender, eventArgs) => { game.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+
             Clock clock = new Clock();
 
             window.SetFramerateLimit(60);

@@ -24,6 +24,18 @@ namespace MainApp.Entities
             _isBlueVisible  = (type & FieldType.Blue) == FieldType.Blue;
         }
 
+        public void SetSelected(bool selected)
+        {
+            if (selected)
+            {
+                _cell.FillColor = new Color(127, 127, 127);
+            }
+            else
+            {
+                _cell.FillColor = Color.White;
+            }
+        }
+
         public void SetPosition(int x, int y)
         {
             _cell.Position = new Vector2f(x, y);

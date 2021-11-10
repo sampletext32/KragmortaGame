@@ -8,6 +8,8 @@
         public bool Hovered { get; set; }
         public FieldType Type { get; set; }
 
+        public bool Selected { get; set; }
+
         public FieldCell()
         {
         }
