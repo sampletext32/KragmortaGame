@@ -36,22 +36,33 @@ namespace MainApp.Entities
             {
                 _drawables[i].SetOutlineVisible(_field.Cells[i].Hovered);
                 _drawables[i].SetFlagsVisibility(_field.Cells[i].Type);
-                _drawables[i].SetSelected(_field.Cells[i].Selected);
+                _drawables[i].SetClicked(_field.Cells[i].Clicked);
                 
                 target.Draw(_drawables[i]);
             }
         }
 
+        /// <summary>
+        /// Ensures that x and y coordinates are within the presented game field
+        /// </summary>
         public bool IsMouseWithinBounds(int x, int y)
         {
+            // TODO: Add offset of the field (currently at 0,0)
             return !(x >= (CellSize + CellMargin) * _field.SizeX ||
                    y >= (CellSize + CellMargin) * _field.SizeY);
         }
 
+        /// <summary>
+        /// Converts the screen X to field Cell X
+        /// </summary>
         public int ConvertMouseXToCellX(int x)
         {
             return x / (CellSize + CellMargin);
         }
+        
+        /// <summary>
+        /// Converts the screen Y to field Cell Y
+        /// </summary>
         public int ConvertMouseYToCellY(int y)
         {
             return y / (CellSize + CellMargin);

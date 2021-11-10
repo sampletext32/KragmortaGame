@@ -8,12 +8,13 @@ namespace MainApp.Entities
     {
         public readonly int SizeX;
         public readonly int SizeY;
+        public IReadOnlyList<FieldCell> Cells => _cells;
+
 
         private FieldCell _lastMouseOverCell = null;
         private FieldCell _lastMouseDownOverCell = null;
 
         private readonly List<FieldCell> _cells;
-        public IReadOnlyList<FieldCell> Cells => _cells;
 
         private GameFieldPresenter _presenter;
 
@@ -83,16 +84,17 @@ namespace MainApp.Entities
             var cY = _presenter.ConvertMouseYToCellY(y);
 
             var fieldCell = Cells[cY + cX * SizeY];
-            fieldCell.Selected     = true;
+            fieldCell.Clicked      = true;
             _lastMouseDownOverCell = fieldCell;
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
+            // this small check is needed for mouse release not over initially clicked cell (click and drag behavior)
             if (_lastMouseDownOverCell is not null)
             {
-                _lastMouseDownOverCell.Selected = false;
-                _lastMouseDownOverCell          = null;
+                _lastMouseDownOverCell.Clicked = false;
+                _lastMouseDownOverCell         = null;
             }
 
             if (!_presenter.IsMouseWithinBounds(x, y))
@@ -104,7 +106,7 @@ namespace MainApp.Entities
             var cY = _presenter.ConvertMouseYToCellY(y);
 
             var fieldCell = Cells[cY + cX * SizeY];
-            fieldCell.Selected = false;
+            fieldCell.Clicked = false;
         }
     }
 }
