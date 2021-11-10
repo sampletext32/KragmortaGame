@@ -9,5 +9,7 @@ namespace MainApp.Scenes
         public abstract void OnUpdate(float deltaTime);
 
         public abstract void OnRender(RenderTarget renderTarget);
+
+        public abstract void OnMouseMoved(int x, int y);
     }
 }

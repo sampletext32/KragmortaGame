@@ -18,5 +18,10 @@ namespace MainApp.Scenes
         {
             throw new System.NotImplementedException();
         }
+
+        public override void OnMouseMoved(int x, int y)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -58,10 +58,14 @@ namespace MainApp
         /// <summary>
         /// This method is called every frame, so the game can render itself
         /// </summary>
-        /// <param name="renderTarget"></param>
         public void OnRender(RenderTarget renderTarget)
         {
             _activeScene?.OnRender(renderTarget);
+        }
+
+        public void OnMouseMoved(int x, int y)
+        {
+            _activeScene?.OnMouseMoved(x, y);
         }
     }
 }

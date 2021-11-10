@@ -1,22 +1,29 @@
-﻿using SFML.Graphics;
+﻿using MainApp.Entities;
+using SFML.Graphics;
 
 namespace MainApp.Scenes
 {
     public class GameTableScene : Scene
     {
+        private GameField _field;
+
         public override void OnCreate()
         {
-            throw new System.NotImplementedException();
+            _field = new GameField(10, 7);
         }
 
         public override void OnUpdate(float deltaTime)
         {
-            throw new System.NotImplementedException();
         }
 
         public override void OnRender(RenderTarget renderTarget)
         {
-            throw new System.NotImplementedException();
+            _field.OnRender(renderTarget);
+        }
+
+        public override void OnMouseMoved(int x, int y)
+        {
+            _field.OnMouseMoved(x, y);
         }
     }
 }
