@@ -17,7 +17,7 @@ namespace MainApp.Scenes
 
             _profile = new Profile()
             {
-                Nickname = "Sample Text"
+                Nickname = "Igrovoy personaj"
             };
 
             _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
