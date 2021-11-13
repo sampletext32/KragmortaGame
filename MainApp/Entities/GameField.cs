@@ -10,13 +10,12 @@ namespace MainApp.Entities
         public readonly int SizeY;
         public IReadOnlyList<FieldCell> Cells => _cells;
 
-
         private FieldCell _lastMouseOverCell = null;
         private FieldCell _lastMouseDownOverCell = null;
 
         private readonly List<FieldCell> _cells;
 
-        private GameFieldPresenter _presenter;
+        private GameFieldPresenter _fieldPresenter;
 
         public GameField(int sizeX, int sizeY)
         {
@@ -41,7 +40,7 @@ namespace MainApp.Entities
                 }
             }
 
-            _presenter = new GameFieldPresenter(this);
+            _fieldPresenter = new GameFieldPresenter(this);
         }
 
         /// <summary>
@@ -54,12 +53,12 @@ namespace MainApp.Entities
 
         public void OnRender(RenderTarget target)
         {
-            _presenter.Render(target);
+            _fieldPresenter.Render(target);
         }
 
         public void OnMouseMoved(int x, int y)
         {
-            if (!_presenter.IsMouseWithinBounds(x, y))
+            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
             {
                 if (_lastMouseOverCell is not null)
                 {
@@ -70,8 +69,8 @@ namespace MainApp.Entities
                 return;
             }
 
-            int cX = _presenter.ConvertMouseXToCellX(x);
-            int cY = _presenter.ConvertMouseYToCellY(y);
+            int cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            int cY = _fieldPresenter.ConvertMouseYToCellY(y);
 
             if (_lastMouseOverCell is not null)
             {
@@ -85,13 +84,13 @@ namespace MainApp.Entities
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            if (!_presenter.IsMouseWithinBounds(x, y))
+            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
             {
                 return;
             }
 
-            var cX = _presenter.ConvertMouseXToCellX(x);
-            var cY = _presenter.ConvertMouseYToCellY(y);
+            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
 
             var fieldCell = GetCell(cX, cY);
             fieldCell.Clicked      = true;
@@ -107,13 +106,13 @@ namespace MainApp.Entities
                 _lastMouseDownOverCell         = null;
             }
 
-            if (!_presenter.IsMouseWithinBounds(x, y))
+            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
             {
                 return;
             }
 
-            var cX = _presenter.ConvertMouseXToCellX(x);
-            var cY = _presenter.ConvertMouseYToCellY(y);
+            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
 
             var fieldCell = GetCell(cX, cY);
             fieldCell.Clicked = false;

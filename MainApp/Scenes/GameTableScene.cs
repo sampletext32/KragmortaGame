@@ -7,18 +7,30 @@ namespace MainApp.Scenes
     {
         private GameField _field;
 
+        private Profile _profile;
+
+        private ProfilePresenter _profilePresenter;
+
         public override void OnCreate()
         {
             _field = new GameField(10, 7);
-        }
 
+            _profile = new Profile()
+            {
+                Nickname = "Sample Text"
+            };
+
+            _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
+        }
         public override void OnUpdate(float deltaTime)
         {
         }
 
-        public override void OnRender(RenderTarget renderTarget)
+        public override void OnRender(RenderTarget target)
         {
-            _field.OnRender(renderTarget);
+            _field.OnRender(target);
+
+            _profilePresenter.Render(target);
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -34,6 +46,11 @@ namespace MainApp.Scenes
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _field.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public override void OnWindowResized(int width, int height)
+        {
+            _profilePresenter.OnWindowResized(width, height);
         }
     }
 }

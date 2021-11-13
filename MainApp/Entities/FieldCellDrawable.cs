@@ -56,7 +56,7 @@ namespace MainApp.Entities
             }
             else
             {
-                _cell.FillColor = Color.White;
+                _cell.FillColor = new Color(50, 50, 50, 255);
             }
         }
 
@@ -93,7 +93,7 @@ namespace MainApp.Entities
             _cell = new RectangleShape()
             {
                 Size      = new Vector2f(cellSize, cellSize),
-                FillColor = Color.White
+                FillColor = new Color(50, 50, 50, 255)
             };
             _red = new RectangleShape()
             {

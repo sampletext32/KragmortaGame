@@ -6,10 +6,19 @@ namespace MainApp
 {
     public class Game
     {
+        public const int StartWindowWidth = 1280;
+        public const int StartWindowHeight = 720;
+
         private static Game _instance;
         public static Game Instance => _instance;
 
         private Scene _activeScene;
+
+        private int _windowSizeX;
+        private int _windowSizeY;
+
+        public int WindowWidth => _windowSizeX;
+        public int WindowHeight => _windowSizeY;
 
         /// <summary>
         /// Game constructor, should not initialize any entities
@@ -21,7 +30,9 @@ namespace MainApp
                 throw new KragException("You can't create more than one game in the app!");
             }
 
-            _instance = this;
+            _instance    = this;
+            _windowSizeX = StartWindowWidth;
+            _windowSizeY = StartWindowHeight;
         }
 
         /// <summary>
@@ -76,6 +87,13 @@ namespace MainApp
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _activeScene?.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public void OnWindowResized(int width, int height)
+        {
+            _windowSizeX = width;
+            _windowSizeY = height;
+            _activeScene?.OnWindowResized(width, height);
         }
     }
 }

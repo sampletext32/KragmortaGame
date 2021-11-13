@@ -10,8 +10,8 @@ namespace MainApp.Entities
         private readonly GameField _field;
         private List<FieldCellDrawable> _drawables;
 
-        public int CellSize = 96;
-        public int CellMargin = 6;
+        public readonly int CellSize = 96;
+        public readonly int CellMargin = 6;
 
         public GameFieldPresenter(GameField field)
         {

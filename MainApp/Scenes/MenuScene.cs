@@ -14,7 +14,7 @@ namespace MainApp.Scenes
             throw new System.NotImplementedException();
         }
 
-        public override void OnRender(RenderTarget renderTarget)
+        public override void OnRender(RenderTarget target)
         {
             throw new System.NotImplementedException();
         }
@@ -30,6 +30,11 @@ namespace MainApp.Scenes
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override void OnWindowResized(int width, int height)
         {
             throw new System.NotImplementedException();
         }
