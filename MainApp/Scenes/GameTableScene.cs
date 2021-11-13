@@ -8,8 +8,11 @@ namespace MainApp.Scenes
         private GameField _field;
 
         private Profile _profile;
+        private HeroModel _hero;
 
         private ProfilePresenter _profilePresenter;
+        private HeroPresenter _heroPresenter;
+        private HeroController _heroController;
 
         public override void OnCreate()
         {
@@ -17,13 +20,21 @@ namespace MainApp.Scenes
 
             _profile = new Profile()
             {
-                Nickname = "Igrovoy personaj"
+                Nickname = "Igrovogo personaja"
             };
 
             _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
+
+            _hero = new HeroModel("Spidar Woman", 3, 5);
+            _heroPresenter = new HeroPresenter(_hero);
+            _heroController = new HeroController(_hero, _heroPresenter);
+
+            _hero.FieldY = 2;
+            // _heroPresenter.OnHeroMoved();
         }
         public override void OnUpdate(float deltaTime)
         {
+            
         }
 
         public override void OnRender(RenderTarget target)
@@ -31,6 +42,7 @@ namespace MainApp.Scenes
             _field.OnRender(target);
 
             _profilePresenter.Render(target);
+            _heroPresenter.Render(target);
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -41,6 +53,7 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _field.OnMouseButtonPressed(x, y, mouseButton);
+            _heroController.OnMouseButtonPressed(x, y, mouseButton);
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
