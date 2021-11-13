@@ -27,6 +27,8 @@ namespace MainApp.Entities
             _rectangle.Size = new Vector2f(HeroSize, HeroSize);
 
             _rectangle.FillColor = new Color(255, 255, 255, 100);
+
+            _hero.LocationChanged += OnHeroMoved;
         }
 
         private Vector2f CalcRectanglePosition()
@@ -45,6 +47,32 @@ namespace MainApp.Entities
         public void OnHeroMoved()
         {
             _rectangle.Position = CalcRectanglePosition();
+        }
+        
+        // TODO: Pososi bibu and refactor this repeated (if u r gay -> duplicated) shit here and in GameFieldPresenter. 
+        public bool IsMouseWithinBounds(int x, int y)
+        {
+            // TODO: Add offset of the field (currently at 0,0)
+            return !(x >= (CellSize + CellMargin) * (_hero.FieldX + 1) ||
+                     y >= (CellSize + CellMargin) * (_hero.FieldY + 1) ||
+                     x <= (CellSize + CellMargin) * _hero.FieldX ||
+                     y <= (CellSize + CellMargin) * _hero.FieldY);
+        }
+
+        /// <summary>
+        /// Converts the screen X to field Cell X
+        /// </summary>
+        public int ConvertMouseXToCellX(int x)
+        {
+            return x / (CellSize + CellMargin);
+        }
+        
+        /// <summary>
+        /// Converts the screen Y to field Cell Y
+        /// </summary>
+        public int ConvertMouseYToCellY(int y)
+        {
+            return y / (CellSize + CellMargin);
         }
     }
 }

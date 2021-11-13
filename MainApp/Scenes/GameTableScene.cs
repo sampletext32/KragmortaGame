@@ -12,6 +12,7 @@ namespace MainApp.Scenes
 
         private ProfilePresenter _profilePresenter;
         private HeroPresenter _heroPresenter;
+        private HeroController _heroController;
 
         public override void OnCreate()
         {
@@ -26,9 +27,10 @@ namespace MainApp.Scenes
 
             _hero = new HeroModel("Spidar Woman", 3, 5);
             _heroPresenter = new HeroPresenter(_hero);
+            _heroController = new HeroController(_hero, _heroPresenter);
 
             _hero.FieldY = 2;
-            _heroPresenter.OnHeroMoved();
+            // _heroPresenter.OnHeroMoved();
         }
         public override void OnUpdate(float deltaTime)
         {
@@ -51,6 +53,7 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _field.OnMouseButtonPressed(x, y, mouseButton);
+            _heroController.OnMouseButtonPressed(x, y, mouseButton);
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
