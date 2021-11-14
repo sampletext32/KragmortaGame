@@ -1,3 +1,4 @@
+using MainApp.Entities.Enums;
 using MainApp.Entities.Models;
 using MainApp.Entities.Presenters;
 
@@ -15,6 +16,11 @@ namespace MainApp.Entities.Controllers
         {
             _field = field;
             _fieldPresenter = fieldPresenter;
+        }
+
+        public CellType GetFieldType(int cX, int cY)
+        {
+            return _field.GetCell(cX, cY).Type;
         }
         
         public void OnMouseMoved(int x, int y)

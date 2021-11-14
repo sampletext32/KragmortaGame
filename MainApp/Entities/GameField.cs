@@ -11,13 +11,13 @@ namespace MainApp.Entities
         public readonly int SizeX;
         public readonly int SizeY;
         public IReadOnlyList<FieldCell> Cells => _cells;
-        
+
         private readonly List<FieldCell> _cells;
-        
+
         public GameField(int sizeX, int sizeY)
         {
-            SizeX = sizeX;
-            SizeY = sizeY;
+            SizeX  = sizeX;
+            SizeY  = sizeY;
             _cells = new List<FieldCell>(sizeX * sizeY);
             var random = new Random(DateTime.Now.Millisecond);
 
@@ -29,13 +29,12 @@ namespace MainApp.Entities
                     _cells.Add(
                         new FieldCell()
                         {
-                            X = j,
-                            Y = i,
-                            Type = (FieldType)(1 << random.Next(5))
+                            X    = j,
+                            Y    = i,
+                            Type = (CellType)(1 << random.Next(4))
                         }
                     );
                 }
-
             }
         }
 

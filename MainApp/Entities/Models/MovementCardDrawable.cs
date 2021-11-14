@@ -44,6 +44,22 @@ namespace MainApp.Entities.Models
             _secondText.DisplayedString = _movementCard.SecondType.ToString();
         }
 
+        public void SetFromCard()
+        {
+            if (_movementCard.Activated)
+            {
+                _backgroundRectangle.FillColor = new Color(255, 0, 0);
+            }
+            else if (_movementCard.Selected)
+            {
+                _backgroundRectangle.FillColor = new Color(255, 0, 0, 100);
+            }
+            else
+            {
+                _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
+            }
+        }
+
         public void SetPosition(int x, int y)
         {
             _backgroundRectangle.Position = new Vector2f(x, y);

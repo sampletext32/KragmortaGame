@@ -3,7 +3,7 @@
 namespace MainApp.Entities.Enums
 {
     [Flags]
-    public enum FieldType
+    public enum CellType
     {
         Empty = 0,
         Red = 1,

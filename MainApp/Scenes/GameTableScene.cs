@@ -21,6 +21,7 @@ namespace MainApp.Scenes
 
         private HeroController _heroController;
         private GameFieldController _fieldController;
+        private MovementDeckController _movementDeckController;
 
         public override void OnCreate()
         {
@@ -39,8 +40,9 @@ namespace MainApp.Scenes
 
             _movementDeckPresenter = new MovementDeckPresenter(_hero.MovementDeck);
 
-            _heroController  = new HeroController(_hero, _heroPresenter);
-            _fieldController = new GameFieldController(_field, _fieldPresenter);
+            _fieldController        = new GameFieldController(_field, _fieldPresenter);
+            _movementDeckController = new MovementDeckController(_hero.MovementDeck, _movementDeckPresenter);
+            _heroController         = new HeroController(_hero, _heroPresenter, _movementDeckController, _fieldController);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -62,10 +64,17 @@ namespace MainApp.Scenes
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            if (!_fieldPresenter.IsMouseWithinBounds(x, y)) return;
+            if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
+            {
+                _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
+                return;
+            }
 
-            _fieldController.OnMouseButtonPressed(x, y, mouseButton);
-            _heroController.OnMouseButtonPressed(x, y, mouseButton);
+            if (_fieldPresenter.IsMouseWithinBounds(x, y))
+            {
+                _fieldController.OnMouseButtonPressed(x, y, mouseButton);
+                _heroController.OnMouseButtonPressed(x, y, mouseButton);
+            }
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)

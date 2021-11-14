@@ -7,18 +7,21 @@ namespace MainApp.Entities.Models
 
     public class MovementCard
     {
-        public FieldType FirstType => _firstType;
-        public FieldType SecondType => _secondType;
+        public CellType FirstType => _firstType;
+        public CellType SecondType => _secondType;
+
+        private CellType _firstType;
+        private CellType _secondType;
         
-        private FieldType _firstType;
-        private FieldType _secondType;
-        
+        public bool Selected { get; set; }
+
         public bool HasUsedFirstType { get; set; }
         public bool HasUsedSecondType { get; set; }
-        
-        public MovementCard(FieldType firstType,FieldType secondType)
+        public bool Activated { get; set; }
+
+        public MovementCard(CellType firstType, CellType secondType)
         {
-            _firstType = firstType;
+            _firstType  = firstType;
             _secondType = secondType;
         }
 
