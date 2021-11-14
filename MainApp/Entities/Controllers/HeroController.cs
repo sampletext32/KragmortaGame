@@ -1,4 +1,7 @@
-namespace MainApp.Entities
+using MainApp.Entities.Models;
+using MainApp.Entities.Presenters;
+
+namespace MainApp.Entities.Controllers
 {
     public class HeroController
     {
@@ -13,25 +16,18 @@ namespace MainApp.Entities
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            if (_heroPresenter.IsMouseWithinBounds(x, y))
-            {
-                return;
-            }
-
-            if (mouseButton == KragMouseButton.Right)
-            {
-                return;
-            }
-
+            if (mouseButton != KragMouseButton.Left) return;
+            
+            
             var cX = _heroPresenter.ConvertMouseXToCellX(x);
             var cY = _heroPresenter.ConvertMouseYToCellY(y);
 
             _hero.SetFieldPosition(cX, cY);
+            _heroPresenter.OnHeroMoved();
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
-            
         }
     }
 }

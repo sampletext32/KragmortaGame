@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MainApp.Entities
+namespace MainApp.Entities.Enums
 {
     [Flags]
     public enum FieldType

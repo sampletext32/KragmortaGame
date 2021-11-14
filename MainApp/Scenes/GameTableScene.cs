@@ -1,4 +1,8 @@
 ﻿using MainApp.Entities;
+using MainApp.Entities.Controllers;
+using MainApp.Entities.Enums;
+using MainApp.Entities.Models;
+using MainApp.Entities.Presenters;
 using SFML.Graphics;
 
 namespace MainApp.Scenes
@@ -12,7 +16,10 @@ namespace MainApp.Scenes
 
         private ProfilePresenter _profilePresenter;
         private HeroPresenter _heroPresenter;
+        private GameFieldPresenter _fieldPresenter;
+
         private HeroController _heroController;
+        private GameFieldController _fieldController;
 
         public override void OnCreate()
         {
@@ -23,42 +30,43 @@ namespace MainApp.Scenes
                 Nickname = "Igrovogo personaja"
             };
 
-            _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
-
             _hero = new HeroModel("Spidar Woman", 3, 5);
-            _heroPresenter = new HeroPresenter(_hero);
-            _heroController = new HeroController(_hero, _heroPresenter);
 
-            _hero.FieldY = 2;
-            // _heroPresenter.OnHeroMoved();
+            _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
+            _heroPresenter = new HeroPresenter(_hero);
+            _fieldPresenter = new GameFieldPresenter(_field);
+
+            _heroController = new HeroController(_hero, _heroPresenter);
+            _fieldController = new GameFieldController(_field, _fieldPresenter);
         }
+
         public override void OnUpdate(float deltaTime)
         {
-            
         }
 
         public override void OnRender(RenderTarget target)
         {
-            _field.OnRender(target);
-
+            _fieldPresenter.Render(target);
             _profilePresenter.Render(target);
             _heroPresenter.Render(target);
         }
 
         public override void OnMouseMoved(int x, int y)
         {
-            _field.OnMouseMoved(x, y);
+            _fieldController.OnMouseMoved(x, y);
         }
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            _field.OnMouseButtonPressed(x, y, mouseButton);
+            if (!_fieldPresenter.IsMouseWithinBounds(x, y)) return;
+            
+            _fieldController.OnMouseButtonPressed(x, y, mouseButton);
             _heroController.OnMouseButtonPressed(x, y, mouseButton);
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _field.OnMouseButtonReleased(x, y, mouseButton);
+            _fieldController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
         public override void OnWindowResized(int width, int height)

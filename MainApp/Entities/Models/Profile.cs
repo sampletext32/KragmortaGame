@@ -1,4 +1,4 @@
-﻿namespace MainApp.Entities
+﻿namespace MainApp.Entities.Models
 {
     public class Profile
     {
