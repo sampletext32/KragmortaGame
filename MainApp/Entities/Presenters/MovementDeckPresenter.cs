@@ -8,11 +8,11 @@ namespace MainApp.Entities.Presenters
 {
     public class MovementDeckPresenter : Presenter
     {
-        private readonly MovementDeck _deck;
+        private MovementDeck _deck;
 
         private RectangleShape _backgroundRectangle;
 
-        private readonly List<MovementCardDrawable> _drawables;
+        private List<MovementCardDrawable> _drawables;
 
         private int _width = 500;
         private int _height = 200;
@@ -24,18 +24,25 @@ namespace MainApp.Entities.Presenters
         private int _x;
         private int _y;
 
-        public MovementDeckPresenter(MovementDeck deck)
+        public MovementDeckPresenter()
         {
-            _deck = deck;
-            _drawables = deck.MovementCards
-                .Select(c => new MovementCardDrawable(c))
-                .ToList();
+            _drawables = new List<MovementCardDrawable>();
 
             _backgroundRectangle = new RectangleShape();
 
             _backgroundRectangle.Size      = new Vector2f(_width, _height);
             _backgroundRectangle.FillColor = new Color(255, 255, 255, 150);
 
+            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+        }
+
+        public void SetDeck(MovementDeck deck)
+        {
+            _deck = deck;
+            _drawables.Clear();
+            _drawables.AddRange(deck.MovementCards
+                .Select(c => new MovementCardDrawable(c))
+                .ToList());
             Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
         }
 

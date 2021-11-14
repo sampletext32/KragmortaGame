@@ -1,4 +1,5 @@
-﻿using MainApp.Entities.Enums;
+﻿using System;
+using MainApp.Entities.Enums;
 using MainApp.Entities.Models;
 using MainApp.Entities.Presenters;
 
@@ -18,6 +19,7 @@ namespace MainApp.Entities.Controllers
         {
             _deck      = deck;
             _presenter = presenter;
+            Console.WriteLine("MovementDeckController");
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
@@ -73,7 +75,7 @@ namespace MainApp.Entities.Controllers
 
         public bool TryUseCellType(CellType cellType)
         {
-            if (HasSelectedCard() && 
+            if (HasSelectedCard() &&
                 (_lastSelectedMovementCard.FirstType == cellType || _lastSelectedMovementCard.SecondType == cellType))
             {
                 ActivateSelectedCard();
@@ -100,7 +102,7 @@ namespace MainApp.Entities.Controllers
 
                     _deck.DismissCard(_activatedMovementCard);
                     _presenter.RemoveCardAtPosition(_activatedMovementCardIndex);
-                    _activatedMovementCard           = null;
+                    _activatedMovementCard      = null;
                     _activatedMovementCardIndex = -1;
                 }
 

@@ -1,3 +1,5 @@
+using System;
+using System.Data;
 using MainApp.Entities.Models;
 using SFML.Graphics;
 using SFML.System;
@@ -23,7 +25,9 @@ namespace MainApp.Entities.Presenters
             _rectangle.Position = CalcRectanglePosition();
             _rectangle.Size     = new Vector2f(HeroSize, HeroSize);
 
-            _rectangle.FillColor = new Color(255, 255, 255, 100);
+            var rand = new Random(DateTime.Now.Millisecond);
+
+            _rectangle.FillColor = new Color((byte)rand.Next(0, 256), (byte)rand.Next(0, 256), (byte)rand.Next(0, 256), 100);
         }
 
         private Vector2f CalcRectanglePosition()
