@@ -1,11 +1,9 @@
 using System;
-using System.Collections.Generic;
 
-namespace MainApp.Entities
+namespace MainApp.Entities.Models
 {
     public class HeroModel
     {
-        public event Action LocationChanged; 
         public string Nickname => _nickname;
         public int FieldX
         {
@@ -13,7 +11,6 @@ namespace MainApp.Entities
             set
             {
                 _fieldX = value;
-                LocationChanged?.Invoke();
             }
         }
 
@@ -23,7 +20,6 @@ namespace MainApp.Entities
             set
             {
                 _fieldY = value;
-                LocationChanged?.Invoke();
             }
         }
 
@@ -31,7 +27,6 @@ namespace MainApp.Entities
         {
             _fieldX = x;
             _fieldY = y;
-            LocationChanged?.Invoke();
         }
         
         private int _fieldX;
