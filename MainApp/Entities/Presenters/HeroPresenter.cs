@@ -34,7 +34,7 @@ namespace MainApp.Entities.Presenters
             );
         }
 
-        public void Render(RenderTarget target)
+        public override void Render(RenderTarget target)
         {
             target.Draw(_rectangle);
         }

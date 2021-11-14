@@ -6,7 +6,7 @@ using SFML.System;
 
 namespace MainApp.Entities.Presenters
 {
-    public class ProfilePresenter
+    public class ProfilePresenter : Presenter
     {
         private Text _text;
         private RectangleShape _rectangle;
@@ -35,13 +35,13 @@ namespace MainApp.Entities.Presenters
             Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
         }
 
-        public void Render(RenderTarget target)
+        public override void Render(RenderTarget target)
         {
             target.Draw(_rectangle);
             target.Draw(_text);
         }
 
-        public void OnWindowResized(int width, int height)
+        public override void OnWindowResized(int width, int height)
         {
             Reshape(width, height);
         }
@@ -74,6 +74,11 @@ namespace MainApp.Entities.Presenters
             }
 
             _rectangle.Size      = new Vector2f(rectWidth, rectHeight);
+        }
+
+        public override bool IsMouseWithinBounds(int x, int y)
+        {
+            throw new NotImplementedException();
         }
     }
 }

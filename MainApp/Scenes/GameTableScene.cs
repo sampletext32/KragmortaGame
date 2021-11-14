@@ -17,6 +17,7 @@ namespace MainApp.Scenes
         private ProfilePresenter _profilePresenter;
         private HeroPresenter _heroPresenter;
         private GameFieldPresenter _fieldPresenter;
+        private MovementDeckPresenter _movementDeckPresenter;
 
         private HeroController _heroController;
         private GameFieldController _fieldController;
@@ -33,10 +34,12 @@ namespace MainApp.Scenes
             _hero = new HeroModel("Spidar Woman", 3, 5);
 
             _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
-            _heroPresenter = new HeroPresenter(_hero);
-            _fieldPresenter = new GameFieldPresenter(_field);
+            _heroPresenter    = new HeroPresenter(_hero);
+            _fieldPresenter   = new GameFieldPresenter(_field);
 
-            _heroController = new HeroController(_hero, _heroPresenter);
+            _movementDeckPresenter = new MovementDeckPresenter(_hero.MovementDeck);
+
+            _heroController  = new HeroController(_hero, _heroPresenter);
             _fieldController = new GameFieldController(_field, _fieldPresenter);
         }
 
@@ -49,6 +52,7 @@ namespace MainApp.Scenes
             _fieldPresenter.Render(target);
             _profilePresenter.Render(target);
             _heroPresenter.Render(target);
+            _movementDeckPresenter.Render(target);
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -59,7 +63,7 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             if (!_fieldPresenter.IsMouseWithinBounds(x, y)) return;
-            
+
             _fieldController.OnMouseButtonPressed(x, y, mouseButton);
             _heroController.OnMouseButtonPressed(x, y, mouseButton);
         }
@@ -72,6 +76,7 @@ namespace MainApp.Scenes
         public override void OnWindowResized(int width, int height)
         {
             _profilePresenter.OnWindowResized(width, height);
+            _movementDeckPresenter.OnWindowResized(width, height);
         }
     }
 }
