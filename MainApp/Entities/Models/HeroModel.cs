@@ -1,44 +1,35 @@
 using System;
+using MainApp.Entities.Enums;
 
 namespace MainApp.Entities.Models
 {
     public class HeroModel
     {
-        public string Nickname => _nickname;
-        public int FieldX
-        {
-            get => _fieldX;
-            set
-            {
-                _fieldX = value;
-            }
-        }
+        public string Nickname { get; private set; }
 
-        public int FieldY
+        public int FieldX { get; private set; }
+
+        public int FieldY { get; private set; }
+
+        public readonly MovementDeck MovementDeck;
+
+        public HeroModel(string nickname, int fieldX, int fieldY)
         {
-            get => _fieldY;
-            set
-            {
-                _fieldY = value;
-            }
+            Nickname = nickname;
+            FieldX   = fieldX;
+            FieldY   = fieldY;
+
+            MovementDeck = new MovementDeck();
+            
+            MovementDeck.AddCard(new MovementCard(FieldType.Red, FieldType.Green));
+            MovementDeck.AddCard(new MovementCard(FieldType.Green, FieldType.Orange));
+            MovementDeck.AddCard(new MovementCard(FieldType.Blue, FieldType.Red));
         }
 
         public void SetFieldPosition(int x, int y)
         {
-            _fieldX = x;
-            _fieldY = y;
-        }
-        
-        private int _fieldX;
-        private int _fieldY;
-
-        private string _nickname;
-
-        public HeroModel(string nickname, int fieldX, int fieldY)
-        {
-            _nickname = nickname;
-            _fieldX = fieldX;
-            _fieldY = fieldY;
+            FieldX = x;
+            FieldY = y;
         }
     }
 }
