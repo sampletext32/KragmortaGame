@@ -1,3 +1,4 @@
+using System;
 using MainApp.Entities.Models;
 using MainApp.Entities.Presenters;
 
@@ -19,11 +20,26 @@ namespace MainApp.Entities.Controllers
             if (mouseButton != KragMouseButton.Left) return;
             
             
-            var cX = _heroPresenter.ConvertMouseXToCellX(x);
-            var cY = _heroPresenter.ConvertMouseYToCellY(y);
+            var selectedCellX = _heroPresenter.ConvertMouseXToCellX(x);
+            var selectedCellY = _heroPresenter.ConvertMouseYToCellY(y);
 
-            _hero.SetFieldPosition(cX, cY);
-            _heroPresenter.OnHeroMoved();
+            if (IsSelectedCellNeighboring(selectedCellX, selectedCellY))
+            {
+                _hero.SetFieldPosition(selectedCellX, selectedCellY);
+                _heroPresenter.OnHeroMoved();
+            }
+            else
+            {
+                Console.WriteLine("Hero can move only on a neighboring cell: either vertically or horizontally");
+            }
+        }
+
+        private bool IsSelectedCellNeighboring(int selectedCellX, int selectedCellY)
+        {
+            var xAxis = Math.Abs(_hero.FieldX - selectedCellX) == 1;
+            var yAxis = Math.Abs(_hero.FieldY - selectedCellY) == 1;
+
+            return xAxis || yAxis;
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
