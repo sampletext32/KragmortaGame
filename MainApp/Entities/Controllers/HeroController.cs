@@ -36,10 +36,10 @@ namespace MainApp.Entities.Controllers
 
         private bool IsSelectedCellNeighboring(int selectedCellX, int selectedCellY)
         {
-            var xAxis = Math.Abs(_hero.FieldX - selectedCellX) == 1;
-            var yAxis = Math.Abs(_hero.FieldY - selectedCellY) == 1;
+            var xAxis = Math.Abs(_hero.FieldX - selectedCellX);
+            var yAxis = Math.Abs(_hero.FieldY - selectedCellY);
 
-            return xAxis || yAxis;
+            return xAxis + yAxis == 1;
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
