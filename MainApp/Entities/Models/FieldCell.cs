@@ -17,7 +17,7 @@ namespace MainApp.Entities.Models
         /// <summary>
         /// The type of current cell
         /// </summary>
-        public FieldType Type { get; set; }
+        public CellType Type { get; set; }
         
         /// <summary>
         /// Indicates, whether current cell is being under the mouse cursor

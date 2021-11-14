@@ -41,12 +41,12 @@ namespace MainApp.Entities.Models
 
         private float _outlineThickness;
 
-        public void SetFlagsVisibility(FieldType type)
+        public void SetFlagsVisibility(CellType type)
         {
-            _isRedVisible    = (type & FieldType.Red) == FieldType.Red;
-            _isGreenVisible  = (type & FieldType.Green) == FieldType.Green;
-            _isBlueVisible   = (type & FieldType.Blue) == FieldType.Blue;
-            _isOrangeVisible = (type & FieldType.Orange) == FieldType.Orange;
+            _isRedVisible    = (type & CellType.Red) == CellType.Red;
+            _isGreenVisible  = (type & CellType.Green) == CellType.Green;
+            _isBlueVisible   = (type & CellType.Blue) == CellType.Blue;
+            _isOrangeVisible = (type & CellType.Orange) == CellType.Orange;
         }
 
         public void SetClicked(bool selected)

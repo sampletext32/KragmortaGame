@@ -17,5 +17,10 @@ namespace MainApp.Entities.Models
         {
             _movementCards.Add(card);
         }
+
+        public void DismissCard(MovementCard card)
+        {
+            _movementCards.Remove(card);
+        }
     }
 }

@@ -21,9 +21,9 @@ namespace MainApp.Entities.Models
 
             MovementDeck = new MovementDeck();
             
-            MovementDeck.AddCard(new MovementCard(FieldType.Red, FieldType.Green));
-            MovementDeck.AddCard(new MovementCard(FieldType.Green, FieldType.Orange));
-            MovementDeck.AddCard(new MovementCard(FieldType.Blue, FieldType.Red));
+            MovementDeck.AddCard(new MovementCard(CellType.Red, CellType.Green));
+            MovementDeck.AddCard(new MovementCard(CellType.Green, CellType.Orange));
+            MovementDeck.AddCard(new MovementCard(CellType.Blue, CellType.Red));
         }
 
         public void SetFieldPosition(int x, int y)

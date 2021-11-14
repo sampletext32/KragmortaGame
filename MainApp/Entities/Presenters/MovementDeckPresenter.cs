@@ -66,6 +66,30 @@ namespace MainApp.Entities.Presenters
             Reshape(width, height);
         }
 
+        public void UpdateCardAtPosition(int i)
+        {
+            _drawables[i].SetFromCard();
+        }
+
+        public int GetCardIndex(int x, int y)
+        {
+            int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);
+            int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
+
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                if (x > startX && x <= startX + MovementCardDrawable.Width &&
+                    y > startY && y <= startY + MovementCardDrawable.Height)
+                {
+                    return i;
+                }
+
+                startX += MovementCardDrawable.Width;
+            }
+
+            return -1;
+        }
+
         public override void Render(RenderTarget target)
         {
             target.Draw(_backgroundRectangle);
@@ -74,6 +98,12 @@ namespace MainApp.Entities.Presenters
             {
                 target.Draw(_drawables[i]);
             }
+        }
+
+        public void RemoveCardAtPosition(int index)
+        {
+            _drawables.RemoveAt(index);
+            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
         }
     }
 }

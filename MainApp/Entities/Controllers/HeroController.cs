@@ -8,25 +8,41 @@ namespace MainApp.Entities.Controllers
     {
         private HeroModel _hero;
         private HeroPresenter _heroPresenter;
+        private MovementDeckController _movementDeckController;
+        private GameFieldController _gameFieldController;
 
-        public HeroController(HeroModel hero, HeroPresenter heroPresenter)
+        public HeroController(HeroModel hero, HeroPresenter heroPresenter, MovementDeckController movementDeckController, GameFieldController gameFieldController)
         {
-            _hero = hero;
-            _heroPresenter = heroPresenter;
+            _hero                     = hero;
+            _heroPresenter            = heroPresenter;
+            _movementDeckController   = movementDeckController;
+            _gameFieldController = gameFieldController;
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             if (mouseButton != KragMouseButton.Left) return;
-            
-            
+
+            if (!_movementDeckController.HasSelectedCard() && !_movementDeckController.HasActivatedCard())
+            {
+                return;
+            }
+
             var selectedCellX = _heroPresenter.ConvertMouseXToCellX(x);
             var selectedCellY = _heroPresenter.ConvertMouseYToCellY(y);
 
             if (IsSelectedCellNeighboring(selectedCellX, selectedCellY))
             {
-                _hero.SetFieldPosition(selectedCellX, selectedCellY);
-                _heroPresenter.OnHeroMoved();
+                var fieldType = _gameFieldController.GetFieldType(selectedCellX, selectedCellY);
+                if (_movementDeckController.TryUseCellType(fieldType))
+                {
+                    _hero.SetFieldPosition(selectedCellX, selectedCellY);
+                    _heroPresenter.OnHeroMoved();
+                }
+                else
+                {
+                    Console.WriteLine("Unable to move the hero");
+                }
             }
             else
             {
