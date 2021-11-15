@@ -1,4 +1,5 @@
-﻿using MainApp.Entities;
+﻿using System.Collections.Generic;
+using MainApp.Entities;
 using MainApp.Entities.Controllers;
 using MainApp.Entities.Enums;
 using MainApp.Entities.Models;
@@ -12,16 +13,13 @@ namespace MainApp.Scenes
         private GameField _field;
 
         private Profile _profile;
-        private HeroModel _hero;
 
         private ProfilePresenter _profilePresenter;
-        private HeroPresenter _heroPresenter;
         private GameFieldPresenter _fieldPresenter;
         private MovementDeckPresenter _movementDeckPresenter;
 
-        private HeroController _heroController;
         private GameFieldController _fieldController;
-        private MovementDeckController _movementDeckController;
+        private ShiftController _shiftController;
 
         public override void OnCreate()
         {
@@ -32,17 +30,14 @@ namespace MainApp.Scenes
                 Nickname = "Igrovogo personaja"
             };
 
-            _hero = new HeroModel("Spidar Woman", 3, 5);
 
             _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
-            _heroPresenter    = new HeroPresenter(_hero);
             _fieldPresenter   = new GameFieldPresenter(_field);
 
-            _movementDeckPresenter = new MovementDeckPresenter(_hero.MovementDeck);
+            _movementDeckPresenter = new MovementDeckPresenter();
 
-            _fieldController        = new GameFieldController(_field, _fieldPresenter);
-            _movementDeckController = new MovementDeckController(_hero.MovementDeck, _movementDeckPresenter);
-            _heroController         = new HeroController(_hero, _heroPresenter, _movementDeckController, _fieldController);
+            _fieldController = new GameFieldController(_field, _fieldPresenter);
+            _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -53,12 +48,20 @@ namespace MainApp.Scenes
         {
             _fieldPresenter.Render(target);
             _profilePresenter.Render(target);
-            _heroPresenter.Render(target);
+            foreach (var heroPresenter in _shiftController.HeroPresenters)
+            {
+                heroPresenter.Render(target);
+            }
+
             _movementDeckPresenter.Render(target);
         }
 
         public override void OnMouseMoved(int x, int y)
         {
+            if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
+            {
+                return;
+            }
             _fieldController.OnMouseMoved(x, y);
         }
 
@@ -66,20 +69,22 @@ namespace MainApp.Scenes
         {
             if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             {
-                _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
+                // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
+                _shiftController.MovementDeckController.OnMouseButtonPressed(x, y, mouseButton);
                 return;
             }
 
             if (_fieldPresenter.IsMouseWithinBounds(x, y))
             {
                 _fieldController.OnMouseButtonPressed(x, y, mouseButton);
-                _heroController.OnMouseButtonPressed(x, y, mouseButton);
+                _shiftController.OnMouseButtonPressed(x, y, mouseButton);
             }
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _fieldController.OnMouseButtonReleased(x, y, mouseButton);
+            _shiftController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
         public override void OnWindowResized(int width, int height)
