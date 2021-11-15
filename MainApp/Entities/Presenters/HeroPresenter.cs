@@ -46,7 +46,6 @@ namespace MainApp.Entities.Presenters
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
-            // TODO: Add offset of the field (currently at 0,0)
             return !(
                 x - FieldOriginX >= (CellSize + CellMargin) * (_hero.FieldX + 1) ||
                 y - FieldOriginY >= (CellSize + CellMargin) * (_hero.FieldY + 1) ||
