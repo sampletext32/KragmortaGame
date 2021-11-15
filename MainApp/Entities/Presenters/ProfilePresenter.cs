@@ -77,7 +77,7 @@ namespace MainApp.Entities.Presenters
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
-            throw new NotImplementedException();
+            return false;
         }
     }
 }
