@@ -21,7 +21,7 @@ namespace MainApp.Entities.Controllers
 
         private List<MovementDeckController> _movementDeckControllers;
 
-        private int _currentHeroSuccessfulMoves = 0;
+        private int _currentHeroSuccessfulMovesCount = 0;
 
         public ShiftController(
             int countOfPlayers,
@@ -65,14 +65,14 @@ namespace MainApp.Entities.Controllers
             _heroControllers[_currentHeroIndex].OnMouseButtonPressed(x, y, mouseButton);
             if (_heroControllers[_currentHeroIndex].WasLastMoveSuccessful)
             {
-                _currentHeroSuccessfulMoves++;
-                if (_currentHeroSuccessfulMoves == 2)
+                _currentHeroSuccessfulMovesCount++;
+                if (_currentHeroSuccessfulMovesCount == 2)
                 {
                     _heroControllers[_currentHeroIndex].Deactivate();
                     _currentHeroIndex           = (_currentHeroIndex + 1) % _countOfPlayers;
                     _heroControllers[_currentHeroIndex].Activate();
                     _movementDeckPresenter.SetDeck(_heroModels[_currentHeroIndex].MovementDeck);
-                    _currentHeroSuccessfulMoves = 0;
+                    _currentHeroSuccessfulMovesCount = 0;
                 }
             }
         }
