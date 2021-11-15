@@ -13,7 +13,6 @@ namespace MainApp.Entities.Presenters
         private Profile _profile;
         private Corner _corner;
 
-
         private readonly Font _font;
 
         public ProfilePresenter(Profile profile, Corner corner)
@@ -48,7 +47,7 @@ namespace MainApp.Entities.Presenters
 
         private void Reshape(int width, int height)
         {
-            int rectWidth = 200;
+            int rectWidth  = 200;
             int rectHeight = 50;
 
             switch (_corner)
@@ -73,7 +72,7 @@ namespace MainApp.Entities.Presenters
                     throw new ArgumentOutOfRangeException();
             }
 
-            _rectangle.Size      = new Vector2f(rectWidth, rectHeight);
+            _rectangle.Size = new Vector2f(rectWidth, rectHeight);
         }
 
         public override bool IsMouseWithinBounds(int x, int y)
