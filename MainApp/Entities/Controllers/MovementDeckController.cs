@@ -19,7 +19,6 @@ namespace MainApp.Entities.Controllers
         {
             _deck      = deck;
             _presenter = presenter;
-            Console.WriteLine("MovementDeckController");
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
