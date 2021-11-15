@@ -10,6 +10,8 @@ namespace MainApp.Entities.Models
         public int FieldX { get; private set; }
 
         public int FieldY { get; private set; }
+        
+        public bool IsCurrentHero { get; set; }
 
         public readonly MovementDeck MovementDeck;
 

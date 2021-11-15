@@ -36,8 +36,8 @@ namespace MainApp.Scenes
 
             _movementDeckPresenter = new MovementDeckPresenter();
 
-            _fieldController        = new GameFieldController(_field, _fieldPresenter);
-            _shiftController = new ShiftController(1, _movementDeckPresenter, _fieldController);
+            _fieldController = new GameFieldController(_field, _fieldPresenter);
+            _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -51,7 +51,8 @@ namespace MainApp.Scenes
             foreach (var heroPresenter in _shiftController.HeroPresenters)
             {
                 heroPresenter.Render(target);
-            }            
+            }
+
             _movementDeckPresenter.Render(target);
         }
 

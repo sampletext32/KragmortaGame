@@ -10,6 +10,8 @@ namespace MainApp.Entities.Controllers
         private HeroPresenter _heroPresenter;
         private MovementDeckController _movementDeckController;
         private GameFieldController _gameFieldController;
+        
+        public bool WasLastMoveSuccessful { get; private set; }
 
         public HeroController(HeroModel hero, HeroPresenter heroPresenter, MovementDeckController movementDeckController, GameFieldController gameFieldController)
         {
@@ -17,6 +19,18 @@ namespace MainApp.Entities.Controllers
             _heroPresenter            = heroPresenter;
             _movementDeckController   = movementDeckController;
             _gameFieldController = gameFieldController;
+        }
+
+        public void Activate()
+        {
+            _hero.IsCurrentHero = true;
+            _heroPresenter.OnHeroActivated();
+        }
+
+        public void Deactivate()
+        {
+            _hero.IsCurrentHero = false;
+            _heroPresenter.OnHeroDeactivated();
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
@@ -38,10 +52,12 @@ namespace MainApp.Entities.Controllers
                 {
                     _hero.SetFieldPosition(selectedCellX, selectedCellY);
                     _heroPresenter.OnHeroMoved();
+                    WasLastMoveSuccessful = true;
                 }
                 else
                 {
                     Console.WriteLine("Unable to move the hero");
+                    WasLastMoveSuccessful = false;
                 }
             }
             else

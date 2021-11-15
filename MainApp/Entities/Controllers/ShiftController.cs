@@ -13,16 +13,23 @@ namespace MainApp.Entities.Controllers
         private List<HeroController> _heroControllers;
         private List<HeroPresenter> _heroPresenters;
         private int _currentHeroIndex = 0;
-        
+
+        private readonly int _countOfPlayers;
         private MovementDeckPresenter _movementDeckPresenter;
-        
+
         private GameFieldController _gameFieldController;
-        
+
         private List<MovementDeckController> _movementDeckControllers;
 
-        public ShiftController(int countOfPlayers, MovementDeckPresenter movementDeckPresenter,
-            GameFieldController gameFieldController)
+        private int _currentHeroSuccessfulMoves = 0;
+
+        public ShiftController(
+            int countOfPlayers,
+            MovementDeckPresenter movementDeckPresenter,
+            GameFieldController gameFieldController
+        )
         {
+            _countOfPlayers        = countOfPlayers;
             _heroModels            = new List<HeroModel>(countOfPlayers);
             _movementDeckPresenter = movementDeckPresenter;
             _heroPresenters        = new List<HeroPresenter>(countOfPlayers);
@@ -33,28 +40,41 @@ namespace MainApp.Entities.Controllers
 
             for (var i = 0; i < countOfPlayers; i++)
             {
-                var hero          = new HeroModel($"Pl{i + 1}", i, i);
+                var hero = new HeroModel($"Pl{i + 1}", i * 2, 0);
                 _heroModels.Add(hero);
-                
+
                 var heroPresenter = new HeroPresenter(hero);
                 _heroPresenters.Add(heroPresenter);
-                
+
                 var movementDeckController = new MovementDeckController(hero.MovementDeck, _movementDeckPresenter);
                 _movementDeckControllers.Add(movementDeckController);
-                
+
                 _heroControllers.Add(new HeroController(
                     hero,
                     heroPresenter,
                     movementDeckController,
                     _gameFieldController));
             }
-            
+
+            _heroControllers[0].Activate();
             _movementDeckPresenter.SetDeck(_heroModels[_currentHeroIndex].MovementDeck);
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _heroControllers[_currentHeroIndex].OnMouseButtonPressed(x, y, mouseButton);
+            if (_heroControllers[_currentHeroIndex].WasLastMoveSuccessful)
+            {
+                _currentHeroSuccessfulMoves++;
+                if (_currentHeroSuccessfulMoves == 2)
+                {
+                    _heroControllers[_currentHeroIndex].Deactivate();
+                    _currentHeroIndex           = (_currentHeroIndex + 1) % _countOfPlayers;
+                    _heroControllers[_currentHeroIndex].Activate();
+                    _movementDeckPresenter.SetDeck(_heroModels[_currentHeroIndex].MovementDeck);
+                    _currentHeroSuccessfulMoves = 0;
+                }
+            }
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)

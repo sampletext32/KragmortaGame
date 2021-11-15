@@ -48,6 +48,18 @@ namespace MainApp.Entities.Presenters
             _rectangle.Position = CalcRectanglePosition();
         }
 
+        public void OnHeroActivated()
+        {
+            _rectangle.OutlineThickness = 5;
+            _rectangle.OutlineColor = Color.Red;
+        }
+
+        public void OnHeroDeactivated()
+        {
+            _rectangle.OutlineThickness = 0;
+            _rectangle.OutlineColor     = Color.Transparent;
+        }
+
         public override bool IsMouseWithinBounds(int x, int y)
         {
             return !(
