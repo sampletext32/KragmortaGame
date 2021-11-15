@@ -58,6 +58,10 @@ namespace MainApp.Scenes
 
         public override void OnMouseMoved(int x, int y)
         {
+            if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
+            {
+                return;
+            }
             _fieldController.OnMouseMoved(x, y);
         }
 
