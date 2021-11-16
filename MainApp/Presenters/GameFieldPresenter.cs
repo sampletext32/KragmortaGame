@@ -17,25 +17,26 @@ namespace MainApp.Presenters
             _drawables = new List<FieldCellDrawable>(field.Cells.Count);
             _drawables.AddRange(field.Cells.Select(cell =>
             {
-                var drawable = new FieldCellDrawable(CellSize);
-                drawable.SetOutlineThickness(CellMargin);
+                var drawable = new FieldCellDrawable(cell, CellSize);
 
                 var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
                 var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
 
                 drawable.SetPosition(positionX, positionY);
+                drawable.Update();
                 return drawable;
             }));
         }
 
+        public void UpdateCell(FieldCell cell)
+        {
+            _drawables[_field.GetCellIndex(cell.X, cell.Y)].Update();
+        }
+        
         public override void Render(RenderTarget target)
         {
             for (var i = 0; i < _field.Cells.Count; i++)
             {
-                _drawables[i].SetOutlineVisible(_field.Cells[i].Hovered);
-                _drawables[i].SetFlagsVisibility(_field.Cells[i].Type);
-                _drawables[i].SetClicked(_field.Cells[i].Clicked);
-
                 target.Draw(_drawables[i]);
             }
         }

@@ -1,4 +1,5 @@
-﻿using MainApp.Enums;
+﻿using MainApp.Entities;
+using MainApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
@@ -6,10 +7,12 @@ namespace MainApp.Models
 {
     public class FieldCellDrawable : Drawable
     {
+        private readonly FieldCell _cell;
+
         /// <summary>
         /// Background rectangle
         /// </summary>
-        private RectangleShape _cell;
+        private RectangleShape _backgroundRectangle;
 
         /// <summary>
         /// Red sub-rect
@@ -41,7 +44,7 @@ namespace MainApp.Models
 
         private float _outlineThickness;
 
-        public void SetFlagsVisibility(CellType type)
+        private void SetFlagsVisibility(CellType type)
         {
             _isRedVisible    = (type & CellType.Red) == CellType.Red;
             _isGreenVisible  = (type & CellType.Green) == CellType.Green;
@@ -49,49 +52,50 @@ namespace MainApp.Models
             _isOrangeVisible = (type & CellType.Orange) == CellType.Orange;
         }
 
-        public void SetClicked(bool selected)
+        private void SetClicked(bool selected)
         {
             if (selected)
             {
-                _cell.FillColor = new Color(127, 127, 127);
+                _backgroundRectangle.FillColor = new Color(127, 127, 127);
             }
             else
             {
-                _cell.FillColor = new Color(50, 50, 50, 255);
+                _backgroundRectangle.FillColor = new Color(50, 50, 50, 255);
             }
         }
 
         public void SetPosition(int x, int y)
         {
-            _cell.Position   = new Vector2f(x, y);
+            _backgroundRectangle.Position   = new Vector2f(x, y);
             _red.Position    = new Vector2f(x + 10, y + 10);
             _green.Position  = new Vector2f(x + 30, y + 10);
             _blue.Position   = new Vector2f(x + 50, y + 10);
             _orange.Position = new Vector2f(x + 70, y + 10);
         }
 
-        public void SetOutlineThickness(float thickness)
+        private void SetOutlineThickness(float thickness)
         {
             _outlineThickness = thickness;
         }
 
-        public void SetOutlineVisible(bool visible)
+        private void SetOutlineVisible(bool visible)
         {
             if (visible)
             {
-                _cell.OutlineThickness = _outlineThickness;
-                _cell.OutlineColor     = Color.Magenta;
+                _backgroundRectangle.OutlineThickness = _outlineThickness;
+                _backgroundRectangle.OutlineColor     = Color.Magenta;
             }
             else
             {
-                _cell.OutlineThickness = 0;
-                _cell.OutlineColor     = Color.Transparent;
+                _backgroundRectangle.OutlineThickness = 0;
+                _backgroundRectangle.OutlineColor     = Color.Transparent;
             }
         }
 
-        public FieldCellDrawable(int cellSize)
+        public FieldCellDrawable(FieldCell cell, int cellSize)
         {
-            _cell = new RectangleShape()
+            _cell = cell;
+            _backgroundRectangle = new RectangleShape()
             {
                 Size      = new Vector2f(cellSize, cellSize),
                 FillColor = new Color(50, 50, 50, 255)
@@ -120,11 +124,18 @@ namespace MainApp.Models
 
         public void Draw(RenderTarget target, RenderStates states)
         {
-            target.Draw(_cell);
+            target.Draw(_backgroundRectangle);
             if (_isRedVisible) target.Draw(_red);
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
             if (_isOrangeVisible) target.Draw(_orange);
+        }
+
+        public void Update()
+        {
+            SetOutlineVisible(_cell.Hovered);
+            SetFlagsVisibility(_cell.Type);
+            SetClicked(_cell.Clicked);
         }
     }
 }

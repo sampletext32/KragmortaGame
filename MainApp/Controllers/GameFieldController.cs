@@ -7,14 +7,16 @@ namespace MainApp.Controllers
     public class GameFieldController
     {
         private FieldCell _lastMouseOverCell = null;
+        private int _lastMouseOverCellIndex = -1;
         private FieldCell _lastMouseDownOverCell = null;
+        private int _lastMouseDownOverCellIndex = -1;
 
         private readonly GameField _field;
         private readonly GameFieldPresenter _fieldPresenter;
 
         public GameFieldController(GameField field, GameFieldPresenter fieldPresenter)
         {
-            _field = field;
+            _field          = field;
             _fieldPresenter = fieldPresenter;
         }
 
@@ -22,7 +24,7 @@ namespace MainApp.Controllers
         {
             return _field.GetCell(cX, cY).Type;
         }
-        
+
         public void OnMouseMoved(int x, int y)
         {
             if (!_fieldPresenter.IsMouseWithinBounds(x, y))
@@ -30,7 +32,8 @@ namespace MainApp.Controllers
                 if (_lastMouseOverCell is not null)
                 {
                     _lastMouseOverCell.Hovered = false;
-                    _lastMouseOverCell         = null;
+                    _fieldPresenter.UpdateCell(_lastMouseOverCell);
+                    _lastMouseOverCell = null;
                 }
 
                 return;
@@ -42,11 +45,14 @@ namespace MainApp.Controllers
             if (_lastMouseOverCell is not null)
             {
                 _lastMouseOverCell.Hovered = false;
+                _fieldPresenter.UpdateCell(_lastMouseOverCell);
             }
 
             var fieldCell = _field.GetCell(cX, cY);
             fieldCell.Hovered  = true;
             _lastMouseOverCell = fieldCell;
+
+            _fieldPresenter.UpdateCell(fieldCell);
         }
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
@@ -57,6 +63,8 @@ namespace MainApp.Controllers
             var fieldCell = _field.GetCell(cX, cY);
             fieldCell.Clicked      = true;
             _lastMouseDownOverCell = fieldCell;
+
+            _fieldPresenter.UpdateCell(fieldCell);
         }
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
@@ -65,6 +73,7 @@ namespace MainApp.Controllers
             if (_lastMouseDownOverCell is not null)
             {
                 _lastMouseDownOverCell.Clicked = false;
+                _fieldPresenter.UpdateCell(_lastMouseDownOverCell);
                 _lastMouseDownOverCell         = null;
             }
 
@@ -78,7 +87,8 @@ namespace MainApp.Controllers
 
             var fieldCell = _field.GetCell(cX, cY);
             fieldCell.Clicked = false;
-        }
 
+            _fieldPresenter.UpdateCell(fieldCell);
+        }
     }
 }
