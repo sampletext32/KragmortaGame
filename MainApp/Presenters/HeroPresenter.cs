@@ -14,6 +14,8 @@ namespace MainApp.Presenters
 
         public static readonly int HeroSize = 64;
 
+        private static readonly Random Rand = new Random(DateTime.Now.Millisecond);
+
         public HeroPresenter(HeroModel hero)
         {
             _hero = hero;
@@ -24,9 +26,12 @@ namespace MainApp.Presenters
             _rectangle.Position = CalcRectanglePosition();
             _rectangle.Size     = new Vector2f(HeroSize, HeroSize);
 
-            var rand = new Random(DateTime.Now.Millisecond);
-
-            _rectangle.FillColor = new Color((byte)rand.Next(0, 256), (byte)rand.Next(0, 256), (byte)rand.Next(0, 256), 100);
+            _rectangle.FillColor = new Color(
+                red: (byte)Rand.Next(0, 256),
+                green: (byte)Rand.Next(0, 256),
+                blue: (byte)Rand.Next(0, 256),
+                alpha: 100
+            );
         }
 
         private Vector2f CalcRectanglePosition()
@@ -50,7 +55,7 @@ namespace MainApp.Presenters
         public void OnHeroActivated()
         {
             _rectangle.OutlineThickness = 5;
-            _rectangle.OutlineColor = Color.Red;
+            _rectangle.OutlineColor     = Color.Red;
         }
 
         public void OnHeroDeactivated()

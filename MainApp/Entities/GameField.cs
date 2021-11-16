@@ -43,7 +43,15 @@ namespace MainApp.Entities
         /// </summary>
         public FieldCell GetCell(int cX, int cY)
         {
-            return _cells[cX + cY * SizeX];
+            return _cells[GetCellIndex(cX, cY)];
+        }
+
+        /// <summary>
+        /// Retrieves field cell sequential index by it's field coordinates.
+        /// </summary>
+        public int GetCellIndex(int cX, int cY)
+        {
+            return cX + cY * SizeX;
         }
     }
 }
