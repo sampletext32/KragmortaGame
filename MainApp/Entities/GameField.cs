@@ -39,19 +39,10 @@ namespace MainApp.Entities
 
         /// <summary>
         /// Retrieves field cell by it's field coordinates.
-        /// <remarks>Throws an ArgumentOutOfRangeException if the cX or cY is out of range.</remarks>
+        /// <remarks>Doesn't perform any checks for indices</remarks>
         /// </summary>
         public FieldCell GetCell(int cX, int cY)
         {
-            if (cX < 0 || SizeX <= cX)
-            {
-                throw new ArgumentOutOfRangeException($"Parameter cX is out of range: {cX}");
-            }
-            if (cY < 0 || SizeY <= cY)
-            {
-                throw new ArgumentOutOfRangeException($"Parameter cY is out of range: {cY}");
-            }
-            
             return _cells[GetCellIndex(cX, cY)];
         }
 

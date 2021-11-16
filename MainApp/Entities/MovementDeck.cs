@@ -1,5 +1,4 @@
-﻿#nullable enable
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace MainApp.Entities
 {
@@ -7,7 +6,7 @@ namespace MainApp.Entities
     {
         public IReadOnlyList<MovementCard> MovementCards => _movementCards;
 
-        public MovementCard? GetUsingMovementCard()
+        public MovementCard GetUsingMovementCard()
         {
             foreach (var movementCard in _movementCards)
             {

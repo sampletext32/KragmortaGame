@@ -23,67 +23,69 @@ namespace MainApp.Controllers
 
         public void HighlightPaths()
         {
-            var hero              = _shiftController.CurrentHero;
+            var hero = _shiftController.HeroModel;
+
+            // TODO: Don't expose MovementDeck directly, but instead use MovementDeckController and get the active card
             var usingMovementCard = hero.MovementDeck.GetUsingMovementCard();
 
-            if (usingMovementCard is not null)
-            {
-                // Get possible symbols to move.
-                List<CellType> possibleSymbolsToMove = getPossibleSymbolsToMove(usingMovementCard);
-                // Get hero's coordinates.
-                // Check neighboring for the hero cells.
-                for (var i = 0; i < 4; ++i)
-                {
-                    var       xChecked = i < 2;
-                    FieldCell currCell;
-                    try
-                    {
-                        if (!xChecked)
-                        {
-                            currCell = _field.GetCell(hero.FieldX + (int)Math.Pow(-1, i % 2), hero.FieldY);
-                        }
-                        else
-                        {
-                            currCell = _field.GetCell(hero.FieldX, hero.FieldY + (int)Math.Pow(-1, i % 2));
-                        }
-                    }
-                    catch (ArgumentOutOfRangeException e)
-                    {
-                        continue;
-                    }
+            if (usingMovementCard is null) return;
+            
+            // Get possible types to move.
+            CellType possibleTypes = GetPossibleTypes(usingMovementCard);
 
-                    // If a cell is neighbor and has the correct symbol, highlight it.
-                    if (possibleSymbolsToMove.Contains(currCell.Type))
-                    {
-                        _fieldPresenter.HighlightCell(currCell);
-                        _highlightedCells.Add(currCell);
-                    }
-                }
+            // Check neighboring for the hero cells.
+
+            if (hero.FieldX != _field.SizeX - 1)
+            {
+                var cell = _field.GetCell(hero.FieldX + 1, hero.FieldY);
+                HighlightCellIfItHasAnyType(cell, possibleTypes);
+            }
+
+            if (hero.FieldX != 0)
+            {
+                var cell = _field.GetCell(hero.FieldX - 1, hero.FieldY);
+                HighlightCellIfItHasAnyType(cell, possibleTypes);
+            }
+
+            if (hero.FieldY != 0)
+            {
+                var cell = _field.GetCell(hero.FieldX, hero.FieldY - 1);
+                HighlightCellIfItHasAnyType(cell, possibleTypes);
+            }
+
+            if (hero.FieldY != _field.SizeY - 1)
+            {
+                var cell = _field.GetCell(hero.FieldX, hero.FieldY + 1);
+                HighlightCellIfItHasAnyType(cell, possibleTypes);
             }
         }
 
-        private List<CellType> getPossibleSymbolsToMove(MovementCard card)
+        private void HighlightCellIfItHasAnyType(FieldCell cell, CellType possibleTypes)
         {
-            List<CellType> result = new List<CellType>(2);
-
-            if (!card.HasUsedFirstType)
+            // If a cell is neighbor and has the correct symbol, highlight it.
+            if ((cell.Type & possibleTypes) != CellType.Empty)
             {
-                result.Add(card.FirstType);
+                cell.Highlighted = true;
+                _highlightedCells.Add(cell);
+                _fieldPresenter.UpdateCell(cell);
             }
+        }
 
-            if (!card.HasUsedSecondType)
-            {
-                result.Add(card.SecondType);
-            }
+        private static CellType GetPossibleTypes(MovementCard card)
+        {
+            CellType type =
+                (card.HasUsedFirstType ? CellType.Empty : card.FirstType) |
+                (card.HasUsedSecondType ? CellType.Empty : card.SecondType);
 
-            return result;
+            return type;
         }
 
         public void UnhighlightPaths()
         {
             foreach (var highlightedCell in _highlightedCells)
             {
-                _fieldPresenter.UnhighlightCell(highlightedCell);
+                highlightedCell.Highlighted = false;
+                _fieldPresenter.UpdateCell(highlightedCell);
             }
 
             _highlightedCells.Clear();

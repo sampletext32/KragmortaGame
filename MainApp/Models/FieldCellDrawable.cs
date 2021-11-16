@@ -96,7 +96,7 @@ namespace MainApp.Models
         {
             if (highlighted)
             {
-                _backgroundRectangle.FillColor = new Color(255, 198, 41);
+                _backgroundRectangle.FillColor = new Color(255, 198, 41, 150);
             }
             else
             {

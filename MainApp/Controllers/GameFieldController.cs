@@ -23,21 +23,10 @@ namespace MainApp.Controllers
 
         /// <summary>
         /// Returns the CellType of a cell by the passed coordinates x and y.
-        /// <remarks>Throws an ArgumentOutOfRangeException if the cX or cY is out of range.</remarks>
+        /// <remarks>Doesn't make any checks for indices</remarks>
         /// </summary>
-        /// <param name="cX">Coordinate x of the seeking cell.</param>
-        /// <param name="cY">Coordinate y of the seeking cell.</param>
         public CellType GetCellType(int cX, int cY)
         {
-            if (cX < 0 || _field.SizeX <= cX)
-            {
-                throw new ArgumentOutOfRangeException($"Parameter cX is out of range: {cX}");
-            }
-            if (cY < 0 || _field.SizeY <= cY)
-            {
-                throw new ArgumentOutOfRangeException($"Parameter cY is out of range: {cY}");
-            }
-            
             return _field.GetCell(cX, cY).Type;
         }
 
