@@ -1,4 +1,5 @@
-﻿using MainApp.Entities;
+﻿using System;
+using MainApp.Entities;
 using MainApp.Enums;
 using MainApp.Presenters;
 
@@ -6,6 +7,9 @@ namespace MainApp.Controllers
 {
     public class MovementDeckController
     {
+        public event Action<MovementCard> CardSelected;
+        public event Action<MovementCard> CardActivated;
+
         private MovementDeck _deck;
         private MovementDeckPresenter _presenter;
 
@@ -13,6 +17,7 @@ namespace MainApp.Controllers
         private MovementCard _lastSelectedMovementCard = null;
         private MovementCard _activatedMovementCard = null;
         private int _activatedMovementCardIndex;
+        private HeroController _heroController;
 
         public MovementDeckController(MovementDeck deck, MovementDeckPresenter presenter)
         {
@@ -45,6 +50,8 @@ namespace MainApp.Controllers
             _presenter.UpdateCardAtPosition(cardIndex);
             _lastSelectedMovementCard      = movementCard;
             _lastSelectedMovementCardIndex = cardIndex;
+            
+            CardSelected?.Invoke(movementCard);
         }
 
         public bool HasSelectedCard()
@@ -64,11 +71,23 @@ namespace MainApp.Controllers
 
             _lastSelectedMovementCard      = null;
             _lastSelectedMovementCardIndex = -1;
+            
+            CardActivated?.Invoke(_activatedMovementCard);
         }
 
         public bool HasActivatedCard()
         {
             return _activatedMovementCard is not null;
+        }
+
+        public MovementCard GetSelectedCard()
+        {
+            return _lastSelectedMovementCard;
+        }
+
+        public MovementCard GetActivatedCard()
+        {
+            return _activatedMovementCard;
         }
 
         public bool TryUseCellType(CellType cellType)

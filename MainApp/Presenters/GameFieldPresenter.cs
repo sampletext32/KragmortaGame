@@ -17,7 +17,7 @@ namespace MainApp.Presenters
             _drawables = new List<FieldCellDrawable>(field.Cells.Count);
             _drawables.AddRange(field.Cells.Select(cell =>
             {
-                var drawable = new FieldCellDrawable(cell, CellSize);
+                var drawable = new FieldCellDrawable(cell, CellSize, CellMargin);
 
                 var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
                 var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;

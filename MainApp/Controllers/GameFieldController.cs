@@ -7,9 +7,12 @@ namespace MainApp.Controllers
     public class GameFieldController
     {
         private FieldCell _lastMouseOverCell = null;
-        private int _lastMouseOverCellIndex = -1;
         private FieldCell _lastMouseDownOverCell = null;
-        private int _lastMouseDownOverCellIndex = -1;
+
+        private FieldCell _moveTargetLeftCell = null;
+        private FieldCell _moveTargetRightCell = null;
+        private FieldCell _moveTargetTopCell = null;
+        private FieldCell _moveTargetBottomCell = null;
 
         private readonly GameField _field;
         private readonly GameFieldPresenter _fieldPresenter;
@@ -74,7 +77,7 @@ namespace MainApp.Controllers
             {
                 _lastMouseDownOverCell.Clicked = false;
                 _fieldPresenter.UpdateCell(_lastMouseDownOverCell);
-                _lastMouseDownOverCell         = null;
+                _lastMouseDownOverCell = null;
             }
 
             if (!_fieldPresenter.IsMouseWithinBounds(x, y))
@@ -89,6 +92,51 @@ namespace MainApp.Controllers
             fieldCell.Clicked = false;
 
             _fieldPresenter.UpdateCell(fieldCell);
+        }
+
+        private bool TryClearMoveTarget(FieldCell cell)
+        {
+            if (cell is not null)
+            {
+                cell.IsPossibleMoveTarget = false;
+                _fieldPresenter.UpdateCell(cell);
+                return true;
+            }
+
+            return false;
+        }
+
+        private bool TryMakeMoveTarget(FieldCell cell, CellType cellTypeMask)
+        {
+            if (cell is null) return false;
+
+            if ((cell.Type & cellTypeMask) == CellType.Empty) return true;
+
+            cell.IsPossibleMoveTarget = true;
+            _fieldPresenter.UpdateCell(cell);
+
+            return true;
+        }
+
+        public void ClearMoveTargets()
+        {
+            if (TryClearMoveTarget(_moveTargetLeftCell)) _moveTargetLeftCell     = null;
+            if (TryClearMoveTarget(_moveTargetRightCell)) _moveTargetRightCell   = null;
+            if (TryClearMoveTarget(_moveTargetTopCell)) _moveTargetTopCell       = null;
+            if (TryClearMoveTarget(_moveTargetBottomCell)) _moveTargetBottomCell = null;
+        }
+
+        public void HighlightMoveTargets(int heroX, int heroY, CellType cellTypeMask)
+        {
+            _moveTargetLeftCell   = heroX != 0 ? _field.GetCell(heroX - 1, heroY) : null;
+            _moveTargetRightCell  = heroX != _field.SizeX - 1 ? _field.GetCell(heroX + 1, heroY) : null;
+            _moveTargetTopCell    = heroY != 0 ? _field.GetCell(heroX, heroY - 1) : null;
+            _moveTargetBottomCell = heroY != _field.SizeY - 1 ? _field.GetCell(heroX, heroY + 1) : null;
+
+            TryMakeMoveTarget(_moveTargetLeftCell, cellTypeMask);
+            TryMakeMoveTarget(_moveTargetRightCell, cellTypeMask);
+            TryMakeMoveTarget(_moveTargetBottomCell, cellTypeMask);
+            TryMakeMoveTarget(_moveTargetTopCell, cellTypeMask);
         }
     }
 }

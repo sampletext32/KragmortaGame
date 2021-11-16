@@ -68,7 +68,6 @@ namespace MainApp.Scenes
         {
             if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             {
-                // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
                 _shiftController.MovementDeckController.OnMouseButtonPressed(x, y, mouseButton);
                 return;
             }

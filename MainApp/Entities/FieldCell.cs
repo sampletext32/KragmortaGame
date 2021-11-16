@@ -28,6 +28,11 @@ namespace MainApp.Entities
         /// Indicates, whether current cell is being under click phase
         /// </summary>
         public bool Clicked { get; set; }
+        
+        /// <summary>
+        /// Indicates, whether hero can move to current cell 
+        /// </summary>
+        public bool IsPossibleMoveTarget { get; set; }
 
         public FieldCell()
         {

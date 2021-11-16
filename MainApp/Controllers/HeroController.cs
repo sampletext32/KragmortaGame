@@ -1,5 +1,6 @@
 using System;
 using MainApp.Entities;
+using MainApp.Enums;
 using MainApp.Presenters;
 
 namespace MainApp.Controllers
@@ -19,6 +20,25 @@ namespace MainApp.Controllers
             _heroPresenter          = heroPresenter;
             _movementDeckController = movementDeckController;
             _gameFieldController    = gameFieldController;
+
+            _movementDeckController.CardSelected += OnCardSelected;
+            _movementDeckController.CardActivated += OnCardActivated;
+        }
+
+        private void OnCardActivated(MovementCard card)
+        {
+            _gameFieldController.HighlightMoveTargets(_hero.FieldX, _hero.FieldY,
+                (!card.HasUsedFirstType ? card.FirstType : CellType.Empty) |
+                (!card.HasUsedSecondType ? card.SecondType : CellType.Empty)
+            );
+        }
+
+        private void OnCardSelected(MovementCard card)
+        {
+            _gameFieldController.HighlightMoveTargets(_hero.FieldX, _hero.FieldY,
+                (!card.HasUsedFirstType ? card.FirstType : CellType.Empty) |
+                (!card.HasUsedSecondType ? card.SecondType : CellType.Empty)
+            );
         }
 
         public void Activate()
