@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
+using MainApp.Controllers;
 using MainApp.Entities;
-using MainApp.Entities.Controllers;
-using MainApp.Entities.Enums;
-using MainApp.Entities.Models;
-using MainApp.Entities.Presenters;
+using MainApp.Enums;
+using MainApp.Presenters;
 using SFML.Graphics;
 
 namespace MainApp.Scenes

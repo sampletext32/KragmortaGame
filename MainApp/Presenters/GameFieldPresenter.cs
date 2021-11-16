@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MainApp.Entities.Models;
+using MainApp.Entities;
+using MainApp.Models;
 using SFML.Graphics;
 
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public class GameFieldPresenter : CellPresenterAbstract
     {

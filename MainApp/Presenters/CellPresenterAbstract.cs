@@ -1,4 +1,4 @@
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public abstract class CellPresenterAbstract : Presenter
     {

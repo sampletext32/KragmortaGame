@@ -1,6 +1,6 @@
-﻿using MainApp.Entities.Enums;
+﻿using MainApp.Enums;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Entities
 {
     public class FieldCell
     {

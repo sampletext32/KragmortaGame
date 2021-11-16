@@ -1,7 +1,6 @@
-using System;
-using MainApp.Entities.Enums;
+using MainApp.Enums;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Entities
 {
     public class HeroModel
     {

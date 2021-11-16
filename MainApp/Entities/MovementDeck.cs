@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Entities
 {
     public class MovementDeck
     {
