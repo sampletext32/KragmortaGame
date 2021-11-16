@@ -1,10 +1,9 @@
 using System;
-using System.Data;
-using MainApp.Entities.Models;
+using MainApp.Entities;
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public class HeroPresenter : CellPresenterAbstract
     {

@@ -1,7 +1,8 @@
-﻿using SFML.Graphics;
+﻿using MainApp.Entities;
+using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Models
 {
     public class MovementCardDrawable : Drawable
     {

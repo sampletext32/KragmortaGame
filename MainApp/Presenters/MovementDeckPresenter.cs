@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using MainApp.Entities.Models;
+using MainApp.Entities;
+using MainApp.Models;
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public class MovementDeckPresenter : Presenter
     {

@@ -1,4 +1,4 @@
-﻿namespace MainApp.Entities.Enums
+﻿namespace MainApp.Enums
 {
     public enum Corner
     {

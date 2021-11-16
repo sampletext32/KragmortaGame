@@ -1,8 +1,8 @@
 using System;
-using MainApp.Entities.Models;
-using MainApp.Entities.Presenters;
+using MainApp.Entities;
+using MainApp.Presenters;
 
-namespace MainApp.Entities.Controllers
+namespace MainApp.Controllers
 {
     public class HeroController
     {

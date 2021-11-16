@@ -1,8 +1,8 @@
-﻿using MainApp.Entities.Enums;
+﻿using MainApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Models
 {
     public class FieldCellDrawable : Drawable
     {

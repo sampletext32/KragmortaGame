@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using MainApp.Entities.Enums;
-using MainApp.Entities.Models;
+using MainApp.Enums;
 using SFML.Graphics;
 
 namespace MainApp.Entities

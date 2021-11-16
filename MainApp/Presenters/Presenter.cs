@@ -1,6 +1,6 @@
 using SFML.Graphics;
 
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public abstract class Presenter
     {

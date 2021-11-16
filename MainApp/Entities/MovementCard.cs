@@ -1,7 +1,6 @@
-﻿using System.Collections.Generic;
-using MainApp.Entities.Enums;
+﻿using MainApp.Enums;
 
-namespace MainApp.Entities.Models
+namespace MainApp.Entities
 {
     // 56 cards in a deck 
 

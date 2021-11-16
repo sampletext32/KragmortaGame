@@ -1,10 +1,10 @@
 ﻿using System;
-using MainApp.Entities.Enums;
-using MainApp.Entities.Models;
+using MainApp.Entities;
+using MainApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Entities.Presenters
+namespace MainApp.Presenters
 {
     public class ProfilePresenter : Presenter
     {

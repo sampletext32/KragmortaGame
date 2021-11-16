@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MainApp.Entities.Enums
+namespace MainApp.Enums
 {
     [Flags]
     public enum CellType
