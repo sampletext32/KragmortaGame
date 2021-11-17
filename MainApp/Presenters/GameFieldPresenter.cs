@@ -52,5 +52,17 @@ namespace MainApp.Presenters
                      y >= FieldOriginY + (CellSize + CellMargin) * _field.SizeY
                 );
         }
+
+        public void HighlightCell(FieldCell cell)
+        {
+            cell.Highlighted = true;
+            UpdateCell(cell);
+        }
+
+        public void UnhighlightCell(FieldCell cell)
+        {
+            cell.Highlighted = false;
+            UpdateCell(cell);
+        }
     }
 }

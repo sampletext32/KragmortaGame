@@ -29,6 +29,11 @@ namespace MainApp.Entities
         /// </summary>
         public bool Clicked { get; set; }
 
+        /// <summary>
+        /// Indicates, whether current cell is highlighted
+        /// </summary>
+        public bool Highlighted { get; set; }
+        
         public FieldCell()
         {
         }

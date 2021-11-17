@@ -8,6 +8,7 @@ namespace MainApp.Controllers
     {
         public IReadOnlyList<HeroPresenter> HeroPresenters => _heroPresenters;
         public MovementDeckController MovementDeckController => _movementDeckControllers[_currentHeroIndex];
+        public HeroModel CurrentHero => _heroModels[_currentHeroIndex];
 
         private List<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
@@ -80,6 +81,11 @@ namespace MainApp.Controllers
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _heroControllers[_currentHeroIndex].OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public bool WasLastMoveSuccessful()
+        {
+            return _heroControllers[_currentHeroIndex].WasLastMoveSuccessful;
         }
     }
 }

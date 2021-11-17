@@ -19,6 +19,7 @@ namespace MainApp.Scenes
 
         private GameFieldController _fieldController;
         private ShiftController _shiftController;
+        private PathController _pathsController;
 
         public override void OnCreate()
         {
@@ -37,6 +38,7 @@ namespace MainApp.Scenes
 
             _fieldController = new GameFieldController(_field, _fieldPresenter);
             _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
+            _pathsController = new PathController(_field, _fieldPresenter, _shiftController);
         }
 
         public override void OnUpdate(float deltaTime)
@@ -61,6 +63,7 @@ namespace MainApp.Scenes
             {
                 return;
             }
+
             _fieldController.OnMouseMoved(x, y);
         }
 
@@ -70,6 +73,13 @@ namespace MainApp.Scenes
             {
                 // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
                 _shiftController.MovementDeckController.OnMouseButtonPressed(x, y, mouseButton);
+
+                if (_shiftController.MovementDeckController.HasSelectedCard())
+                {
+                    _pathsController.UnhighlightPaths();
+                    _pathsController.HighlightPaths();
+                }
+
                 return;
             }
 
@@ -77,6 +87,13 @@ namespace MainApp.Scenes
             {
                 _fieldController.OnMouseButtonPressed(x, y, mouseButton);
                 _shiftController.OnMouseButtonPressed(x, y, mouseButton);
+
+                _pathsController.UnhighlightPaths();
+                if (_shiftController.WasLastMoveSuccessful() &&
+                    _shiftController.MovementDeckController.HasActivatedCard())
+                {
+                    _pathsController.HighlightPaths();
+                }
             }
         }
 
