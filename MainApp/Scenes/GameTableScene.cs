@@ -61,12 +61,17 @@ namespace MainApp.Scenes
         {
             if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             {
+                _fieldController.OnMouseExit();
                 return;
             }
 
             if (_fieldPresenter.IsMouseWithinBounds(x, y))
             {
                 _fieldController.OnMouseMoved(x, y);
+            }
+            else
+            {
+                _fieldController.OnMouseExit();
             }
         }
 

@@ -30,20 +30,18 @@ namespace MainApp.Controllers
             return _field.GetCell(cX, cY).Type;
         }
 
+        public void OnMouseExit()
+        {
+            if (_lastMouseOverCell is not null)
+            {
+                _lastMouseOverCell.Hovered = false;
+                _fieldPresenter.UpdateCell(_lastMouseOverCell);
+                _lastMouseOverCell = null;
+            }
+        }
+        
         public void OnMouseMoved(int x, int y)
         {
-            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
-            {
-                if (_lastMouseOverCell is not null)
-                {
-                    _lastMouseOverCell.Hovered = false;
-                    _fieldPresenter.UpdateCell(_lastMouseOverCell);
-                    _lastMouseOverCell = null;
-                }
-
-                return;
-            }
-
             int cX = _fieldPresenter.ConvertMouseXToCellX(x);
             int cY = _fieldPresenter.ConvertMouseYToCellY(y);
 
