@@ -22,6 +22,7 @@ namespace MainApp.Controllers
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
+            // If a card has already been selected, nothing happens. 
             if (_activatedMovementCard != null)
             {
                 return;
@@ -32,19 +33,25 @@ namespace MainApp.Controllers
 
             var movementCard = _deck.MovementCards[cardIndex];
 
+            // If we have selected a card before and already selected card is not the one we have just selected,  
             if (_lastSelectedMovementCard != null && _lastSelectedMovementCard != movementCard)
             {
+                // we unselect the previous card and
                 _lastSelectedMovementCard.Selected = false;
                 _presenter.UpdateCardAtPosition(_lastSelectedMovementCardIndex);
                 _lastSelectedMovementCard      = null;
                 _lastSelectedMovementCardIndex = -1;
             }
 
+            // change the selected card flag to true
             movementCard.Selected = !movementCard.Selected;
 
             _presenter.UpdateCardAtPosition(cardIndex);
             _lastSelectedMovementCard      = movementCard;
             _lastSelectedMovementCardIndex = cardIndex;
+
+            // Card has been successfully changed.
+            return;
         }
 
         public bool HasSelectedCard()

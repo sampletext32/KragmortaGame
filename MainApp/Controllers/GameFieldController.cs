@@ -1,3 +1,4 @@
+using System;
 using MainApp.Entities;
 using MainApp.Enums;
 using MainApp.Presenters;
@@ -20,7 +21,11 @@ namespace MainApp.Controllers
             _fieldPresenter = fieldPresenter;
         }
 
-        public CellType GetFieldType(int cX, int cY)
+        /// <summary>
+        /// Returns the CellType of a cell by the passed coordinates x and y.
+        /// <remarks>Doesn't make any checks for indices</remarks>
+        /// </summary>
+        public CellType GetCellType(int cX, int cY)
         {
             return _field.GetCell(cX, cY).Type;
         }

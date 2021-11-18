@@ -92,6 +92,18 @@ namespace MainApp.Models
             }
         }
 
+        private void SetHighlighted(bool highlighted)
+        {
+            if (highlighted)
+            {
+                _backgroundRectangle.FillColor = new Color(255, 198, 41, 150);
+            }
+            else
+            {
+                _backgroundRectangle.FillColor = new Color(50, 50, 50, 255);
+            }
+        }
+        
         public FieldCellDrawable(FieldCell cell, int cellSize)
         {
             _cell = cell;
@@ -136,6 +148,7 @@ namespace MainApp.Models
             SetOutlineVisible(_cell.Hovered);
             SetFlagsVisibility(_cell.Type);
             SetClicked(_cell.Clicked);
+            SetHighlighted(_cell.Highlighted);
         }
     }
 }

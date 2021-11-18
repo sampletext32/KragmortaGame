@@ -8,7 +8,10 @@ namespace MainApp.Controllers
     {
         public IReadOnlyList<HeroPresenter> HeroPresenters => _heroPresenters;
         public MovementDeckController MovementDeckController => _movementDeckControllers[_currentHeroIndex];
-
+        public HeroModel HeroModel => _heroModels[_currentHeroIndex];
+        public HeroController HeroController => _heroControllers[_currentHeroIndex];
+        public HeroPresenter HeroPresenter => _heroPresenters[_currentHeroIndex];
+        
         private List<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private List<HeroPresenter> _heroPresenters;
@@ -62,16 +65,16 @@ namespace MainApp.Controllers
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            _heroControllers[_currentHeroIndex].OnMouseButtonPressed(x, y, mouseButton);
-            if (_heroControllers[_currentHeroIndex].WasLastMoveSuccessful)
+            HeroController.OnMouseButtonPressed(x, y, mouseButton);
+            if (HeroController.WasLastMoveSuccessful)
             {
                 _currentHeroSuccessfulMovesCount++;
                 if (_currentHeroSuccessfulMovesCount == 2)
                 {
-                    _heroControllers[_currentHeroIndex].Deactivate();
+                    HeroController.Deactivate();
                     _currentHeroIndex           = (_currentHeroIndex + 1) % _countOfPlayers;
-                    _heroControllers[_currentHeroIndex].Activate();
-                    _movementDeckPresenter.SetDeck(_heroModels[_currentHeroIndex].MovementDeck);
+                    HeroController.Activate();
+                    _movementDeckPresenter.SetDeck(HeroModel.MovementDeck);
                     _currentHeroSuccessfulMovesCount = 0;
                 }
             }
@@ -79,7 +82,12 @@ namespace MainApp.Controllers
 
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _heroControllers[_currentHeroIndex].OnMouseButtonReleased(x, y, mouseButton);
+            HeroController.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public bool WasLastMoveSuccessful()
+        {
+            return HeroController.WasLastMoveSuccessful;
         }
     }
 }

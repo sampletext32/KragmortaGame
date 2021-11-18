@@ -39,7 +39,7 @@ namespace MainApp.Entities
 
         /// <summary>
         /// Retrieves field cell by it's field coordinates.
-        /// <remarks>Doesn't make any checks of coordinates</remarks>
+        /// <remarks>Doesn't perform any checks for indices</remarks>
         /// </summary>
         public FieldCell GetCell(int cX, int cY)
         {
