@@ -71,6 +71,7 @@ namespace MainApp.Scenes
             }
             else
             {
+                // TODO: this is being called for every move outside field, but should only be called once
                 _fieldController.OnMouseExit();
             }
         }
