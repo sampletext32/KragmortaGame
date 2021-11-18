@@ -64,7 +64,10 @@ namespace MainApp.Scenes
                 return;
             }
 
-            _fieldController.OnMouseMoved(x, y);
+            if (_fieldPresenter.IsMouseWithinBounds(x, y))
+            {
+                _fieldController.OnMouseMoved(x, y);
+            }
         }
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
