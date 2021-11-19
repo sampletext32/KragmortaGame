@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using MainApp.Controllers;
 using MainApp.Entities;
 using MainApp.Enums;
@@ -20,6 +21,8 @@ namespace MainApp.Scenes
         private GameFieldController _fieldController;
         private ShiftController _shiftController;
         private PathController _pathsController;
+
+        private bool _hasMouseLeftField = true;
 
         public override void OnCreate()
         {
@@ -67,12 +70,14 @@ namespace MainApp.Scenes
 
             if (_fieldPresenter.IsMouseWithinBounds(x, y))
             {
+                _hasMouseLeftField = false;
                 _fieldController.OnMouseMoved(x, y);
             }
-            else
+            else if (!_hasMouseLeftField)
             {
-                // TODO: this is being called for every move outside field, but should only be called once
                 _fieldController.OnMouseExit();
+                Console.WriteLine($"OnMouseExit: {DateTime.Now}");
+                _hasMouseLeftField = true;
             }
         }
 
