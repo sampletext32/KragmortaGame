@@ -23,6 +23,7 @@ namespace MainApp.Presenters
                 var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
 
                 drawable.SetPosition(positionX, positionY);
+                drawable.SetOutlineThickness(CellMargin);
                 drawable.Update();
                 return drawable;
             }));
@@ -35,9 +36,9 @@ namespace MainApp.Presenters
         
         public override void Render(RenderTarget target)
         {
-            for (var i = 0; i < _field.Cells.Count; i++)
+            foreach (var drawable in _drawables)
             {
-                target.Draw(_drawables[i]);
+                target.Draw(drawable);
             }
         }
 

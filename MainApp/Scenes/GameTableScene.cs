@@ -61,10 +61,19 @@ namespace MainApp.Scenes
         {
             if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             {
+                _fieldController.OnMouseExit();
                 return;
             }
 
-            _fieldController.OnMouseMoved(x, y);
+            if (_fieldPresenter.IsMouseWithinBounds(x, y))
+            {
+                _fieldController.OnMouseMoved(x, y);
+            }
+            else
+            {
+                // TODO: this is being called for every move outside field, but should only be called once
+                _fieldController.OnMouseExit();
+            }
         }
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
