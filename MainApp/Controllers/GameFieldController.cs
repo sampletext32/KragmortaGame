@@ -1,11 +1,12 @@
 using System;
+using System.Diagnostics;
 using MainApp.Entities;
 using MainApp.Enums;
 using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class GameFieldController
+    public class GameFieldController : ControllerBase
     {
         private FieldCell _lastMouseOverCell = null;
         private int _lastMouseOverCellIndex = -1;
@@ -39,7 +40,7 @@ namespace MainApp.Controllers
                 _lastMouseOverCell = null;
             }
         }
-        
+
         public void OnMouseMoved(int x, int y)
         {
             int cX = _fieldPresenter.ConvertMouseXToCellX(x);
@@ -77,7 +78,7 @@ namespace MainApp.Controllers
             {
                 _lastMouseDownOverCell.Clicked = false;
                 _fieldPresenter.UpdateCell(_lastMouseDownOverCell);
-                _lastMouseDownOverCell         = null;
+                _lastMouseDownOverCell = null;
             }
 
             if (!_fieldPresenter.IsMouseWithinBounds(x, y))

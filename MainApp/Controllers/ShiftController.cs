@@ -4,7 +4,7 @@ using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class ShiftController
+    public class ShiftController : ControllerBase
     {
         public IReadOnlyList<HeroPresenter> HeroPresenters => _heroPresenters;
         public MovementDeckController MovementDeckController => _movementDeckControllers[_currentHeroIndex];
@@ -20,7 +20,7 @@ namespace MainApp.Controllers
         private readonly int _countOfPlayers;
         private MovementDeckPresenter _movementDeckPresenter;
 
-        private GameFieldController _gameFieldController;
+        // private GameFieldController _gameFieldController;
 
         private List<MovementDeckController> _movementDeckControllers;
 
@@ -63,7 +63,7 @@ namespace MainApp.Controllers
             _movementDeckPresenter.SetDeck(_heroModels[_currentHeroIndex].MovementDeck);
         }
 
-        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             HeroController.OnMouseButtonPressed(x, y, mouseButton);
             if (HeroController.WasLastMoveSuccessful)
@@ -80,9 +80,13 @@ namespace MainApp.Controllers
             }
         }
 
-        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             HeroController.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public override void OnMouseMoved(int x, int y)
+        {
         }
 
         public bool WasLastMoveSuccessful()

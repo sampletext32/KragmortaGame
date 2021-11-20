@@ -4,12 +4,12 @@ using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class HeroController
+    public class HeroController : ControllerBase
     {
         private HeroModel _hero;
         private HeroPresenter _heroPresenter;
         private MovementDeckController _movementDeckController;
-        private GameFieldController _gameFieldController;
+        // private GameFieldController _gameFieldController;
 
         public bool WasLastMoveSuccessful { get; private set; }
 
@@ -33,7 +33,7 @@ namespace MainApp.Controllers
             _heroPresenter.OnHeroDeactivated();
         }
 
-        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             WasLastMoveSuccessful = false;
 
@@ -71,7 +71,11 @@ namespace MainApp.Controllers
             return xAxis + yAxis == 1;
         }
 
-        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public override void OnMouseMoved(int x, int y)
         {
         }
     }

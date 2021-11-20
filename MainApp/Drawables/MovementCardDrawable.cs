@@ -2,9 +2,9 @@
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Models
+namespace MainApp.Drawables
 {
-    public class MovementCardDrawable : Drawable
+    public class MovementCardDrawable : SFML.Graphics.Drawable
     {
         private readonly MovementCard _movementCard;
 

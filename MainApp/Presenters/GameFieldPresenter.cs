@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MainApp.Drawables;
 using MainApp.Entities;
-using MainApp.Models;
 using SFML.Graphics;
 
 namespace MainApp.Presenters

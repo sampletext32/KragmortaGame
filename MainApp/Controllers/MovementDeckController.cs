@@ -4,7 +4,7 @@ using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class MovementDeckController
+    public class MovementDeckController : ControllerBase
     {
         private MovementDeck _deck;
         private MovementDeckPresenter _presenter;
@@ -20,7 +20,7 @@ namespace MainApp.Controllers
             _presenter = presenter;
         }
 
-        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             // If a card has already been selected, nothing happens. 
             if (_activatedMovementCard != null)
@@ -52,6 +52,14 @@ namespace MainApp.Controllers
 
             // Card has been successfully changed.
             return;
+        }
+
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public override void OnMouseMoved(int x, int y)
+        {
         }
 
         public bool HasSelectedCard()

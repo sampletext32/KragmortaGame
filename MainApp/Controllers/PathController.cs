@@ -6,7 +6,7 @@ using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class PathController
+    public class PathController : ControllerBase
     {
         private GameField _field;
         private GameFieldPresenter _fieldPresenter;
@@ -29,7 +29,7 @@ namespace MainApp.Controllers
             var usingMovementCard = hero.MovementDeck.GetUsingMovementCard();
 
             if (usingMovementCard is null) return;
-            
+
             // Get possible types to move.
             CellType possibleTypes = GetPossibleTypes(usingMovementCard);
 
@@ -89,6 +89,18 @@ namespace MainApp.Controllers
             }
 
             _highlightedCells.Clear();
+        }
+
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public override void OnMouseMoved(int x, int y)
+        {
         }
     }
 }
