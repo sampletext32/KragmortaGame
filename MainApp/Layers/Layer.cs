@@ -23,7 +23,7 @@ namespace MainApp.Layers
             _presenter.Render(target);
         }
 
-        public bool TryHandleMousePressed(int x, int y, KragMouseButton mouseButton)
+        public virtual bool TryHandleMousePressed(int x, int y, KragMouseButton mouseButton)
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
@@ -31,7 +31,7 @@ namespace MainApp.Layers
             return true;
         }
 
-        public void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
+        public virtual void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
             _handler.OnMouseReleased(x, y, mouseButton);
         }
@@ -47,6 +47,11 @@ namespace MainApp.Layers
         public void HandleMouseLeft()
         {
             _handler.OnMouseLeft();
+        }
+
+        public void HandleWindowResized(int width, int height)
+        {
+            _presenter.OnWindowResized(width, height);
         }
     }
 }

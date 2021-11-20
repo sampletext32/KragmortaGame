@@ -80,5 +80,13 @@ namespace MainApp.Layers
 
             _lastMouseOverLayer = mouseOverLayer;
         }
+
+        public void OnWindowResized(int width, int height)
+        {
+            for (var i = _layers.Count - 1; i >= 0; i--)
+            {
+                _layers[i].HandleWindowResized(width, height);
+            }
+        }
     }
 }

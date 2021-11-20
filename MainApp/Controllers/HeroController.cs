@@ -52,13 +52,13 @@ namespace MainApp.Controllers
 
             if (IsSelectedCellNeighboring(selectedCellX, selectedCellY))
             {
-                // var fieldType = _gameFieldController.GetCellType(selectedCellX, selectedCellY);
-                // if (_movementDeckController.TryUseCellType(fieldType))
-                // {
-                // _hero.SetFieldPosition(selectedCellX, selectedCellY);
-                // _heroPresenter.OnHeroMoved();
-                // WasLastMoveSuccessful = true;
-                // }
+                var fieldType = _gameFieldController.GetCellType(selectedCellX, selectedCellY);
+                if (_movementDeckController.TryUseCellType(fieldType))
+                {
+                _hero.SetFieldPosition(selectedCellX, selectedCellY);
+                _heroPresenter.OnHeroMoved();
+                WasLastMoveSuccessful = true;
+                }
             }
             else
             {

@@ -15,7 +15,6 @@ namespace MainApp.Scenes
 
         private GameField _field;
 
-        private int _heroesCount;
         private List<HeroModel> _heroes;
         private List<MovementDeck> _decks;
         private List<PathCell> _path;
@@ -45,6 +44,7 @@ namespace MainApp.Scenes
 
         private GameFieldHandler _gameFieldHandler;
         private MovementDecksHandler _movementDecksHandler;
+        private PathHandler _pathHandler;
 
         #endregion
 
@@ -74,41 +74,18 @@ namespace MainApp.Scenes
 
         public override void OnCreate()
         {
-            // Initiating all Models:
-            var heroesCount = 2;
+            InitAllModels();
 
-            _field = new GameField(10, 7);
+            InitAllPresenters();
 
-            _profile = new Profile()
-            {
-                Nickname = "Igrovogo personaja"
-            };
-            _heroes = new List<HeroModel>(1);
-            _heroes.Add(new HeroModel("Nickname", 0, 0));
+            InitAllControllers();
 
-
-            // Initiating all Presenters:
-
-            _fieldPresenter = new GameFieldPresenter(_field);
-
-            _movementDeckPresenter = new MovementDeckPresenter();
-            _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
-
-            // Initiating all Controllers:
-            _fieldController        = new GameFieldController(_field, _fieldPresenter);
-            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck, _movementDeckPresenter);
-
-            // Initiating all Handlers:
-
-            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathsController);
+            InitAllHandlers();
 
             // Initiating LayersStack:
-
             _layersStack = new LayersStack(1);
 
-            // Initiating all Layers:
-
-            _layersStack.AddLayer(new Layer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
+            InitAllLayers();
 
             // OLD LOGIC
 
@@ -120,6 +97,48 @@ namespace MainApp.Scenes
             // _fieldController = new GameFieldController(_field, _fieldPresenter);
             // _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
             // _pathsController = new PathController(_field, _fieldPresenter, _shiftController);
+        }
+
+        private void InitAllLayers()
+        {
+            _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
+            _layersStack.AddLayer((new Layer(_pathPresenter, _pathHandler)));
+        }
+
+        private void InitAllHandlers()
+        {
+            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathsController);
+            _pathHandler = new PathHandler(_pathsController, _fieldController, _movementDeckController,
+                _shiftController);
+        }
+
+        private void InitAllControllers()
+        {
+            _fieldController        = new GameFieldController(_field, _fieldPresenter);
+            _shiftController        = new ShiftController(_heroes);
+            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck, _movementDeckPresenter);
+        }
+
+        private void InitAllPresenters()
+        {
+            _fieldPresenter = new GameFieldPresenter(_field);
+
+            _movementDeckPresenter = new MovementDeckPresenter();
+            _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
+        }
+
+        private void InitAllModels()
+        {
+            var heroesCount = 2;
+
+            _field = new GameField(10, 7);
+
+            _profile = new Profile()
+            {
+                Nickname = "Igrovogo personaja"
+            };
+            _heroes = new List<HeroModel>(1);
+            _heroes.Add(new HeroModel("Nickname", 0, 0));
         }
 
         public override void OnUpdate(float deltaTime)
@@ -142,6 +161,7 @@ namespace MainApp.Scenes
         public override void OnMouseMoved(int x, int y)
         {
             _layersStack.OnMouseMoved(x, y);
+            
             // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             // {
             //     _fieldController.OnMouseExit();
@@ -162,6 +182,7 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _layersStack.OnMousePressed(x, y, mouseButton);
+            
             // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             // {
             //     // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
@@ -193,14 +214,11 @@ namespace MainApp.Scenes
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _layersStack.OnMouseReleased(x, y, mouseButton);
-            // _fieldController.OnMouseButtonReleased(x, y, mouseButton);
-            // _shiftController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
         public override void OnWindowResized(int width, int height)
         {
-            // _profilePresenter.OnWindowResized(width, height);
-            // _movementDeckPresenter.OnWindowResized(width, height);
+            _layersStack.OnWindowResized(width, height);
         }
     }
 }
