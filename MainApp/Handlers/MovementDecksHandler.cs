@@ -8,11 +8,11 @@ namespace MainApp.Handlers
         private PathController _pathsController;
         private ShiftController _shiftController;
         private MovementDeckController _movementDeckController;
-        
+
         public MovementDecksHandler(MovementDeckController controller, GameFieldController fieldController, ShiftController shiftController, PathController pathsController) : base(controller)
         {
-            _fieldController      = fieldController;
-            _shiftController      = shiftController;
+            _fieldController = fieldController;
+            _shiftController = shiftController;
             _pathsController = pathsController;
         }
 
@@ -35,7 +35,11 @@ namespace MainApp.Handlers
 
         public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _movementDeckController.OnMouseButtonReleased(x ,y, mouseButton);
+            _movementDeckController.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public override void OnMouseLeft()
+        {
         }
     }
 }

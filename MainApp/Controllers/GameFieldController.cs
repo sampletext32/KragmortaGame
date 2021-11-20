@@ -31,7 +31,7 @@ namespace MainApp.Controllers
             return _field.GetCell(cX, cY).Type;
         }
 
-        public void OnMouseExit()
+        public void OnMouseLeft()
         {
             if (_lastMouseOverCell is not null)
             {
@@ -41,7 +41,7 @@ namespace MainApp.Controllers
             }
         }
 
-        public void OnMouseMoved(int x, int y)
+        public override void OnMouseMoved(int x, int y)
         {
             int cX = _fieldPresenter.ConvertMouseXToCellX(x);
             int cY = _fieldPresenter.ConvertMouseYToCellY(y);
@@ -59,7 +59,7 @@ namespace MainApp.Controllers
             _fieldPresenter.UpdateCell(fieldCell);
         }
 
-        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             var cX = _fieldPresenter.ConvertMouseXToCellX(x);
             var cY = _fieldPresenter.ConvertMouseYToCellY(y);
@@ -71,7 +71,7 @@ namespace MainApp.Controllers
             _fieldPresenter.UpdateCell(fieldCell);
         }
 
-        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             // this small check is needed for mouse release not over initially clicked cell (click and drag behavior)
             if (_lastMouseDownOverCell is not null)

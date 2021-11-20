@@ -8,17 +8,20 @@ namespace MainApp.Controllers
     {
         private HeroModel _hero;
         private HeroPresenter _heroPresenter;
+
         private MovementDeckController _movementDeckController;
         // private GameFieldController _gameFieldController;
 
         public bool WasLastMoveSuccessful { get; private set; }
 
-        public HeroController(HeroModel hero, HeroPresenter heroPresenter, MovementDeckController movementDeckController, GameFieldController gameFieldController)
+        public HeroController(HeroModel hero, HeroPresenter heroPresenter, MovementDeckController movementDeckController
+            // GameFieldController gameFieldController
+        )
         {
             _hero                   = hero;
             _heroPresenter          = heroPresenter;
             _movementDeckController = movementDeckController;
-            _gameFieldController    = gameFieldController;
+            // _gameFieldController    = gameFieldController;
         }
 
         public void Activate()
@@ -49,13 +52,13 @@ namespace MainApp.Controllers
 
             if (IsSelectedCellNeighboring(selectedCellX, selectedCellY))
             {
-                var fieldType = _gameFieldController.GetCellType(selectedCellX, selectedCellY);
-                if (_movementDeckController.TryUseCellType(fieldType))
-                {
-                    _hero.SetFieldPosition(selectedCellX, selectedCellY);
-                    _heroPresenter.OnHeroMoved();
-                    WasLastMoveSuccessful = true;
-                }
+                // var fieldType = _gameFieldController.GetCellType(selectedCellX, selectedCellY);
+                // if (_movementDeckController.TryUseCellType(fieldType))
+                // {
+                // _hero.SetFieldPosition(selectedCellX, selectedCellY);
+                // _heroPresenter.OnHeroMoved();
+                // WasLastMoveSuccessful = true;
+                // }
             }
             else
             {

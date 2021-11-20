@@ -11,7 +11,7 @@ namespace MainApp.Controllers
         public HeroModel HeroModel => _heroModels[_currentHeroIndex];
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
         public HeroPresenter HeroPresenter => _heroPresenters[_currentHeroIndex];
-        
+
         private List<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private List<HeroPresenter> _heroPresenters;
@@ -37,7 +37,7 @@ namespace MainApp.Controllers
             _movementDeckPresenter = movementDeckPresenter;
             _heroPresenters        = new List<HeroPresenter>(countOfPlayers);
 
-            _gameFieldController     = gameFieldController;
+            // _gameFieldController     = gameFieldController;
             _heroControllers         = new List<HeroController>(countOfPlayers);
             _movementDeckControllers = new List<MovementDeckController>(countOfPlayers);
 
@@ -52,11 +52,13 @@ namespace MainApp.Controllers
                 var movementDeckController = new MovementDeckController(hero.MovementDeck, _movementDeckPresenter);
                 _movementDeckControllers.Add(movementDeckController);
 
-                _heroControllers.Add(new HeroController(
-                    hero,
-                    heroPresenter,
-                    movementDeckController,
-                    _gameFieldController));
+                _heroControllers.Add(
+                    new HeroController(
+                        hero,
+                        heroPresenter,
+                        movementDeckController
+                        // _gameFieldController
+                    ));
             }
 
             _heroControllers[0].Activate();
@@ -72,7 +74,7 @@ namespace MainApp.Controllers
                 if (_currentHeroSuccessfulMovesCount == 2)
                 {
                     HeroController.Deactivate();
-                    _currentHeroIndex           = (_currentHeroIndex + 1) % _countOfPlayers;
+                    _currentHeroIndex = (_currentHeroIndex + 1) % _countOfPlayers;
                     HeroController.Activate();
                     _movementDeckPresenter.SetDeck(HeroModel.MovementDeck);
                     _currentHeroSuccessfulMovesCount = 0;

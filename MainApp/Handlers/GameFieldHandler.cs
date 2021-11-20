@@ -9,10 +9,13 @@ namespace MainApp.Handlers
         private MovementDeckController _movementDeckController;
         private PathController _pathController;
 
-        public GameFieldHandler(GameFieldController controller, GameFieldController fieldController,
-            MovementDeckController movementDeckController, PathController pathController) : base(controller)
+        public GameFieldHandler(
+            GameFieldController controller,
+            MovementDeckController movementDeckController,
+            PathController pathController
+        ) : base(controller)
         {
-            _fieldController        = fieldController;
+            _fieldController        = controller;
             _movementDeckController = movementDeckController;
             _pathController         = pathController;
         }
@@ -22,25 +25,26 @@ namespace MainApp.Handlers
             _fieldController.OnMouseMoved(x, y);
         }
 
-        public void OnMouseLeft(int x, int y)
-        {
-            _fieldController.OnMouseExit();
-        }
-
         public override void OnMousePressed(int x, int y, KragMouseButton mouseButton)
         {
-            _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
-
-            if (_movementDeckController.HasSelectedCard())
-            {
-                _pathController.UnhighlightPaths();
-                _pathController.HighlightPaths();
-            }
+            _fieldController.OnMouseButtonPressed(x, y, mouseButton);
+            // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
+            //
+            // if (_movementDeckController.HasSelectedCard())
+            // {
+            //     _pathController.UnhighlightPaths();
+            //     _pathController.HighlightPaths();
+            // }
         }
 
         public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
             _fieldController.OnMouseButtonReleased(x, y, mouseButton);
+        }
+
+        public override void OnMouseLeft()
+        {
+            _fieldController.OnMouseLeft();
         }
     }
 }
