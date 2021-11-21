@@ -143,6 +143,7 @@ namespace MainApp.Scenes
 
             _field = new GameField(10, 7);
 
+            // Unused comment
             _profile = new Profile()
             {
                 Nickname = "Igrovogo personaja"

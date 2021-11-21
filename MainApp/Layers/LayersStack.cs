@@ -39,7 +39,7 @@ namespace MainApp.Layers
         public void AddLayer(AbstractLayer layer)
         {
             _layers.Add(layer);
-            _layerDebugText.DisplayedString += layer.Title + "\n";
+            _layerDebugText.DisplayedString += new string(' ', _layers.Count) + layer.Title + "\n";
         }
 
         public void OnMousePressed(int x, int y, KragMouseButton mouseButton)
