@@ -74,7 +74,7 @@ namespace MainApp.Presenters
             Reshape(width, height);
         }
 
-        public int GetCardIndex(int x, int y)
+        public bool TryGetCardFromMousePosition(int x, int y, out MovementCard card)
         {
             int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);
             int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
@@ -84,13 +84,15 @@ namespace MainApp.Presenters
                 if (x > startX && x <= startX + MovementCardDrawable.Width &&
                     y > startY && y <= startY + MovementCardDrawable.Height)
                 {
-                    return i;
+                    card = _deck.MovementCards[i];
+                    return true;
                 }
 
                 startX += MovementCardDrawable.Width;
             }
 
-            return -1;
+            card = null;
+            return false;
         }
 
         private void Reshape(int width, int height)
@@ -130,7 +132,7 @@ namespace MainApp.Presenters
                 _drawables[i].SetCard(null);
             }
 
-            Reshape(_width, _height);
+            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
         }
     }
 }

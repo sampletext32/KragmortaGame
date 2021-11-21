@@ -106,6 +106,7 @@ namespace MainApp.Scenes
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
             _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0]));
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
+            _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
         }
 
         private void InitAllHandlers()
@@ -115,6 +116,8 @@ namespace MainApp.Scenes
             _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
             _pathHandler = new PathHandler(_pathsController, _fieldController, _movementDeckController,
                 _shiftController);
+
+            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _shiftController, _pathsController);
         }
 
         private void InitAllControllers()
