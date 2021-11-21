@@ -56,6 +56,8 @@ namespace MainApp.Scenes
 
 
         private Profile _profile;
+        private List<HeroHandler> _heroHandlers;
+        private List<HeroController> _heroControllers;
 
 
         // TODO: init all models,
@@ -83,7 +85,7 @@ namespace MainApp.Scenes
             InitAllHandlers();
 
             // Initiating LayersStack:
-            _layersStack = new LayersStack(1);
+            _layersStack = new LayersStack(4);
 
             InitAllLayers();
 
@@ -102,29 +104,41 @@ namespace MainApp.Scenes
         private void InitAllLayers()
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
-            _layersStack.AddLayer((new Layer(_pathPresenter, _pathHandler)));
+            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0]));
+            _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
         }
 
         private void InitAllHandlers()
         {
             _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathsController);
+            _heroHandlers     = new List<HeroHandler>();
+            _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
             _pathHandler = new PathHandler(_pathsController, _fieldController, _movementDeckController,
                 _shiftController);
         }
 
         private void InitAllControllers()
         {
-            _fieldController        = new GameFieldController(_field, _fieldPresenter);
+            _fieldController = new GameFieldController(_field);
+
+            _heroControllers = new List<HeroController>();
+            _heroControllers.Add(new HeroController(_heroes[0]));
+
             _shiftController        = new ShiftController(_heroes);
-            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck, _movementDeckPresenter);
+            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck);
         }
 
         private void InitAllPresenters()
         {
             _fieldPresenter = new GameFieldPresenter(_field);
 
+            _pathPresenter = new PathPresenter(_path);
+
             _movementDeckPresenter = new MovementDeckPresenter();
             _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
+
+            _heroPresenters = new List<HeroPresenter>(1);
+            _heroPresenters.Add(new HeroPresenter(_heroes[0]));
         }
 
         private void InitAllModels()
@@ -139,6 +153,8 @@ namespace MainApp.Scenes
             };
             _heroes = new List<HeroModel>(1);
             _heroes.Add(new HeroModel("Nickname", 0, 0));
+
+            _path = new List<PathCell>();
         }
 
         public override void OnUpdate(float deltaTime)
@@ -161,28 +177,12 @@ namespace MainApp.Scenes
         public override void OnMouseMoved(int x, int y)
         {
             _layersStack.OnMouseMoved(x, y);
-            
-            // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
-            // {
-            //     _fieldController.OnMouseExit();
-            //     return;
-            // }
-            //
-            // if (_fieldPresenter.IsMouseWithinBounds(x, y))
-            // {
-            //     _fieldController.OnMouseMoved(x, y);
-            // }
-            // else
-            // {
-            //     // TODO: this is being called for every move outside field, but should only be called once
-            //     _fieldController.OnMouseExit();
-            // }
         }
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _layersStack.OnMousePressed(x, y, mouseButton);
-            
+
             // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             // {
             //     // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);

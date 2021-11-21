@@ -3,7 +3,7 @@ using MainApp.Presenters;
 
 namespace MainApp.Layers
 {
-    public class PathLayer: Layer
+    public class PathLayer: AbstractLayer
     {
         private readonly PathPresenter _presenter;
         private readonly PathHandler _handler;
@@ -19,7 +19,14 @@ namespace MainApp.Layers
             var selectedCellX = _presenter.ConvertMouseXToCellX(x);
             var selectedCellY = _presenter.ConvertMouseYToCellY(y);
             
-            _handler.OnMousePressed(selectedCellX, selectedCellY, mouseButton);
+            _handler.OnCellClicked(selectedCellX, selectedCellY, mouseButton);
+
+            return true;
+        }
+
+        public override void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
+        {
+            base.HandleMouseReleased(x, y, mouseButton);
         }
     }
 }

@@ -2,7 +2,7 @@ using MainApp.Controllers;
 
 namespace MainApp.Handlers
 {
-    public class MovementDecksHandler : Handler
+    public class MovementDecksHandler : AbstractHandler
     {
         private GameFieldController _fieldController;
         private PathController _pathsController;

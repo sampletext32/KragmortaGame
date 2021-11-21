@@ -4,14 +4,14 @@ using SFML.Graphics;
 
 namespace MainApp.Layers
 {
-    public class Layer
+    public class AbstractLayer
     {
         private readonly Presenter _presenter;
-        private readonly Handler _handler;
+        private readonly AbstractHandler _handler;
         
         public string Title { get; private set; }
 
-        public Layer(Presenter presenter, Handler handler, string title = "Untitled layer")
+        public AbstractLayer(Presenter presenter, AbstractHandler handler, string title = "Untitled layer")
         {
             _presenter = presenter;
             _handler   = handler;
@@ -36,7 +36,7 @@ namespace MainApp.Layers
             _handler.OnMouseReleased(x, y, mouseButton);
         }
 
-        public bool TryHandleMouseMoved(int x, int y)
+        public virtual bool TryHandleMouseMoved(int x, int y)
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 

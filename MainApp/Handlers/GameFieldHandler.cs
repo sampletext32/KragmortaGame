@@ -3,7 +3,7 @@ using MainApp.Entities;
 
 namespace MainApp.Handlers
 {
-    public class GameFieldHandler : Handler
+    public class GameFieldHandler : AbstractHandler
     {
         private GameFieldController _fieldController;
         private MovementDeckController _movementDeckController;

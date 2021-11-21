@@ -1,11 +1,12 @@
 using System.Collections.Generic;
 using MainApp.Entities;
-using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
     public class ShiftController : ControllerBase
     {
+        public HeroModel Hero => _heroModels[_currentHeroIndex];
+        
         private List<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private int _currentHeroIndex = 0;
@@ -24,9 +25,7 @@ namespace MainApp.Controllers
             {
                 _heroControllers.Add(
                     new HeroController(
-                        heroes[i],
-                        heroPresenter,
-                        movementDeckController
+                        heroes[i]
                         // _gameFieldController
                     ));
             }
@@ -36,24 +35,24 @@ namespace MainApp.Controllers
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            HeroController.OnMouseButtonPressed(x, y, mouseButton);
-            if (HeroController.WasLastMoveSuccessful)
-            {
-                _currentHeroSuccessfulMovesCount++;
-                if (_currentHeroSuccessfulMovesCount == 2)
-                {
-                    HeroController.Deactivate();
-                    _currentHeroIndex = (_currentHeroIndex + 1) % _countOfPlayers;
-                    HeroController.Activate();
-                    _movementDeckPresenter.SetDeck(HeroModel.MovementDeck);
-                    _currentHeroSuccessfulMovesCount = 0;
-                }
-            }
+            // HeroController.OnMouseButtonPressed(x, y, mouseButton);
+            // if (HeroController.WasLastMoveSuccessful)
+            // {
+            //     _currentHeroSuccessfulMovesCount++;
+            //     if (_currentHeroSuccessfulMovesCount == 2)
+            //     {
+            //         HeroController.Deactivate();
+            //         _currentHeroIndex = (_currentHeroIndex + 1) % _countOfPlayers;
+            //         HeroController.Activate();
+            //         _movementDeckPresenter.SetDeck(HeroModel.MovementDeck);
+            //         _currentHeroSuccessfulMovesCount = 0;
+            //     }
+            // }
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
-            HeroController.OnMouseButtonReleased(x, y, mouseButton);
+            // HeroController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -62,7 +61,8 @@ namespace MainApp.Controllers
 
         public bool WasLastMoveSuccessful()
         {
-            return HeroController.WasLastMoveSuccessful;
+            return false;
+            // return HeroController.WasLastMoveSuccessful;
         }
     }
 }

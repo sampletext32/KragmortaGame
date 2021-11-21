@@ -14,12 +14,10 @@ namespace MainApp.Controllers
         private int _lastMouseDownOverCellIndex = -1;
 
         private readonly GameField _field;
-        private readonly GameFieldPresenter _fieldPresenter;
 
-        public GameFieldController(GameField field, GameFieldPresenter fieldPresenter)
+        public GameFieldController(GameField field)
         {
-            _field          = field;
-            _fieldPresenter = fieldPresenter;
+            _field = field;
         }
 
         /// <summary>
@@ -36,39 +34,39 @@ namespace MainApp.Controllers
             if (_lastMouseOverCell is not null)
             {
                 _lastMouseOverCell.Hovered = false;
-                _fieldPresenter.UpdateCell(_lastMouseOverCell);
+                _lastMouseOverCell.MarkDirty();
                 _lastMouseOverCell = null;
             }
         }
 
         public override void OnMouseMoved(int x, int y)
         {
-            int cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            int cY = _fieldPresenter.ConvertMouseYToCellY(y);
-
-            if (_lastMouseOverCell is not null)
-            {
-                _lastMouseOverCell.Hovered = false;
-                _fieldPresenter.UpdateCell(_lastMouseOverCell);
-            }
-
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Hovered  = true;
-            _lastMouseOverCell = fieldCell;
-
-            _fieldPresenter.UpdateCell(fieldCell);
+            // int cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            // int cY = _fieldPresenter.ConvertMouseYToCellY(y);
+            //
+            // if (_lastMouseOverCell is not null)
+            // {
+            //     _lastMouseOverCell.Hovered = false;
+            //     _fieldPresenter.UpdateCell(_lastMouseOverCell);
+            // }
+            //
+            // var fieldCell = _field.GetCell(cX, cY);
+            // fieldCell.Hovered  = true;
+            // _lastMouseOverCell = fieldCell;
+            //
+            // _fieldPresenter.UpdateCell(fieldCell);
         }
 
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
-
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Clicked      = true;
-            _lastMouseDownOverCell = fieldCell;
-
-            _fieldPresenter.UpdateCell(fieldCell);
+            // var cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            // var cY = _fieldPresenter.ConvertMouseYToCellY(y);
+            //
+            // var fieldCell = _field.GetCell(cX, cY);
+            // fieldCell.Clicked      = true;
+            // _lastMouseDownOverCell = fieldCell;
+            //
+            // _fieldPresenter.UpdateCell(fieldCell);
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
@@ -77,22 +75,22 @@ namespace MainApp.Controllers
             if (_lastMouseDownOverCell is not null)
             {
                 _lastMouseDownOverCell.Clicked = false;
-                _fieldPresenter.UpdateCell(_lastMouseDownOverCell);
+                _lastMouseDownOverCell.MarkDirty();
                 _lastMouseDownOverCell = null;
             }
 
-            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
-            {
-                return;
-            }
-
-            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
-
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Clicked = false;
-
-            _fieldPresenter.UpdateCell(fieldCell);
+            // if (!_fieldPresenter.IsMouseWithinBounds(x, y))
+            // {
+            //     return;
+            // }
+            //
+            // var cX = _fieldPresenter.ConvertMouseXToCellX(x);
+            // var cY = _fieldPresenter.ConvertMouseYToCellY(y);
+            //
+            // var fieldCell = _field.GetCell(cX, cY);
+            // fieldCell.Clicked = false;
+            //
+            // _fieldPresenter.UpdateCell(fieldCell);
         }
     }
 }

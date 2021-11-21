@@ -8,16 +8,16 @@ namespace MainApp.Layers
         private Font _font;
         private Text _layerDebugText;
 
-        private List<Layer> _layers;
+        private List<AbstractLayer> _layers;
         private int _layersCount;
 
-        private Layer _lastMouseOverLayer;
-        private Layer _lastMousePressedLayer;
+        private AbstractLayer _lastMouseOverLayer;
+        private AbstractLayer _lastMousePressedLayer;
 
         public LayersStack(int layerCount)
         {
             _layersCount = layerCount;
-            _layers      = new List<Layer>(_layersCount);
+            _layers      = new List<AbstractLayer>(_layersCount);
 
             _font                         = new Font("assets/fonts/arial.ttf");
             _layerDebugText               = new Text();
@@ -36,7 +36,7 @@ namespace MainApp.Layers
             target.Draw(_layerDebugText);
         }
 
-        public void AddLayer(Layer layer)
+        public void AddLayer(AbstractLayer layer)
         {
             _layers.Add(layer);
             _layerDebugText.DisplayedString += layer.Title + "\n";
@@ -62,7 +62,7 @@ namespace MainApp.Layers
 
         public void OnMouseMoved(int x, int y)
         {
-            Layer mouseOverLayer = null;
+            AbstractLayer mouseOverLayer = null;
             for (var i = _layers.Count - 1; i >= 0; i--)
             {
                 if (_layers[i].TryHandleMouseMoved(x, y))

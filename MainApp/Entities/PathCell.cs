@@ -1,9 +1,6 @@
 namespace MainApp.Entities
 {
-    public class PathCell
+    public class PathCell : AbstractCell
     {
-        public int FieldX { get; private set; }
-
-        public int FieldY { get; private set; }
     }
 }

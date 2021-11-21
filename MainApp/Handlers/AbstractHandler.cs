@@ -2,11 +2,11 @@ using MainApp.Controllers;
 
 namespace MainApp.Handlers
 {
-    public abstract class Handler
+    public abstract class AbstractHandler
     {
         private ControllerBase _controller;
 
-        protected Handler(ControllerBase controller)
+        protected AbstractHandler(ControllerBase controller)
         {
             _controller = controller;
         }

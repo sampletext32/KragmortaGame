@@ -17,8 +17,8 @@ namespace MainApp.Presenters
             {
                 var drawable = new PathCellDrawable(cell, CellSize);
 
-                var positionX = FieldOriginX + (CellSize + CellMargin) * cell.FieldX;
-                var positionY = FieldOriginY + (CellSize + CellMargin) * cell.FieldY;
+                var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
+                var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
 
                 drawable.SetPosition(positionX, positionY);
                 return drawable;

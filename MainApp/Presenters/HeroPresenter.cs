@@ -44,10 +44,16 @@ namespace MainApp.Presenters
 
         public override void Render(RenderTarget target)
         {
+            if (_hero.Dirty)
+            {
+                Update();
+                _hero.Dirty = false;
+            }
+
             target.Draw(_rectangle);
         }
 
-        public void OnHeroMoved()
+        private void Update()
         {
             _rectangle.Position = CalcRectanglePosition();
         }
