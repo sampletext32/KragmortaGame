@@ -101,7 +101,6 @@ namespace MainApp.Drawables
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
             if (_isOrangeVisible) target.Draw(_orange);
-            
         }
 
         public void SetOutlineThickness(float thickness)

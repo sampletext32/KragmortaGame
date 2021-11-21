@@ -43,7 +43,7 @@ namespace MainApp.Scenes
         #region Handlers
 
         private GameFieldHandler _gameFieldHandler;
-        private MovementDecksHandler _movementDecksHandler;
+        private MovementDeckHandler _movementDeckHandler;
         private PathHandler _pathHandler;
 
         #endregion

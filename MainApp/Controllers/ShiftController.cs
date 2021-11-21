@@ -33,7 +33,7 @@ namespace MainApp.Controllers
             _heroControllers[0].Activate();
         }
 
-        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             // HeroController.OnMouseButtonPressed(x, y, mouseButton);
             // if (HeroController.WasLastMoveSuccessful)
@@ -50,12 +50,12 @@ namespace MainApp.Controllers
             // }
         }
 
-        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public  void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             // HeroController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public  void OnMouseMoved(int x, int y)
         {
         }
 

@@ -2,7 +2,7 @@
 {
     public abstract class VisualEntity
     {
-        public bool Dirty;
+        public bool Dirty = true;
 
         public void MarkDirty()
         {

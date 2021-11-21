@@ -38,7 +38,7 @@ namespace MainApp.Controllers
             // _heroPresenter.OnHeroDeactivated();
         }
 
-        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             // WasLastMoveSuccessful = false;
             //
@@ -76,11 +76,11 @@ namespace MainApp.Controllers
             return xAxis + yAxis == 1;
         }
 
-        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public  void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public  void OnMouseMoved(int x, int y)
         {
         }
     }

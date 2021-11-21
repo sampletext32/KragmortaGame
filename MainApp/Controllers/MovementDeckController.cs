@@ -1,6 +1,5 @@
 ﻿using MainApp.Entities;
 using MainApp.Enums;
-using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
@@ -8,17 +7,18 @@ namespace MainApp.Controllers
     {
         private MovementDeck _deck;
 
-        private int _lastSelectedMovementCardIndex = -1;
         private MovementCard _lastSelectedMovementCard = null;
+        private int _lastSelectedMovementCardIndex = -1;
+
         private MovementCard _activatedMovementCard = null;
-        private int _activatedMovementCardIndex;
+        private int _activatedMovementCardIndex = -1;
 
         public MovementDeckController(MovementDeck deck)
         {
             _deck = deck;
         }
 
-        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             // If a card has already been selected, nothing happens. 
             // if (_activatedMovementCard != null)
@@ -51,11 +51,11 @@ namespace MainApp.Controllers
             // // Card has been successfully changed.
         }
 
-        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public  void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public  void OnMouseMoved(int x, int y)
         {
         }
 

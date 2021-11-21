@@ -8,19 +8,19 @@ namespace MainApp.Handlers
         {
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public override void RawOnMouseMoved(int x, int y)
         {
         }
 
-        public override void OnMousePressed(int x, int y, KragMouseButton mouseButton)
+        public override void RawOnMousePressed(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
+        public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public override void OnMouseLeft()
+        public override void RawOnMouseLeft()
         {
         }
     }

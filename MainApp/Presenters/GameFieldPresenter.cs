@@ -27,9 +27,14 @@ namespace MainApp.Presenters
                 return drawable;
             }));
         }
-        
+
         public override void Render(RenderTarget target)
         {
+            if (_field.Dirty)
+            {
+                _field.ClearDirty();
+            }
+
             foreach (var drawable in _drawables)
             {
                 target.Draw(drawable);

@@ -1,5 +1,4 @@
 using MainApp.Controllers;
-using MainApp.Entities;
 
 namespace MainApp.Handlers
 {
@@ -20,31 +19,26 @@ namespace MainApp.Handlers
             _pathController         = pathController;
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public void OnMouseMovedOverCell(int cellX, int cellY)
         {
-            _fieldController.OnMouseMoved(x, y);
+            var fieldCell = _fieldController.GetCell(cellX, cellY);
+            _fieldController.HoverCell(fieldCell);
         }
 
-        public override void OnMousePressed(int x, int y, KragMouseButton mouseButton)
+        public void OnMousePressedCell(int cellX, int cellY)
         {
-            _fieldController.OnMouseButtonPressed(x, y, mouseButton);
-            // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
-            //
-            // if (_movementDeckController.HasSelectedCard())
-            // {
-            //     _pathController.UnhighlightPaths();
-            //     _pathController.HighlightPaths();
-            // }
+            var fieldCell = _fieldController.GetCell(cellX, cellY);
+            _fieldController.PressCell(fieldCell);
         }
 
-        public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
+        public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _fieldController.OnMouseButtonReleased(x, y, mouseButton);
+            _fieldController.ReleaseLastPressedCell();
         }
 
-        public override void OnMouseLeft()
+        public void OnMouseLeft()
         {
-            _fieldController.OnMouseLeft();
+            _fieldController.ClearLastHoveredCell();
         }
     }
 }

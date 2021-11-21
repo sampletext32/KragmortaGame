@@ -1,30 +1,24 @@
 using MainApp.Controllers;
+using MainApp.Entities;
 
 namespace MainApp.Handlers
 {
-    public class MovementDecksHandler : AbstractHandler
+    public class MovementDeckHandler : AbstractHandler
     {
         private GameFieldController _fieldController;
         private PathController _pathsController;
         private ShiftController _shiftController;
         private MovementDeckController _movementDeckController;
 
-        public MovementDecksHandler(MovementDeckController controller, GameFieldController fieldController, ShiftController shiftController, PathController pathsController) : base(controller)
+        public MovementDeckHandler(MovementDeckController controller, GameFieldController fieldController, ShiftController shiftController, PathController pathsController) : base(controller)
         {
             _fieldController = fieldController;
             _shiftController = shiftController;
             _pathsController = pathsController;
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public void OnMousePressedCard(MovementCard card)
         {
-        }
-
-        public override void OnMousePressed(int x, int y, KragMouseButton mouseButton)
-        {
-            _fieldController.OnMouseButtonPressed(x, y, mouseButton);
-            _shiftController.OnMouseButtonPressed(x, y, mouseButton);
-
             _pathsController.UnhighlightPaths();
             if (_shiftController.WasLastMoveSuccessful() &&
                 _movementDeckController.HasActivatedCard())
@@ -33,12 +27,12 @@ namespace MainApp.Handlers
             }
         }
 
-        public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
+        public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
             _movementDeckController.OnMouseButtonReleased(x, y, mouseButton);
         }
 
-        public override void OnMouseLeft()
+        public override void RawOnMouseLeft()
         {
         }
     }

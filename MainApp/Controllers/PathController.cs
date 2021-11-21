@@ -83,18 +83,6 @@ namespace MainApp.Controllers
             // _highlightedCells.Clear();
         }
 
-        public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
-        {
-        }
-
-        public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
-        {
-        }
-
-        public override void OnMouseMoved(int x, int y)
-        {
-        }
-
         public bool TryGetCell(int selectedCellX, int selectedCellY, out PathCell pathCell)
         {
             foreach (var cell in _pathCells)

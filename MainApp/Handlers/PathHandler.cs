@@ -19,7 +19,7 @@ namespace MainApp.Handlers
             _shiftController        = shiftController;
         }
 
-        public override void OnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
+        public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
         {
         }
 
@@ -36,15 +36,15 @@ namespace MainApp.Handlers
             _shiftController.Hero.SetFieldPosition(selectedCellX, selectedCellY);
         }
 
-        public override void OnMouseMoved(int x, int y)
+        public override void RawOnMouseMoved(int x, int y)
         {
         }
 
-        public override void OnMouseReleased(int x, int y, KragMouseButton mouseButton)
+        public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public override void OnMouseLeft()
+        public override void RawOnMouseLeft()
         {
         }
     }

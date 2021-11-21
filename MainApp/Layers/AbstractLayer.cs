@@ -23,30 +23,48 @@ namespace MainApp.Layers
             _presenter.Render(target);
         }
 
+        /// <summary>
+        /// Handles Mouse Press Event
+        /// <remarks>
+        /// X and Y are NOT supposed to be inside the layer
+        /// </remarks>
+        /// </summary>
         public virtual bool TryHandleMousePressed(int x, int y, KragMouseButton mouseButton)
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
-            _handler.OnMousePressed(x, y, mouseButton);
+            _handler.RawOnMousePressed(x, y, mouseButton);
             return true;
         }
 
+        /// <summary>
+        /// Handles Mouse Release Event
+        /// <remarks>
+        /// X and Y are NOT supposed to be inside the layer
+        /// </remarks>
+        /// </summary>
         public virtual void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _handler.OnMouseReleased(x, y, mouseButton);
+            _handler.RawOnMouseReleased(x, y, mouseButton);
         }
 
+        /// <summary>
+        /// Handles Mouse Move Event
+        /// <remarks>
+        /// X and Y are NOT supposed to be inside the layer
+        /// </remarks>
+        /// </summary>
         public virtual bool TryHandleMouseMoved(int x, int y)
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
-            _handler.OnMouseMoved(x, y);
+            _handler.RawOnMouseMoved(x, y);
             return true;
         }
 
-        public void HandleMouseLeft()
+        public virtual void HandleMouseLeft()
         {
-            _handler.OnMouseLeft();
+            _handler.RawOnMouseLeft();
         }
 
         public void HandleWindowResized(int width, int height)

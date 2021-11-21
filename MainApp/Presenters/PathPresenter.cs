@@ -8,10 +8,12 @@ namespace MainApp.Presenters
 {
     public class PathPresenter : CellPresenterAbstract
     {
+        private readonly List<PathCell> _path;
         private List<PathCellDrawable> _drawables;
 
         public PathPresenter(List<PathCell> path)
         {
+            _path      = path;
             _drawables = new List<PathCellDrawable>(path.Count);
             _drawables.AddRange(path.Select(cell =>
             {
@@ -27,6 +29,22 @@ namespace MainApp.Presenters
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
+            for (var i = 0; i < _path.Count; i++)
+            {
+                var positionX = FieldOriginX + (CellSize + CellMargin) * _path[i].X;
+                var positionY = FieldOriginY + (CellSize + CellMargin) * _path[i].Y;
+
+                if (!(
+                        x < positionX ||
+                        x >= positionX + (CellSize + CellMargin) ||
+                        y < positionY ||
+                        y >= positionY + (CellSize + CellMargin)
+                    ))
+                {
+                    return true;
+                }
+            }
+
             return false;
         }
 

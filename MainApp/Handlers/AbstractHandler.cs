@@ -11,9 +11,20 @@ namespace MainApp.Handlers
             _controller = controller;
         }
 
-        public abstract void OnMouseMoved(int x, int y);
-        public abstract void OnMousePressed(int x, int y, KragMouseButton mouseButton);
-        public abstract void OnMouseReleased(int x, int y, KragMouseButton mouseButton);
-        public abstract void OnMouseLeft();
+        public virtual void RawOnMouseMoved(int x, int y)
+        {
+        }
+
+        public virtual void RawOnMousePressed(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public virtual void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
+        {
+        }
+
+        public virtual void RawOnMouseLeft()
+        {
+        }
     }
 }
