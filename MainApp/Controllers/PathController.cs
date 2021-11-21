@@ -102,5 +102,38 @@ namespace MainApp.Controllers
         {
             return _pathCells.First(c => c.X == selectedCellX && c.Y == selectedCellY).Type;
         }
+
+        public void ComputePath(List<AbstractCell> rawPaths, MovementCard card)
+        {
+            for (int i = 0; i < rawPaths.Count; i++)
+            {
+                // if (!(!card.HasUsedFirstType && card.FirstType == rawPaths[i].Type)) continue;
+                // if (!(!card.HasUsedSecondType && card.SecondType == rawPaths[i].Type)) continue;
+
+                // if (card.HasUsedFirstType || card.FirstType != rawPaths[i].Type) continue;
+                // if (card.HasUsedSecondType || card.SecondType != rawPaths[i].Type) continue;
+
+                if (!card.HasUsedFirstType && card.FirstType == rawPaths[i].Type)
+                {
+                    _pathCells.Add(new PathCell()
+                    {
+                        X     = rawPaths[i].X,
+                        Y     = rawPaths[i].Y,
+                        Type  = rawPaths[i].Type,
+                        Dirty = true
+                    });
+                }
+                else if (!card.HasUsedSecondType && card.SecondType == rawPaths[i].Type)
+                {
+                    _pathCells.Add(new PathCell()
+                    {
+                        X     = rawPaths[i].X,
+                        Y     = rawPaths[i].Y,
+                        Type  = rawPaths[i].Type,
+                        Dirty = true
+                    });
+                }
+            }
+        }
     }
 }

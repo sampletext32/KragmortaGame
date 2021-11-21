@@ -74,6 +74,15 @@ namespace MainApp.Presenters
             Reshape(width, height);
         }
 
+        /// <summary>
+        /// Trys to figure out which Card has been selected due to mouse location.
+        /// If the mouse has not reached any card, returns false and sets the out card to null.
+        /// </summary>
+        /// <param name="x">Mouse location X.</param>
+        /// <param name="y">Mouse location Y.</param>
+        /// <param name="card">The found card or null.</param>
+        /// <remarks>May set card to null.</remarks>
+        /// <returns></returns>
         public bool TryGetCardFromMousePosition(int x, int y, out MovementCard card)
         {
             int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);

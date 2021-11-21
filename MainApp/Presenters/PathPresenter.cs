@@ -52,6 +52,7 @@ namespace MainApp.Presenters
         {
             foreach (var drawable in _drawables)
             {
+                // drawable.Draw(target);
                 target.Draw(drawable);
             }
         }

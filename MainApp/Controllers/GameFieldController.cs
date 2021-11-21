@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Linq;
 using MainApp.Entities;
 
 namespace MainApp.Controllers
@@ -74,6 +76,33 @@ namespace MainApp.Controllers
                 _lastPressedCell.MarkDirty();
                 _lastPressedCell = null;
             }
+        }
+
+        public List<AbstractCell> GetNeighboringCells(int heroX, int heroY)
+        {
+            var result = new List<AbstractCell>();
+            
+            if (heroX != _field.SizeX - 1)
+            {
+                result.Add(GetCell(heroX + 1, heroY));
+            }
+            
+            if (heroX != 0)
+            {
+                result.Add(GetCell(heroX - 1, heroY));
+            }
+            
+            if (heroY != 0)
+            {
+                result.Add(GetCell(heroX, heroY - 1));
+            }
+            
+            if (heroY != _field.SizeY - 1)
+            {
+                result.Add(GetCell(heroX, heroY + 1));
+            }
+
+            return result;
         }
     }
 }

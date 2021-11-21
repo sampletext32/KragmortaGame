@@ -5,6 +5,8 @@ namespace MainApp.Controllers
 {
     public class MovementDeckController : ControllerBase
     {
+        public MovementCard LastSelectedMovementCard => _lastSelectedMovementCard;
+
         private MovementDeck _deck;
 
         private MovementCard _lastSelectedMovementCard = null;
@@ -20,7 +22,7 @@ namespace MainApp.Controllers
 
         public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
-            // If a card has already been selected, nothing happens. 
+            // // If a card has already been selected, nothing happens. 
             // if (_activatedMovementCard != null)
             // {
             //     return;
@@ -51,11 +53,11 @@ namespace MainApp.Controllers
             // // Card has been successfully changed.
         }
 
-        public  void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
         }
 
-        public  void OnMouseMoved(int x, int y)
+        public void OnMouseMoved(int x, int y)
         {
         }
 
@@ -109,6 +111,30 @@ namespace MainApp.Controllers
             //     _activatedMovementCard      = null;
             //     _activatedMovementCardIndex = -1;
             // }
+        }
+
+        public void SelectedCard(MovementCard card)
+        {
+            if (_lastSelectedMovementCard != null)
+            {
+                // we unselect the previous card and
+                _lastSelectedMovementCard.Selected = false;
+                _lastSelectedMovementCard.Dirty    = true;
+                _lastSelectedMovementCardIndex     = -1;
+            }
+
+            if (_lastSelectedMovementCard == card)
+            {
+                _lastSelectedMovementCard!.Selected = false;
+                _lastSelectedMovementCard.Dirty     = true;
+                _lastSelectedMovementCard           = null;
+            }
+            else
+            {
+                card.Selected             = true;
+                card.Dirty                = true;
+                _lastSelectedMovementCard = card;
+            }
         }
     }
 }

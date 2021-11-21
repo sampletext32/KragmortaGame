@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using MainApp.Controllers;
 using MainApp.Entities;
 using MainApp.Enums;
@@ -36,7 +37,8 @@ namespace MainApp.Scenes
         private GameFieldController _fieldController;
         private MovementDeckController _movementDeckController;
         private ShiftController _shiftController;
-        private PathController _pathsController;
+        private PathController _pathController;
+        private List<HeroController> _heroControllers;
 
         #endregion
 
@@ -45,6 +47,7 @@ namespace MainApp.Scenes
         private GameFieldHandler _gameFieldHandler;
         private MovementDeckHandler _movementDeckHandler;
         private PathHandler _pathHandler;
+        private List<HeroHandler> _heroHandlers;
 
         #endregion
 
@@ -56,23 +59,7 @@ namespace MainApp.Scenes
 
 
         private Profile _profile;
-        private List<HeroHandler> _heroHandlers;
-        private List<HeroController> _heroControllers;
 
-
-        // TODO: init all models,
-        // TODO: init all controllers,
-        // TODO: init all handlers, pass them necessary controllers
-
-        // TODO: make LayersStack,
-        // TODO: make Layer entity
-
-        // TODO: Connect Controllers and Presenters to models,
-        // TODO: Change models due to Controllers,
-        // TODO: Show models via Presenters
-
-        // TODO: Connect Layer to its Presenter,
-        // TODO: Connect Layer to its Handler
 
         public override void OnCreate()
         {
@@ -89,7 +76,7 @@ namespace MainApp.Scenes
 
             InitAllLayers();
 
-            // OLD LOGIC
+            #region OLD LOGIC
 
             // _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
             // _fieldPresenter   = new GameFieldPresenter(_field);
@@ -99,6 +86,8 @@ namespace MainApp.Scenes
             // _fieldController = new GameFieldController(_field, _fieldPresenter);
             // _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
             // _pathsController = new PathController(_field, _fieldPresenter, _shiftController);
+
+            #endregion
         }
 
         private void InitAllLayers()
@@ -111,13 +100,13 @@ namespace MainApp.Scenes
 
         private void InitAllHandlers()
         {
-            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathsController);
+            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathController);
             _heroHandlers     = new List<HeroHandler>();
             _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
-            _pathHandler = new PathHandler(_pathsController, _fieldController, _movementDeckController,
+            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDeckController,
                 _shiftController);
 
-            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _shiftController, _pathsController);
+            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _pathController, _shiftController, _fieldController);
         }
 
         private void InitAllControllers()
@@ -127,7 +116,10 @@ namespace MainApp.Scenes
             _heroControllers = new List<HeroController>();
             _heroControllers.Add(new HeroController(_heroes[0]));
 
-            _shiftController        = new ShiftController(_heroes);
+            _shiftController = new ShiftController(_heroes);
+
+            _pathController = new PathController(_path);
+
             _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck);
         }
 
@@ -146,7 +138,8 @@ namespace MainApp.Scenes
 
         private void InitAllModels()
         {
-            var heroesCount = 2;
+            // TODO: Remove hardcode with user's input of players number.
+            var heroesCount = 1;
 
             _field = new GameField(10, 7);
 
@@ -154,7 +147,7 @@ namespace MainApp.Scenes
             {
                 Nickname = "Igrovogo personaja"
             };
-            _heroes = new List<HeroModel>(1);
+            _heroes = new List<HeroModel>(heroesCount);
             _heroes.Add(new HeroModel("Nickname", 0, 0));
 
             _path = new List<PathCell>();
@@ -167,6 +160,9 @@ namespace MainApp.Scenes
         public override void OnRender(RenderTarget target)
         {
             _layersStack.Render(target);
+
+            #region OLD LOGIC
+
             // _fieldPresenter.Render(target);
             // _profilePresenter.Render(target);
             // foreach (var heroPresenter in _shiftController.HeroPresenters)
@@ -175,6 +171,8 @@ namespace MainApp.Scenes
             // }
             //
             // _movementDeckPresenter.Render(target);
+
+            #endregion
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -185,6 +183,8 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _layersStack.OnMousePressed(x, y, mouseButton);
+
+            #region OLD LOGIC
 
             // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
             // {
@@ -212,6 +212,8 @@ namespace MainApp.Scenes
             //         _pathsController.HighlightPaths();
             //     }
             // }
+
+            #endregion
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
