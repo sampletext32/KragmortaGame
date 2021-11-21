@@ -8,5 +8,10 @@
         {
             Dirty = true;
         }
+
+        public void ClearDirty()
+        {
+            Dirty = false;
+        }
     }
 }

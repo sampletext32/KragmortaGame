@@ -4,9 +4,9 @@ using SFML.System;
 
 namespace MainApp.Drawables
 {
-    public class MovementCardDrawable : SFML.Graphics.Drawable
+    public class MovementCardDrawable : Drawable
     {
-        private readonly MovementCard _movementCard;
+        private MovementCard _movementCard;
 
         private Font _font;
 
@@ -20,10 +20,8 @@ namespace MainApp.Drawables
         public static readonly int Width = 130;
         public static readonly int Height = 180;
 
-        public MovementCardDrawable(MovementCard movementCard)
+        public MovementCardDrawable()
         {
-            _movementCard = movementCard;
-
             _backgroundRectangle           = new RectangleShape();
             _backgroundRectangle.Size      = new Vector2f(Width, Height);
             _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
@@ -40,12 +38,35 @@ namespace MainApp.Drawables
             _secondText.CharacterSize = (uint)_fontHeight;
             _firstText.FillColor      = Color.Black;
             _secondText.FillColor     = Color.Black;
-
-            _firstText.DisplayedString  = _movementCard.FirstType.ToString();
-            _secondText.DisplayedString = _movementCard.SecondType.ToString();
         }
 
-        public void SetFromCard()
+        public void SetPosition(int x, int y)
+        {
+            _backgroundRectangle.Position = new Vector2f(x, y);
+
+            _firstText.Position  = new Vector2f(x, y);
+            _secondText.Position = new Vector2f(x, y + _fontHeight * 1.5f);
+        }
+
+        public void Draw(RenderTarget target, RenderStates states)
+        {
+            if (_movementCard is null)
+            {
+                return;
+            }
+
+            if (_movementCard.Dirty)
+            {
+                Update();
+                _movementCard.ClearDirty();
+            }
+
+            target.Draw(_backgroundRectangle, states);
+            target.Draw(_firstText, states);
+            target.Draw(_secondText, states);
+        }
+
+        private void Update()
         {
             if (_movementCard.Activated)
             {
@@ -61,19 +82,12 @@ namespace MainApp.Drawables
             }
         }
 
-        public void SetPosition(int x, int y)
+        public void SetCard(MovementCard card)
         {
-            _backgroundRectangle.Position = new Vector2f(x, y);
+            _movementCard = card;
 
-            _firstText.Position  = new Vector2f(x, y);
-            _secondText.Position = new Vector2f(x, y + _fontHeight * 1.5f);
-        }
-
-        public void Draw(RenderTarget target, RenderStates states)
-        {
-            target.Draw(_backgroundRectangle, states);
-            target.Draw(_firstText, states);
-            target.Draw(_secondText, states);
+            _firstText.DisplayedString  = _movementCard.FirstType.ToString();
+            _secondText.DisplayedString = _movementCard.SecondType.ToString();
         }
     }
 }

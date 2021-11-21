@@ -10,7 +10,7 @@ namespace MainApp.Presenters
         private RectangleShape _rectangle;
         private HeroModel _hero;
 
-        private readonly Font _font;
+        // private readonly Font _font;
 
         public static readonly int HeroSize = 64;
 
@@ -19,7 +19,7 @@ namespace MainApp.Presenters
         public HeroPresenter(HeroModel hero)
         {
             _hero = hero;
-            _font = new Font("assets/fonts/arial.ttf");
+            // _font = new Font("assets/fonts/arial.ttf");
 
             _rectangle = new RectangleShape();
 
@@ -34,14 +34,6 @@ namespace MainApp.Presenters
             );
         }
 
-        private Vector2f CalcRectanglePosition()
-        {
-            return new Vector2f(
-                FieldOriginX + (CellSize / 2 - HeroSize / 2) + _hero.FieldX * (CellSize + CellMargin),
-                FieldOriginY + (CellSize / 2 - HeroSize / 2) + _hero.FieldY * (CellSize + CellMargin)
-            );
-        }
-
         public override void Render(RenderTarget target)
         {
             if (_hero.Dirty)
@@ -51,11 +43,6 @@ namespace MainApp.Presenters
             }
 
             target.Draw(_rectangle);
-        }
-
-        private void Update()
-        {
-            _rectangle.Position = CalcRectanglePosition();
         }
 
         public void OnHeroActivated()
@@ -77,6 +64,19 @@ namespace MainApp.Presenters
                 y - FieldOriginY >= (CellSize + CellMargin) * (_hero.FieldY + 1) ||
                 x - FieldOriginX <= (CellSize + CellMargin) * _hero.FieldX ||
                 y - FieldOriginY <= (CellSize + CellMargin) * _hero.FieldY
+            );
+        }
+
+        private void Update()
+        {
+            _rectangle.Position = CalcRectanglePosition();
+        }
+
+        private Vector2f CalcRectanglePosition()
+        {
+            return new Vector2f(
+                FieldOriginX + (CellSize / 2 - HeroSize / 2) + _hero.FieldX * (CellSize + CellMargin),
+                FieldOriginY + (CellSize / 2 - HeroSize / 2) + _hero.FieldY * (CellSize + CellMargin)
             );
         }
     }

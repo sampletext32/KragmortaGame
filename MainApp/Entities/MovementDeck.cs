@@ -2,22 +2,9 @@
 
 namespace MainApp.Entities
 {
-    public class MovementDeck
+    public class MovementDeck : VisualEntity
     {
         public IReadOnlyList<MovementCard> MovementCards => _movementCards;
-
-        public MovementCard GetUsingMovementCard()
-        {
-            foreach (var movementCard in _movementCards)
-            {
-                if (movementCard.Selected || movementCard.Activated)
-                {
-                    return movementCard;
-                }
-            }
-
-            return null;
-        }
 
         private readonly List<MovementCard> _movementCards;
 
@@ -31,7 +18,7 @@ namespace MainApp.Entities
             _movementCards.Add(card);
         }
 
-        public void DismissCard(MovementCard card)
+        public void RemoveCard(MovementCard card)
         {
             _movementCards.Remove(card);
         }

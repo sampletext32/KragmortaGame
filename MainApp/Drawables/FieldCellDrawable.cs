@@ -13,7 +13,6 @@ namespace MainApp.Drawables
         /// Background rectangle
         /// </summary>
         private RectangleShape _backgroundRectangle;
-        
 
         /// <summary>
         /// Red sub-rect
@@ -92,6 +91,11 @@ namespace MainApp.Drawables
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            if (_cell.Dirty)
+            {
+                Update();
+                _cell.ClearDirty();
+            }
             target.Draw(_backgroundRectangle);
             if (_isRedVisible) target.Draw(_red);
             if (_isGreenVisible) target.Draw(_green);
@@ -100,16 +104,16 @@ namespace MainApp.Drawables
             
         }
 
-        public void Update()
+        public void SetOutlineThickness(float thickness)
+        {
+            _outlineThickness = thickness;
+        }
+
+        private void Update()
         {
             SetOutlineVisible(_cell.Hovered);
             SetFlagsVisibility(_cell.Type);
             SetClicked(_cell.Clicked);
-        }
-
-        public void SetOutlineThickness(float thickness)
-        {
-            _outlineThickness = thickness;
         }
 
         private void SetOutlineVisible(bool visible)
@@ -146,7 +150,5 @@ namespace MainApp.Drawables
                 _backgroundRectangle.FillColor = DefaultBackgroundColor;
             }
         }
-
-        
     }
 }

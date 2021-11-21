@@ -24,14 +24,8 @@ namespace MainApp.Presenters
 
                 drawable.SetPosition(positionX, positionY);
                 drawable.SetOutlineThickness(CellMargin);
-                drawable.Update();
                 return drawable;
             }));
-        }
-
-        public void UpdateCell(FieldCell cell)
-        {
-            _drawables[_field.GetCellIndex(cell.X, cell.Y)].Update();
         }
         
         public override void Render(RenderTarget target)

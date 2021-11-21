@@ -40,27 +40,27 @@ namespace MainApp.Presenters
         public void SetDeck(MovementDeck deck)
         {
             _deck = deck;
-            _drawables.Clear();
-            _drawables.AddRange(deck.MovementCards
-                .Select(c => new MovementCardDrawable(c))
-                .ToList());
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            _deck.MarkDirty();
         }
 
-        private void Reshape(int width, int height)
+        public override void Render(RenderTarget target)
         {
-            _x = width / 2 - _width / 2;
-            _y = height - _height;
+            if (_deck is null)
+            {
+                return;
+            }
 
-            _backgroundRectangle.Position = new Vector2f(_x, _y);
+            if (_deck.Dirty)
+            {
+                Update();
+                _deck.ClearDirty();
+            }
 
-            int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);
-            int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
+            target.Draw(_backgroundRectangle);
 
             for (var i = 0; i < _drawables.Count; i++)
             {
-                _drawables[i].SetPosition(startX, startY);
-                startX += MovementCardDrawable.Width + CardsMargin;
+                target.Draw(_drawables[i]);
             }
         }
 
@@ -72,11 +72,6 @@ namespace MainApp.Presenters
         public override void OnWindowResized(int width, int height)
         {
             Reshape(width, height);
-        }
-
-        public void UpdateCardAtPosition(int i)
-        {
-            _drawables[i].SetFromCard();
         }
 
         public int GetCardIndex(int x, int y)
@@ -98,20 +93,44 @@ namespace MainApp.Presenters
             return -1;
         }
 
-        public override void Render(RenderTarget target)
+        private void Reshape(int width, int height)
         {
-            target.Draw(_backgroundRectangle);
+            _x = width / 2 - _width / 2;
+            _y = height - _height;
+
+            _backgroundRectangle.Position = new Vector2f(_x, _y);
+
+            int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);
+            int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
 
             for (var i = 0; i < _drawables.Count; i++)
             {
-                target.Draw(_drawables[i]);
+                _drawables[i].SetPosition(startX, startY);
+                startX += MovementCardDrawable.Width + CardsMargin;
             }
         }
 
-        public void RemoveCardAtPosition(int index)
+        private void Update()
         {
-            _drawables.RemoveAt(index);
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            // Add drawables, if there are not enough of them
+            for (int i = _drawables.Count; i < _deck.MovementCards.Count; i++)
+            {
+                _drawables.Add(new MovementCardDrawable());
+            }
+
+            // Set cards to drawables
+            for (var i = 0; i < _deck.MovementCards.Count; i++)
+            {
+                _drawables[i].SetCard(_deck.MovementCards[i]);
+            }
+
+            // Set nulls for empty drawables from the back
+            for (var i = _deck.MovementCards.Count; i < _drawables.Count; i++)
+            {
+                _drawables[i].SetCard(null);
+            }
+
+            Reshape(_width, _height);
         }
     }
 }
