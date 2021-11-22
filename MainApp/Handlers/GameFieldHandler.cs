@@ -4,7 +4,7 @@ namespace MainApp.Handlers
 {
     public class GameFieldHandler : AbstractHandler
     {
-        private GameFieldController _fieldController;
+        private GameFieldController _gameFieldController;
         private MovementDeckController _movementDeckController;
         private PathController _pathController;
 
@@ -12,33 +12,33 @@ namespace MainApp.Handlers
             GameFieldController controller,
             MovementDeckController movementDeckController,
             PathController pathController
-        ) : base(controller)
+        )
         {
-            _fieldController        = controller;
+            _gameFieldController    = controller;
             _movementDeckController = movementDeckController;
             _pathController         = pathController;
         }
 
         public void OnMouseMovedOverCell(int cellX, int cellY)
         {
-            var fieldCell = _fieldController.GetCell(cellX, cellY);
-            _fieldController.HoverCell(fieldCell);
+            var fieldCell = _gameFieldController.GetCell(cellX, cellY);
+            _gameFieldController.HoverCell(fieldCell);
         }
 
         public void OnMousePressedCell(int cellX, int cellY)
         {
-            var fieldCell = _fieldController.GetCell(cellX, cellY);
-            _fieldController.PressCell(fieldCell);
+            var fieldCell = _gameFieldController.GetCell(cellX, cellY);
+            _gameFieldController.PressCell(fieldCell);
         }
 
         public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
         {
-            _fieldController.ReleaseLastPressedCell();
+            _gameFieldController.ReleaseLastPressedCell();
         }
 
         public void OnMouseLeft()
         {
-            _fieldController.ClearLastHoveredCell();
+            _gameFieldController.ClearLastHoveredCell();
         }
     }
 }

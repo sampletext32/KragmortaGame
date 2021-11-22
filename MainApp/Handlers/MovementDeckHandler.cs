@@ -15,8 +15,12 @@ namespace MainApp.Handlers
         // TODO: encapsulate this list inside path controller (duplicate with PathHandler)
         private List<AbstractCell> _rawPaths;
 
-        public MovementDeckHandler(MovementDeckController movementDeckController,
-            PathController pathController, ShiftController shiftController, GameFieldController fieldController) : base(movementDeckController)
+        public MovementDeckHandler(
+            MovementDeckController movementDeckController,
+            PathController pathController,
+            ShiftController shiftController,
+            GameFieldController fieldController
+        )
         {
             _shiftController        = shiftController;
             _fieldController        = fieldController;
@@ -78,7 +82,6 @@ namespace MainApp.Handlers
                 _fieldController.CollectNeighboringCells(heroX, heroY, _rawPaths);
 
                 _pathController.SetVisiblePath(_rawPaths, card);
-                return;
             }
         }
     }

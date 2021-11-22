@@ -4,13 +4,6 @@ namespace MainApp.Handlers
 {
     public abstract class AbstractHandler
     {
-        private ControllerBase _controller;
-
-        protected AbstractHandler(ControllerBase controller)
-        {
-            _controller = controller;
-        }
-
         public virtual void RawOnMouseMoved(int x, int y)
         {
         }

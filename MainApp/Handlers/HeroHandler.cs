@@ -4,8 +4,11 @@ namespace MainApp.Handlers
 {
     public class HeroHandler : AbstractHandler
     {
-        public HeroHandler(HeroController controller) : base(controller)
+        private readonly HeroController _heroController;
+
+        public HeroHandler(HeroController heroController)
         {
+            _heroController = heroController;
         }
 
         public override void RawOnMouseMoved(int x, int y)

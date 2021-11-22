@@ -25,10 +25,5 @@ namespace MainApp.Layers
 
             return true;
         }
-
-        public override void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
-        {
-            base.HandleMouseReleased(x, y, mouseButton);
-        }
     }
 }

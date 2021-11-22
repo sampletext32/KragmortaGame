@@ -13,15 +13,5 @@ namespace MainApp.Layers
             _presenter    = presenter;
             _handler = handler;
         }
-
-        public override void HandleMouseReleased(int x, int y, KragMouseButton mouseButton)
-        {
-            base.HandleMouseReleased(x, y, mouseButton);
-        }
-
-        public override bool TryHandleMousePressed(int x, int y, KragMouseButton mouseButton)
-        {
-            return base.TryHandleMousePressed(x, y, mouseButton);
-        }
     }
 }

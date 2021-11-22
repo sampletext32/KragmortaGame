@@ -20,6 +20,8 @@ namespace MainApp.Scenes
         private List<MovementDeck> _decks;
         private Path _path;
 
+        private Profile _profile;
+
         #endregion
 
         #region Presenters
@@ -51,13 +53,7 @@ namespace MainApp.Scenes
 
         #endregion
 
-        #region Layers
-
         private LayersStack _layersStack;
-
-        #endregion
-
-        private Profile _profile;
 
         public override void OnCreate()
         {
@@ -73,19 +69,6 @@ namespace MainApp.Scenes
             _layersStack = new LayersStack(4);
 
             InitAllLayers();
-
-            #region OLD LOGIC
-
-            // _profilePresenter = new ProfilePresenter(_profile, Corner.TopRight);
-            // _fieldPresenter   = new GameFieldPresenter(_field);
-            //
-            // _movementDeckPresenter = new MovementDeckPresenter();
-            //
-            // _fieldController = new GameFieldController(_field, _fieldPresenter);
-            // _shiftController = new ShiftController(2, _movementDeckPresenter, _fieldController);
-            // _pathsController = new PathController(_field, _fieldPresenter, _shiftController);
-
-            #endregion
         }
 
         private void InitAllModels()
@@ -95,13 +78,12 @@ namespace MainApp.Scenes
 
             _field = new GameField(10, 7);
 
-            // Unused comment
             _profile = new Profile()
             {
                 Nickname = "Igrovogo personaja"
             };
             _heroes = new List<HeroModel>(heroesCount);
-            _heroes.Add(new HeroModel("Nickname", 0, 0));
+            _heroes.Add(new HeroModel("Eggplant", 0, 0));
 
             _path = new Path();
         }
@@ -146,7 +128,7 @@ namespace MainApp.Scenes
         private void InitAllLayers()
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
-            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0]));
+            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0], $"\"{_heroes[0].Nickname}\" Hero Layer"));
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
         }
@@ -158,19 +140,6 @@ namespace MainApp.Scenes
         public override void OnRender(RenderTarget target)
         {
             _layersStack.Render(target);
-
-            #region OLD LOGIC
-
-            // _fieldPresenter.Render(target);
-            // _profilePresenter.Render(target);
-            // foreach (var heroPresenter in _shiftController.HeroPresenters)
-            // {
-            //     heroPresenter.Render(target);
-            // }
-            //
-            // _movementDeckPresenter.Render(target);
-
-            #endregion
         }
 
         public override void OnMouseMoved(int x, int y)
@@ -181,37 +150,6 @@ namespace MainApp.Scenes
         public override void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
         {
             _layersStack.OnMousePressed(x, y, mouseButton);
-
-            #region OLD LOGIC
-
-            // if (_movementDeckPresenter.IsMouseWithinBounds(x, y))
-            // {
-            //     // _movementDeckController.OnMouseButtonPressed(x, y, mouseButton);
-            //     _shiftController.MovementDeckController.OnMouseButtonPressed(x, y, mouseButton);
-            //
-            //     if (_shiftController.MovementDeckController.HasSelectedCard())
-            //     {
-            //         _pathsController.UnhighlightPaths();
-            //         _pathsController.HighlightPaths();
-            //     }
-            //
-            //     return;
-            // }
-            //
-            // if (_fieldPresenter.IsMouseWithinBounds(x, y))
-            // {
-            //     _fieldController.OnMouseButtonPressed(x, y, mouseButton);
-            //     _shiftController.OnMouseButtonPressed(x, y, mouseButton);
-            //
-            //     _pathsController.UnhighlightPaths();
-            //     if (_shiftController.WasLastMoveSuccessful() &&
-            //         _shiftController.MovementDeckController.HasActivatedCard())
-            //     {
-            //         _pathsController.HighlightPaths();
-            //     }
-            // }
-
-            #endregion
         }
 
         public override void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)

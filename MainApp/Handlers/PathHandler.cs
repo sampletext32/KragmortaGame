@@ -11,12 +11,16 @@ namespace MainApp.Handlers
         private GameFieldController _gameFieldController;
         private MovementDeckController _movementDeckController;
         private ShiftController _shiftController;
-        
+
         // TODO: encapsulate this list inside path controller (duplicate with MovementDeckHandler)
         private List<AbstractCell> _rawPaths;
 
-        public PathHandler(PathController pathController, GameFieldController gameFieldController,
-            MovementDeckController movementDeckController, ShiftController shiftController) : base(pathController)
+        public PathHandler(
+            PathController pathController,
+            GameFieldController gameFieldController,
+            MovementDeckController movementDeckController,
+            ShiftController shiftController
+        )
         {
             _pathController         = pathController;
             _gameFieldController    = gameFieldController;
