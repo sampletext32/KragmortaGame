@@ -15,7 +15,7 @@ namespace MainApp.Handlers
             PathController pathController, ShiftController shiftController, GameFieldController fieldController) : base(movementDeckController)
         {
             _shiftController        = shiftController;
-            _fieldController   = fieldController;
+            _fieldController        = fieldController;
             _pathController         = pathController;
             _movementDeckController = movementDeckController;
         }
@@ -23,21 +23,20 @@ namespace MainApp.Handlers
         public void OnCardPressed(MovementCard card)
         {
             if (card is null) return;
-            
+
             // If a card has already been selected, nothing happens.
             if (_movementDeckController.HasActivatedCard()) return;
 
             // if (_movementDeckController.LastSelectedMovementCard == card) return;
 
-            _movementDeckController.SelectedCard(card);
-            
+            _movementDeckController.SelectCard(card);
+
             var heroX = _shiftController.Hero.FieldX;
             var heroY = _shiftController.Hero.FieldY;
 
             List<AbstractCell> rawPaths = _fieldController.GetNeighboringCells(heroX, heroY);
-            
-            _pathController.ComputePath(rawPaths, card);
 
+            _pathController.ComputePath(rawPaths, card);
 
 
             // _pathController.UnhighlightPaths();

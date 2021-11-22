@@ -7,10 +7,11 @@ namespace MainApp.Controllers
 {
     public class PathController : ControllerBase
     {
-        private List<PathCell> _pathCells = new List<PathCell>(4);
+        private List<PathCell> _pathCells;
 
         public PathController(List<PathCell> pathCells)
         {
+            _pathCells = pathCells;
         }
 
         public void HighlightPaths()
@@ -113,7 +114,7 @@ namespace MainApp.Controllers
                 // if (card.HasUsedFirstType || card.FirstType != rawPaths[i].Type) continue;
                 // if (card.HasUsedSecondType || card.SecondType != rawPaths[i].Type) continue;
 
-                if (!card.HasUsedFirstType && card.FirstType == rawPaths[i].Type)
+                if (!card.HasUsedFirstType && (rawPaths[i].Type & card.FirstType) != CellType.Empty)
                 {
                     _pathCells.Add(new PathCell()
                     {
@@ -123,7 +124,7 @@ namespace MainApp.Controllers
                         Dirty = true
                     });
                 }
-                else if (!card.HasUsedSecondType && card.SecondType == rawPaths[i].Type)
+                else if (!card.HasUsedSecondType && (rawPaths[i].Type & card.SecondType) != CellType.Empty)
                 {
                     _pathCells.Add(new PathCell()
                     {

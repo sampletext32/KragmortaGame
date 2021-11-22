@@ -38,6 +38,10 @@ namespace MainApp.Layers
 
         public void AddLayer(AbstractLayer layer)
         {
+            if (_layersCount == _layers.Count)
+            {
+                throw new KragException($"Layers stack is not big enough. Occured on adding {layer.Title}");
+            }
             _layers.Add(layer);
             _layerDebugText.DisplayedString += new string(' ', _layers.Count) + layer.Title + "\n";
         }

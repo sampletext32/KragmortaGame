@@ -113,7 +113,7 @@ namespace MainApp.Controllers
             // }
         }
 
-        public void SelectedCard(MovementCard card)
+        public void SelectCard(MovementCard card)
         {
             if (_lastSelectedMovementCard != null)
             {

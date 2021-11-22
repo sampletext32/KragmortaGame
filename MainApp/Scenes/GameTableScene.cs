@@ -90,52 +90,6 @@ namespace MainApp.Scenes
             #endregion
         }
 
-        private void InitAllLayers()
-        {
-            _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
-            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0]));
-            _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
-            _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
-        }
-
-        private void InitAllHandlers()
-        {
-            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathController);
-            _heroHandlers     = new List<HeroHandler>();
-            _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
-            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDeckController,
-                _shiftController);
-
-            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _pathController, _shiftController, _fieldController);
-        }
-
-        private void InitAllControllers()
-        {
-            _fieldController = new GameFieldController(_field);
-
-            _heroControllers = new List<HeroController>();
-            _heroControllers.Add(new HeroController(_heroes[0]));
-
-            _shiftController = new ShiftController(_heroes);
-
-            _pathController = new PathController(_path);
-
-            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck);
-        }
-
-        private void InitAllPresenters()
-        {
-            _fieldPresenter = new GameFieldPresenter(_field);
-
-            _pathPresenter = new PathPresenter(_path);
-
-            _movementDeckPresenter = new MovementDeckPresenter();
-            _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
-
-            _heroPresenters = new List<HeroPresenter>(1);
-            _heroPresenters.Add(new HeroPresenter(_heroes[0]));
-        }
-
         private void InitAllModels()
         {
             // TODO: Remove hardcode with user's input of players number.
@@ -152,6 +106,51 @@ namespace MainApp.Scenes
             _heroes.Add(new HeroModel("Nickname", 0, 0));
 
             _path = new List<PathCell>();
+        }
+
+        private void InitAllPresenters()
+        {
+            _fieldPresenter = new GameFieldPresenter(_field);
+
+            _pathPresenter = new PathPresenter(_path);
+
+            _movementDeckPresenter = new MovementDeckPresenter();
+            _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
+
+            _heroPresenters = new List<HeroPresenter>(1);
+            _heroPresenters.Add(new HeroPresenter(_heroes[0]));
+        }
+
+        private void InitAllControllers()
+        {
+            _fieldController = new GameFieldController(_field);
+
+            _heroControllers = new List<HeroController>();
+            _heroControllers.Add(new HeroController(_heroes[0]));
+
+            _shiftController = new ShiftController(_heroes);
+
+            _pathController = new PathController(_path);
+
+            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck);
+        }
+
+        private void InitAllHandlers()
+        {
+            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathController);
+            _heroHandlers     = new List<HeroHandler>();
+            _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
+            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDeckController, _shiftController);
+
+            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _pathController, _shiftController, _fieldController);
+        }
+
+        private void InitAllLayers()
+        {
+            _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
+            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0]));
+            _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
+            _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
         }
 
         public override void OnUpdate(float deltaTime)

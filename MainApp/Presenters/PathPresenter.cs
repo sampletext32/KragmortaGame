@@ -34,12 +34,11 @@ namespace MainApp.Presenters
                 var positionX = FieldOriginX + (CellSize + CellMargin) * _path[i].X;
                 var positionY = FieldOriginY + (CellSize + CellMargin) * _path[i].Y;
 
-                if (!(
-                        x < positionX ||
-                        x >= positionX + (CellSize + CellMargin) ||
-                        y < positionY ||
-                        y >= positionY + (CellSize + CellMargin)
-                    ))
+                if (x >= positionX &&
+                    x < positionX + (CellSize + CellMargin) &&
+                    y >= positionY &&
+                    y < positionY + (CellSize + CellMargin)
+                )
                 {
                     return true;
                 }
@@ -52,7 +51,6 @@ namespace MainApp.Presenters
         {
             foreach (var drawable in _drawables)
             {
-                // drawable.Draw(target);
                 target.Draw(drawable);
             }
         }
