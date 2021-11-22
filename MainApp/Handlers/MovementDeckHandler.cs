@@ -11,6 +11,8 @@ namespace MainApp.Handlers
         private ShiftController _shiftController;
         private MovementDeckController _movementDeckController;
         private GameFieldController _fieldController;
+
+        // TODO: encapsulate this list inside path controller (duplicate with PathHandler)
         private List<AbstractCell> _rawPaths;
 
         public MovementDeckHandler(MovementDeckController movementDeckController,

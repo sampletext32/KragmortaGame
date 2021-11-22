@@ -11,6 +11,8 @@ namespace MainApp.Handlers
         private GameFieldController _gameFieldController;
         private MovementDeckController _movementDeckController;
         private ShiftController _shiftController;
+        
+        // TODO: encapsulate this list inside path controller (duplicate with MovementDeckHandler)
         private List<AbstractCell> _rawPaths;
 
         public PathHandler(PathController pathController, GameFieldController gameFieldController,
@@ -39,12 +41,16 @@ namespace MainApp.Handlers
             // 2 - a card is selected
             // 3 - a card is activated
 
-            // case 1
-            // not possible to reach this method, because no path cells are present
 
-            // case 2
-            if (_movementDeckController.HasSelectedCard())
+            if (!_movementDeckController.HasSelectedCard())
             {
+                // case 1
+                // not possible to reach in this method, because no path cells are present
+                throw new KragException("Unreachable");
+            }
+            else
+            {
+                // case 2
                 _movementDeckController.ActivateSelectedCard();
             }
 
@@ -60,9 +66,10 @@ namespace MainApp.Handlers
                 _movementDeckController.DismissActivatedCard();
             }
 
-            // here, we could dismiss the card, if it was our second move, so we need to check for card availability
+            // by now, we could dismiss the card, if it was our second move, so we need to check for card availability
             if (_movementDeckController.HasActivatedCard())
             {
+                // regenerate visible path
                 _rawPaths.Clear();
                 _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _rawPaths);
 
@@ -70,6 +77,7 @@ namespace MainApp.Handlers
             }
             else
             {
+                // clear visible path
                 _rawPaths.Clear();
                 _pathController.SetVisiblePath(_rawPaths, null);
             }
