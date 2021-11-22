@@ -5,7 +5,7 @@ using SFML.Graphics;
 
 namespace MainApp.Entities
 {
-    public class GameField
+    public class GameField : VisualEntity
     {
         public readonly int SizeX;
         public readonly int SizeY;

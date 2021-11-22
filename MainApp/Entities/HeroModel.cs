@@ -2,14 +2,14 @@ using MainApp.Enums;
 
 namespace MainApp.Entities
 {
-    public class HeroModel
+    public class HeroModel : VisualEntity
     {
         public string Nickname { get; private set; }
 
         public int FieldX { get; private set; }
 
         public int FieldY { get; private set; }
-        
+
         public bool IsCurrentHero { get; set; }
 
         public readonly MovementDeck MovementDeck;
@@ -21,7 +21,7 @@ namespace MainApp.Entities
             FieldY   = fieldY;
 
             MovementDeck = new MovementDeck();
-            
+
             MovementDeck.AddCard(new MovementCard(CellType.Red, CellType.Green));
             MovementDeck.AddCard(new MovementCard(CellType.Green, CellType.Orange));
             MovementDeck.AddCard(new MovementCard(CellType.Blue, CellType.Red));
@@ -31,6 +31,7 @@ namespace MainApp.Entities
         {
             FieldX = x;
             FieldY = y;
+            Dirty  = true;
         }
     }
 }

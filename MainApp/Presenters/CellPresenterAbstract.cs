@@ -5,7 +5,7 @@ namespace MainApp.Presenters
         public static readonly int CellSize = 96;
         public static readonly int CellMargin = 6;
         
-        protected int FieldOriginX = 100;
+        protected int FieldOriginX = 200;
         protected int FieldOriginY = 50;
 
         /// <summary>

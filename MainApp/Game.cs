@@ -14,11 +14,11 @@ namespace MainApp
 
         private Scene _activeScene;
 
-        private int _windowSizeX;
-        private int _windowSizeY;
+        private int _windowWidth;
+        private int _windowHeight;
 
-        public int WindowWidth => _windowSizeX;
-        public int WindowHeight => _windowSizeY;
+        public int WindowWidth => _windowWidth;
+        public int WindowHeight => _windowHeight;
 
         /// <summary>
         /// Game constructor, should not initialize any entities
@@ -31,8 +31,8 @@ namespace MainApp
             }
 
             _instance    = this;
-            _windowSizeX = StartWindowWidth;
-            _windowSizeY = StartWindowHeight;
+            _windowWidth = StartWindowWidth;
+            _windowHeight = StartWindowHeight;
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace MainApp
 
         public void OnWindowResized(int width, int height)
         {
-            _windowSizeX = width;
-            _windowSizeY = height;
+            _windowWidth = width;
+            _windowHeight = height;
             _activeScene?.OnWindowResized(width, height);
         }
     }

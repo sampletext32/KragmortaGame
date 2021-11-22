@@ -1,97 +1,94 @@
-using System;
+using System.Collections.Generic;
+using System.Linq;
 using MainApp.Entities;
-using MainApp.Enums;
-using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class GameFieldController
+    public class GameFieldController : ControllerBase
     {
-        private FieldCell _lastMouseOverCell = null;
-        private int _lastMouseOverCellIndex = -1;
-        private FieldCell _lastMouseDownOverCell = null;
-        private int _lastMouseDownOverCellIndex = -1;
+        private FieldCell _lastHoveredCell = null;
 
-        private readonly GameField _field;
-        private readonly GameFieldPresenter _fieldPresenter;
-
-        public GameFieldController(GameField field, GameFieldPresenter fieldPresenter)
-        {
-            _field          = field;
-            _fieldPresenter = fieldPresenter;
-        }
-
-        /// <summary>
-        /// Returns the CellType of a cell by the passed coordinates x and y.
-        /// <remarks>Doesn't make any checks for indices</remarks>
-        /// </summary>
-        public CellType GetCellType(int cX, int cY)
-        {
-            return _field.GetCell(cX, cY).Type;
-        }
-
-        public void OnMouseExit()
-        {
-            if (_lastMouseOverCell is not null)
-            {
-                _lastMouseOverCell.Hovered = false;
-                _fieldPresenter.UpdateCell(_lastMouseOverCell);
-                _lastMouseOverCell = null;
-            }
-        }
+        private FieldCell _lastPressedCell = null;
         
-        public void OnMouseMoved(int x, int y)
+        private readonly GameField _field;
+
+        public GameFieldController(GameField field)
         {
-            int cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            int cY = _fieldPresenter.ConvertMouseYToCellY(y);
-
-            if (_lastMouseOverCell is not null)
-            {
-                _lastMouseOverCell.Hovered = false;
-                _fieldPresenter.UpdateCell(_lastMouseOverCell);
-            }
-
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Hovered  = true;
-            _lastMouseOverCell = fieldCell;
-
-            _fieldPresenter.UpdateCell(fieldCell);
+            _field = field;
         }
 
-        public void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton)
+        public void ClearLastHoveredCell()
         {
-            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
-
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Clicked      = true;
-            _lastMouseDownOverCell = fieldCell;
-
-            _fieldPresenter.UpdateCell(fieldCell);
+            if (_lastHoveredCell is not null)
+            {
+                _lastHoveredCell.Hovered = false;
+                _lastHoveredCell.MarkDirty();
+                _lastHoveredCell = null;
+            }
         }
 
-        public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
+        public FieldCell GetCell(int cellX, int cellY)
         {
-            // this small check is needed for mouse release not over initially clicked cell (click and drag behavior)
-            if (_lastMouseDownOverCell is not null)
-            {
-                _lastMouseDownOverCell.Clicked = false;
-                _fieldPresenter.UpdateCell(_lastMouseDownOverCell);
-                _lastMouseDownOverCell         = null;
-            }
+            return _field.GetCell(cellX, cellY);
+        }
 
-            if (!_fieldPresenter.IsMouseWithinBounds(x, y))
+        public void HoverCell(FieldCell cell)
+        {
+            if (cell == _lastHoveredCell)
             {
                 return;
             }
 
-            var cX = _fieldPresenter.ConvertMouseXToCellX(x);
-            var cY = _fieldPresenter.ConvertMouseYToCellY(y);
+            if (_lastHoveredCell is not null)
+            {
+                _lastHoveredCell.Hovered = false;
+                _lastHoveredCell.MarkDirty();
+            }
 
-            var fieldCell = _field.GetCell(cX, cY);
-            fieldCell.Clicked = false;
+            cell.Hovered = true;
+            cell.MarkDirty();
+            _lastHoveredCell = cell;
+        }
 
-            _fieldPresenter.UpdateCell(fieldCell);
+        public void PressCell(FieldCell fieldCell)
+        {
+            fieldCell.Clicked = true;
+            fieldCell.Dirty   = true;
+
+            _lastPressedCell = fieldCell;
+        }
+
+        public void ReleaseLastPressedCell()
+        {
+            if (_lastPressedCell is not null)
+            {
+                _lastPressedCell.Clicked = false;
+                _lastPressedCell.MarkDirty();
+                _lastPressedCell = null;
+            }
+        }
+
+        public void CollectNeighboringCells(int centerCellX, int centerCellY, List<AbstractCell> rawPaths)
+        {
+            if (centerCellX != _field.SizeX - 1)
+            {
+                rawPaths.Add(GetCell(centerCellX + 1, centerCellY));
+            }
+
+            if (centerCellX != 0)
+            {
+                rawPaths.Add(GetCell(centerCellX - 1, centerCellY));
+            }
+
+            if (centerCellY != 0)
+            {
+                rawPaths.Add(GetCell(centerCellX, centerCellY - 1));
+            }
+
+            if (centerCellY != _field.SizeY - 1)
+            {
+                rawPaths.Add(GetCell(centerCellX, centerCellY + 1));
+            }
         }
     }
 }

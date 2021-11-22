@@ -3,7 +3,7 @@ using MainApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
-namespace MainApp.Models
+namespace MainApp.Drawables
 {
     public class FieldCellDrawable : Drawable
     {
@@ -13,11 +13,6 @@ namespace MainApp.Models
         /// Background rectangle
         /// </summary>
         private RectangleShape _backgroundRectangle;
-
-        /// <summary>
-        /// Rectangle for any effects, applied to effects
-        /// </summary>
-        private RectangleShape _effectRectangle;
 
         /// <summary>
         /// Red sub-rect
@@ -53,7 +48,6 @@ namespace MainApp.Models
         private static readonly Color DefaultBackgroundColor = new Color(50, 50, 50, 255);
         private static readonly Color DefaultOutlineColor = Color.Magenta;
         private static readonly Color ClickedColor = new Color(127, 127, 127);
-        private static readonly Color HighlightedColor = new Color(255, 198, 41, 150);
 
         public FieldCellDrawable(FieldCell cell, int cellSize)
         {
@@ -63,11 +57,7 @@ namespace MainApp.Models
                 Size      = new Vector2f(cellSize, cellSize),
                 FillColor = DefaultBackgroundColor
             };
-            _effectRectangle = new RectangleShape()
-            {
-                Size      = new Vector2f(cellSize, cellSize),
-                FillColor = Color.Transparent
-            };
+            
             _red = new RectangleShape()
             {
                 Size      = new Vector2f(10, 10),
@@ -93,7 +83,6 @@ namespace MainApp.Models
         public void SetPosition(int x, int y)
         {
             _backgroundRectangle.Position = new Vector2f(x, y);
-            _effectRectangle.Position     = new Vector2f(x, y);
             _red.Position                 = new Vector2f(x + 10, y + 10);
             _green.Position               = new Vector2f(x + 30, y + 10);
             _blue.Position                = new Vector2f(x + 50, y + 10);
@@ -102,25 +91,28 @@ namespace MainApp.Models
 
         public void Draw(RenderTarget target, RenderStates states)
         {
+            if (_cell.Dirty)
+            {
+                Update();
+                _cell.ClearDirty();
+            }
             target.Draw(_backgroundRectangle);
             if (_isRedVisible) target.Draw(_red);
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
             if (_isOrangeVisible) target.Draw(_orange);
-            target.Draw(_effectRectangle);
-        }
-
-        public void Update()
-        {
-            SetOutlineVisible(_cell.Hovered);
-            SetFlagsVisibility(_cell.Type);
-            SetClicked(_cell.Clicked);
-            SetHighlighted(_cell.Highlighted);
         }
 
         public void SetOutlineThickness(float thickness)
         {
             _outlineThickness = thickness;
+        }
+
+        private void Update()
+        {
+            SetOutlineVisible(_cell.Hovered);
+            SetFlagsVisibility(_cell.Type);
+            SetClicked(_cell.Clicked);
         }
 
         private void SetOutlineVisible(bool visible)
@@ -155,18 +147,6 @@ namespace MainApp.Models
             else
             {
                 _backgroundRectangle.FillColor = DefaultBackgroundColor;
-            }
-        }
-
-        private void SetHighlighted(bool highlighted)
-        {
-            if (highlighted)
-            {
-                _effectRectangle.FillColor = HighlightedColor;
-            }
-            else
-            {
-                _effectRectangle.FillColor = Color.Transparent;
             }
         }
     }

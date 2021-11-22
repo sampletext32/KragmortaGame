@@ -1,94 +1,68 @@
-using System;
 using System.Collections.Generic;
 using MainApp.Entities;
 using MainApp.Enums;
-using MainApp.Presenters;
 
 namespace MainApp.Controllers
 {
-    public class PathController
+    public class PathController : ControllerBase
     {
-        private GameField _field;
-        private GameFieldPresenter _fieldPresenter;
-        private ShiftController _shiftController;
-        private List<FieldCell> _highlightedCells = new List<FieldCell>(4);
+        private Path _path;
 
-        public PathController(GameField field, GameFieldPresenter fieldPresenter,
-            ShiftController shiftController)
+        public PathController(Path path)
         {
-            _field           = field;
-            _fieldPresenter  = fieldPresenter;
-            _shiftController = shiftController;
+            _path = path;
         }
 
-        public void HighlightPaths()
+        public bool TryGetCell(int selectedCellX, int selectedCellY, out PathCell pathCell)
         {
-            var hero = _shiftController.HeroModel;
-
-            // TODO: Don't expose MovementDeck directly, but instead use MovementDeckController and get the active card
-            var usingMovementCard = hero.MovementDeck.GetUsingMovementCard();
-
-            if (usingMovementCard is null) return;
-            
-            // Get possible types to move.
-            CellType possibleTypes = GetPossibleTypes(usingMovementCard);
-
-            // Check neighboring for the hero cells.
-
-            if (hero.FieldX != _field.SizeX - 1)
+            foreach (var cell in _path.Cells)
             {
-                var cell = _field.GetCell(hero.FieldX + 1, hero.FieldY);
-                HighlightCellIfItHasAnyType(cell, possibleTypes);
+                if (cell.X == selectedCellX && cell.Y == selectedCellY && cell.Visible)
+                {
+                    pathCell = cell;
+                    return true;
+                }
             }
 
-            if (hero.FieldX != 0)
-            {
-                var cell = _field.GetCell(hero.FieldX - 1, hero.FieldY);
-                HighlightCellIfItHasAnyType(cell, possibleTypes);
-            }
-
-            if (hero.FieldY != 0)
-            {
-                var cell = _field.GetCell(hero.FieldX, hero.FieldY - 1);
-                HighlightCellIfItHasAnyType(cell, possibleTypes);
-            }
-
-            if (hero.FieldY != _field.SizeY - 1)
-            {
-                var cell = _field.GetCell(hero.FieldX, hero.FieldY + 1);
-                HighlightCellIfItHasAnyType(cell, possibleTypes);
-            }
+            pathCell = null;
+            return false;
         }
 
-        private void HighlightCellIfItHasAnyType(FieldCell cell, CellType possibleTypes)
+        public void SetVisiblePath(List<AbstractCell> cells, MovementCard card)
         {
-            // If a cell is neighbor and has the correct symbol, highlight it.
-            if ((cell.Type & possibleTypes) != CellType.Empty)
+            if (cells.Count > 4)
             {
-                cell.Highlighted = true;
-                _highlightedCells.Add(cell);
-                _fieldPresenter.UpdateCell(cell);
-            }
-        }
-
-        private static CellType GetPossibleTypes(MovementCard card)
-        {
-            CellType type =
-                (card.HasUsedFirstType ? CellType.Empty : card.FirstType) |
-                (card.HasUsedSecondType ? CellType.Empty : card.SecondType);
-
-            return type;
-        }
-
-        public void UnhighlightPaths()
-        {
-            foreach (var highlightedCell in _highlightedCells)
-            {
-                highlightedCell.Highlighted = false;
-                _fieldPresenter.UpdateCell(highlightedCell);
+                throw new KragException("Found path cells are supposed to not exceed a count of 4");
             }
 
-            _highlightedCells.Clear();
+            // highlight paths
+            for (int i = 0; i < cells.Count; i++)
+            {
+                if (!card.HasUsedFirstType && (cells[i].Type & card.FirstType) != CellType.Empty ||
+                    !card.HasUsedSecondType && (cells[i].Type & card.SecondType) != CellType.Empty)
+                {
+                    _path.Cells[i].X       = cells[i].X;
+                    _path.Cells[i].Y       = cells[i].Y;
+                    _path.Cells[i].Type    = cells[i].Type;
+                    _path.Cells[i].Visible = true;
+                }
+                else
+                {
+                    _path.Cells[i].Visible = false;
+                }
+
+                _path.Cells[i].MarkDirty();
+            }
+
+            // hide path cells, which have no field cell attached
+            for (int i = cells.Count; i < 4; i++)
+            {
+                _path.Cells[i].Visible = false;
+
+                _path.Cells[i].MarkDirty();
+            }
+
+            _path.MarkDirty();
         }
     }
 }

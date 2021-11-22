@@ -4,7 +4,7 @@ namespace MainApp.Entities
 {
     // 56 cards in a deck 
 
-    public class MovementCard
+    public class MovementCard : VisualEntity
     {
         public CellType FirstType => _firstType;
         public CellType SecondType => _secondType;

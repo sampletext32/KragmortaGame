@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MainApp.Drawables;
 using MainApp.Entities;
-using MainApp.Models;
 using SFML.Graphics;
 using SFML.System;
 
@@ -40,11 +40,59 @@ namespace MainApp.Presenters
         public void SetDeck(MovementDeck deck)
         {
             _deck = deck;
-            _drawables.Clear();
-            _drawables.AddRange(deck.MovementCards
-                .Select(c => new MovementCardDrawable(c))
-                .ToList());
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            _deck.MarkDirty();
+        }
+
+        public override void Render(RenderTarget target)
+        {
+            target.Draw(_backgroundRectangle);
+
+            if (_deck is null)
+            {
+                return;
+            }
+
+            if (_deck.Dirty)
+            {
+                Update();
+                _deck.ClearDirty();
+            }
+
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                target.Draw(_drawables[i]);
+            }
+        }
+
+        public override bool IsMouseWithinBounds(int x, int y)
+        {
+            return x >= _x && x < _x + _width && y >= _y && y < _y + _height;
+        }
+
+        public override void OnWindowResized(int width, int height)
+        {
+            Reshape(width, height);
+        }
+
+        public bool TryGetCardFromMousePosition(int x, int y, out MovementCard card)
+        {
+            int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_deck.MovementCards.Count - 1) * CardsMargin / 2);
+            int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
+
+            for (var i = 0; i < _deck.MovementCards.Count; i++)
+            {
+                if (x > startX && x <= startX + MovementCardDrawable.Width &&
+                    y > startY && y <= startY + MovementCardDrawable.Height)
+                {
+                    card = _deck.MovementCards[i];
+                    return true;
+                }
+
+                startX += MovementCardDrawable.Width;
+            }
+
+            card = null;
+            return false;
         }
 
         private void Reshape(int width, int height)
@@ -64,53 +112,26 @@ namespace MainApp.Presenters
             }
         }
 
-        public override bool IsMouseWithinBounds(int x, int y)
+        private void Update()
         {
-            return x >= _x && x < _x + _width && y >= _y && y < _y + _height;
-        }
-
-        public override void OnWindowResized(int width, int height)
-        {
-            Reshape(width, height);
-        }
-
-        public void UpdateCardAtPosition(int i)
-        {
-            _drawables[i].SetFromCard();
-        }
-
-        public int GetCardIndex(int x, int y)
-        {
-            int startX = _x + _width / 2 - CardsTotalWidth / 2 - ((_drawables.Count - 1) * CardsMargin / 2);
-            int startY = _y + _height / 2 - MovementCardDrawable.Height / 2;
-
-            for (var i = 0; i < _drawables.Count; i++)
+            // Add drawables, if there are not enough of them
+            for (int i = _drawables.Count; i < _deck.MovementCards.Count; i++)
             {
-                if (x > startX && x <= startX + MovementCardDrawable.Width &&
-                    y > startY && y <= startY + MovementCardDrawable.Height)
-                {
-                    return i;
-                }
-
-                startX += MovementCardDrawable.Width;
+                _drawables.Add(new MovementCardDrawable());
             }
 
-            return -1;
-        }
-
-        public override void Render(RenderTarget target)
-        {
-            target.Draw(_backgroundRectangle);
-
-            for (var i = 0; i < _drawables.Count; i++)
+            // Set cards to drawables
+            for (var i = 0; i < _deck.MovementCards.Count; i++)
             {
-                target.Draw(_drawables[i]);
+                _drawables[i].SetCard(_deck.MovementCards[i]);
             }
-        }
 
-        public void RemoveCardAtPosition(int index)
-        {
-            _drawables.RemoveAt(index);
+            // Set nulls for empty drawables from the back
+            for (var i = _deck.MovementCards.Count; i < _drawables.Count; i++)
+            {
+                _drawables[i].SetCard(null);
+            }
+
             Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
         }
     }

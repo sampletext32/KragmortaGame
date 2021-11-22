@@ -45,6 +45,11 @@ namespace MainApp.Presenters
             Reshape(width, height);
         }
 
+        public override bool IsMouseWithinBounds(int x, int y)
+        {
+            return false;
+        }
+
         private void Reshape(int width, int height)
         {
             int rectWidth  = 200;
@@ -73,11 +78,6 @@ namespace MainApp.Presenters
             }
 
             _rectangle.Size = new Vector2f(rectWidth, rectHeight);
-        }
-
-        public override bool IsMouseWithinBounds(int x, int y)
-        {
-            return false;
         }
     }
 }

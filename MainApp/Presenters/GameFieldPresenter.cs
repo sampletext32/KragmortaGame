@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MainApp.Drawables;
 using MainApp.Entities;
-using MainApp.Models;
 using SFML.Graphics;
 
 namespace MainApp.Presenters
@@ -24,18 +24,17 @@ namespace MainApp.Presenters
 
                 drawable.SetPosition(positionX, positionY);
                 drawable.SetOutlineThickness(CellMargin);
-                drawable.Update();
                 return drawable;
             }));
         }
 
-        public void UpdateCell(FieldCell cell)
-        {
-            _drawables[_field.GetCellIndex(cell.X, cell.Y)].Update();
-        }
-        
         public override void Render(RenderTarget target)
         {
+            if (_field.Dirty)
+            {
+                _field.ClearDirty();
+            }
+
             foreach (var drawable in _drawables)
             {
                 target.Draw(drawable);
