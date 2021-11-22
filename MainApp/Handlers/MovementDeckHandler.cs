@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using MainApp.Controllers;
 using MainApp.Entities;
@@ -10,6 +11,7 @@ namespace MainApp.Handlers
         private ShiftController _shiftController;
         private MovementDeckController _movementDeckController;
         private GameFieldController _fieldController;
+        private List<AbstractCell> _rawPaths;
 
         public MovementDeckHandler(MovementDeckController movementDeckController,
             PathController pathController, ShiftController shiftController, GameFieldController fieldController) : base(movementDeckController)
@@ -18,33 +20,64 @@ namespace MainApp.Handlers
             _fieldController        = fieldController;
             _pathController         = pathController;
             _movementDeckController = movementDeckController;
+            _rawPaths               = new List<AbstractCell>(4);
         }
 
         public void OnCardPressed(MovementCard card)
         {
-            if (card is null) return;
+            // Here we have 3 phases. (reversed order of checking)
+            // 1 - a card is activated
+            // 2 - a card is selected
+            // 3 - no card is selected
 
-            // If a card has already been selected, nothing happens.
-            if (_movementDeckController.HasActivatedCard()) return;
+            // case 1
+            if (_movementDeckController.HasActivatedCard())
+            {
+                Console.WriteLine("Can't select a card, because there is already an activated one");
+                return;
+            }
 
-            // if (_movementDeckController.LastSelectedMovementCard == card) return;
+            // case 2
+            if (_movementDeckController.HasSelectedCard())
+            {
+                if (_movementDeckController.LastSelectedMovementCard != card)
+                {
+                    _movementDeckController.UnselectCard();
+                    _movementDeckController.SelectCard(card);
 
-            _movementDeckController.SelectCard(card);
+                    var heroX = _shiftController.Hero.FieldX;
+                    var heroY = _shiftController.Hero.FieldY;
 
-            var heroX = _shiftController.Hero.FieldX;
-            var heroY = _shiftController.Hero.FieldY;
+                    _rawPaths.Clear();
+                    _fieldController.CollectNeighboringCells(heroX, heroY, _rawPaths);
 
-            List<AbstractCell> rawPaths = _fieldController.GetNeighboringCells(heroX, heroY);
+                    _pathController.SetVisiblePath(_rawPaths, card);
+                }
+                else
+                {
+                    _movementDeckController.UnselectCard();
+                    // NOTE: we can pass a null card, because for empty path cells it won't be accessed
+                    _rawPaths.Clear();
+                    _pathController.SetVisiblePath(_rawPaths, null);
+                }
 
-            _pathController.ComputePath(rawPaths, card);
+                return;
+            }
 
+            // case 3
+            if (!_movementDeckController.HasSelectedCard())
+            {
+                _movementDeckController.SelectCard(card);
 
-            // _pathController.UnhighlightPaths();
-            // if (_shiftController.WasLastMoveSuccessful() &&
-            //     _movementDeckController.HasActivatedCard())
-            // {
-            //     _pathController.HighlightPaths();
-            // }
+                var heroX = _shiftController.Hero.FieldX;
+                var heroY = _shiftController.Hero.FieldY;
+
+                _rawPaths.Clear();
+                _fieldController.CollectNeighboringCells(heroX, heroY, _rawPaths);
+
+                _pathController.SetVisiblePath(_rawPaths, card);
+                return;
+            }
         }
     }
 }

@@ -18,7 +18,7 @@ namespace MainApp.Scenes
 
         private List<HeroModel> _heroes;
         private List<MovementDeck> _decks;
-        private List<PathCell> _path;
+        private Path _path;
 
         #endregion
 
@@ -57,9 +57,7 @@ namespace MainApp.Scenes
 
         #endregion
 
-
         private Profile _profile;
-
 
         public override void OnCreate()
         {
@@ -105,7 +103,7 @@ namespace MainApp.Scenes
             _heroes = new List<HeroModel>(heroesCount);
             _heroes.Add(new HeroModel("Nickname", 0, 0));
 
-            _path = new List<PathCell>();
+            _path = new Path();
         }
 
         private void InitAllPresenters()

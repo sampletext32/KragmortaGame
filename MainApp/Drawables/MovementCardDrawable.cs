@@ -40,6 +40,20 @@ namespace MainApp.Drawables
             _secondText.FillColor     = Color.Black;
         }
 
+        public void SetCard(MovementCard card)
+        {
+            _movementCard = card;
+
+            if (card == null)
+            {
+                return;
+            }
+
+            _firstText.DisplayedString  = _movementCard.FirstType.ToString();
+            _secondText.DisplayedString = _movementCard.SecondType.ToString();
+            Update();
+        }
+
         public void SetPosition(int x, int y)
         {
             _backgroundRectangle.Position = new Vector2f(x, y);
@@ -80,14 +94,6 @@ namespace MainApp.Drawables
             {
                 _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
             }
-        }
-
-        public void SetCard(MovementCard card)
-        {
-            _movementCard = card;
-
-            _firstText.DisplayedString  = _movementCard.FirstType.ToString();
-            _secondText.DisplayedString = _movementCard.SecondType.ToString();
         }
     }
 }

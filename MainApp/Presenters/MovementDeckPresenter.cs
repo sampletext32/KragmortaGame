@@ -45,6 +45,8 @@ namespace MainApp.Presenters
 
         public override void Render(RenderTarget target)
         {
+            target.Draw(_backgroundRectangle);
+
             if (_deck is null)
             {
                 return;
@@ -55,8 +57,6 @@ namespace MainApp.Presenters
                 Update();
                 _deck.ClearDirty();
             }
-
-            target.Draw(_backgroundRectangle);
 
             for (var i = 0; i < _drawables.Count; i++)
             {

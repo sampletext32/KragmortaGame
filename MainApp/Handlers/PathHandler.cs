@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using MainApp.Controllers;
+using MainApp.Entities;
 
 namespace MainApp.Handlers
 {
@@ -9,6 +11,7 @@ namespace MainApp.Handlers
         private GameFieldController _gameFieldController;
         private MovementDeckController _movementDeckController;
         private ShiftController _shiftController;
+        private List<AbstractCell> _rawPaths;
 
         public PathHandler(PathController pathController, GameFieldController gameFieldController,
             MovementDeckController movementDeckController, ShiftController shiftController) : base(pathController)
@@ -17,23 +20,59 @@ namespace MainApp.Handlers
             _gameFieldController    = gameFieldController;
             _movementDeckController = movementDeckController;
             _shiftController        = shiftController;
+            _rawPaths               = new List<AbstractCell>(4);
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
         {
         }
 
-        public void OnCellClicked(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
+        public void OnPathCellClicked(int pathCellX, int pathCellY, KragMouseButton mouseButton)
         {
-            if (!_pathController.TryGetCell(selectedCellX, selectedCellY, out var pathCell))
-            {
-                return;
-            }
-
             if (mouseButton != KragMouseButton.Left) return;
 
-            _movementDeckController.UseCellType(pathCell.Type);
-            _shiftController.Hero.SetFieldPosition(selectedCellX, selectedCellY);
+            // NOTE: no need to check the result of "Try", because a selected cell here is known to be the path cell
+            _pathController.TryGetCell(pathCellX, pathCellY, out var pathCell);
+
+            // Here we have 3 phases. 
+            // 1 - no card is selected
+            // 2 - a card is selected
+            // 3 - a card is activated
+
+            // case 1
+            // not possible to reach this method, because no path cells are present
+
+            // case 2
+            if (_movementDeckController.HasSelectedCard())
+            {
+                _movementDeckController.ActivateSelectedCard();
+            }
+
+            // case 3
+
+            _movementDeckController.SpendType(pathCell.Type);
+
+            _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+            if (_movementDeckController.ActivatedMovementCard.HasUsedFirstType &&
+                _movementDeckController.ActivatedMovementCard.HasUsedSecondType)
+            {
+                _movementDeckController.DismissActivatedCard();
+            }
+
+            // here, we could dismiss the card, if it was our second move, so we need to check for card availability
+            if (_movementDeckController.HasActivatedCard())
+            {
+                _rawPaths.Clear();
+                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _rawPaths);
+
+                _pathController.SetVisiblePath(_rawPaths, _movementDeckController.ActivatedMovementCard);
+            }
+            else
+            {
+                _rawPaths.Clear();
+                _pathController.SetVisiblePath(_rawPaths, null);
+            }
         }
 
         public override void RawOnMouseMoved(int x, int y)

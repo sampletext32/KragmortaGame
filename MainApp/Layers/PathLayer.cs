@@ -21,7 +21,7 @@ namespace MainApp.Layers
             var selectedCellX = _presenter.ConvertMouseXToCellX(x);
             var selectedCellY = _presenter.ConvertMouseYToCellY(y);
 
-            _handler.OnCellClicked(selectedCellX, selectedCellY, mouseButton);
+            _handler.OnPathCellClicked(selectedCellX, selectedCellY, mouseButton);
 
             return true;
         }

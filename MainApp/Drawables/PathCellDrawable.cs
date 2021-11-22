@@ -15,6 +15,8 @@ namespace MainApp.Drawables
         /// </summary>
         private RectangleShape _effectRectangle;
 
+        private bool _visible;
+
         public PathCellDrawable(PathCell pathCell, int cellSize)
         {
             _pathCell = pathCell;
@@ -38,11 +40,13 @@ namespace MainApp.Drawables
                 _pathCell.ClearDirty();
             }
 
+            if (!_visible) return;
             target.Draw(_effectRectangle);
         }
 
         private void Update()
         {
+            _visible = _pathCell.Visible;
         }
     }
 }
