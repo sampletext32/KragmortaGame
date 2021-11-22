@@ -68,26 +68,26 @@ namespace MainApp.Controllers
             }
         }
 
-        public void CollectNeighboringCells(int heroX, int heroY, List<AbstractCell> rawPaths)
+        public void CollectNeighboringCells(int centerCellX, int centerCellY, List<AbstractCell> rawPaths)
         {
-            if (heroX != _field.SizeX - 1)
+            if (centerCellX != _field.SizeX - 1)
             {
-                rawPaths.Add(GetCell(heroX + 1, heroY));
+                rawPaths.Add(GetCell(centerCellX + 1, centerCellY));
             }
 
-            if (heroX != 0)
+            if (centerCellX != 0)
             {
-                rawPaths.Add(GetCell(heroX - 1, heroY));
+                rawPaths.Add(GetCell(centerCellX - 1, centerCellY));
             }
 
-            if (heroY != 0)
+            if (centerCellY != 0)
             {
-                rawPaths.Add(GetCell(heroX, heroY - 1));
+                rawPaths.Add(GetCell(centerCellX, centerCellY - 1));
             }
 
-            if (heroY != _field.SizeY - 1)
+            if (centerCellY != _field.SizeY - 1)
             {
-                rawPaths.Add(GetCell(heroX, heroY + 1));
+                rawPaths.Add(GetCell(centerCellX, centerCellY + 1));
             }
         }
     }
