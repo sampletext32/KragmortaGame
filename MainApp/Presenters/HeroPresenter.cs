@@ -45,18 +45,6 @@ namespace MainApp.Presenters
             target.Draw(_rectangle);
         }
 
-        public void OnHeroActivated()
-        {
-            _rectangle.OutlineThickness = 5;
-            _rectangle.OutlineColor     = Color.Red;
-        }
-
-        public void OnHeroDeactivated()
-        {
-            _rectangle.OutlineThickness = 0;
-            _rectangle.OutlineColor     = Color.Transparent;
-        }
-
         public override bool IsMouseWithinBounds(int x, int y)
         {
             return !(
@@ -70,6 +58,16 @@ namespace MainApp.Presenters
         private void Update()
         {
             _rectangle.Position = CalcRectanglePosition();
+            if (_hero.IsCurrentHero)
+            {
+                _rectangle.OutlineThickness = 5;
+                _rectangle.OutlineColor     = Color.Red;
+            }
+            else
+            {
+                _rectangle.OutlineThickness = 0;
+                _rectangle.OutlineColor     = Color.Transparent;
+            }
         }
 
         private Vector2f CalcRectanglePosition()

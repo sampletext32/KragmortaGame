@@ -66,7 +66,7 @@ namespace MainApp.Scenes
             InitAllHandlers();
 
             // Initiating LayersStack:
-            _layersStack = new LayersStack(4);
+            _layersStack = new LayersStack(5);
 
             InitAllLayers();
         }
@@ -74,7 +74,7 @@ namespace MainApp.Scenes
         private void InitAllModels()
         {
             // TODO: Remove hardcode with user's input of players number.
-            var heroesCount = 1;
+            var heroesCount = 2;
 
             _field = new GameField(10, 7);
 
@@ -84,6 +84,7 @@ namespace MainApp.Scenes
             };
             _heroes = new List<HeroModel>(heroesCount);
             _heroes.Add(new HeroModel("Eggplant", 0, 0));
+            _heroes.Add(new HeroModel("ABCDEF", 5, 0));
 
             _path = new Path();
         }
@@ -97,18 +98,20 @@ namespace MainApp.Scenes
             _movementDeckPresenter = new MovementDeckPresenter();
             _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
 
-            _heroPresenters = new List<HeroPresenter>(1);
+            _heroPresenters = new List<HeroPresenter>(2);
             _heroPresenters.Add(new HeroPresenter(_heroes[0]));
+            _heroPresenters.Add(new HeroPresenter(_heroes[1]));
         }
 
         private void InitAllControllers()
         {
             _fieldController = new GameFieldController(_field);
 
-            _heroControllers = new List<HeroController>();
+            _heroControllers = new List<HeroController>(2);
             _heroControllers.Add(new HeroController(_heroes[0]));
+            _heroControllers.Add(new HeroController(_heroes[1]));
 
-            _shiftController = new ShiftController(_heroes);
+            _shiftController = new ShiftController(_heroes, _heroControllers);
 
             _pathController = new PathController(_path);
 
@@ -120,6 +123,7 @@ namespace MainApp.Scenes
             _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathController);
             _heroHandlers     = new List<HeroHandler>();
             _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
+            _heroHandlers.Add(new HeroHandler(_heroControllers[1]));
             _pathHandler = new PathHandler(_pathController, _fieldController, _movementDeckController, _shiftController);
 
             _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _pathController, _shiftController, _fieldController);
@@ -129,6 +133,7 @@ namespace MainApp.Scenes
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
             _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0], $"\"{_heroes[0].Nickname}\" Hero Layer"));
+            _layersStack.AddLayer(new HeroLayer(_heroPresenters[1], _heroHandlers[1], $"\"{_heroes[1].Nickname}\" Hero Layer"));
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
         }

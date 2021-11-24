@@ -3,6 +3,9 @@ using MainApp.Enums;
 
 namespace MainApp.Controllers
 {
+    /// <summary>
+    /// Controls a single movement deck
+    /// </summary>
     public class MovementDeckController : ControllerBase
     {
         public MovementCard LastSelectedMovementCard => _lastSelectedMovementCard;
@@ -56,14 +59,14 @@ namespace MainApp.Controllers
         public void UnselectCard()
         {
             _lastSelectedMovementCard.Selected = false;
-            _lastSelectedMovementCard.Dirty    = true;
+            _lastSelectedMovementCard.MarkDirty();
             _lastSelectedMovementCard          = null;
         }
 
         public void SelectCard(MovementCard card)
         {
             card.Selected             = true;
-            card.Dirty                = true;
+            card.MarkDirty();
             _lastSelectedMovementCard = card;
         }
 
@@ -73,7 +76,7 @@ namespace MainApp.Controllers
 
             _activatedMovementCard      = null;
 
-            _deck.Dirty = true;
+            _deck.MarkDirty();
         }
     }
 }

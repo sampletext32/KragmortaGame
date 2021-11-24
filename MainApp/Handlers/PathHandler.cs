@@ -84,6 +84,9 @@ namespace MainApp.Handlers
                 // clear visible path
                 _rawPaths.Clear();
                 _pathController.SetVisiblePath(_rawPaths, null);
+
+                _shiftController.ActivateNextPlayer();
+                // _movementDeckController.SetActiveDeck(_shiftController.Hero.MovementDeck);
             }
         }
 

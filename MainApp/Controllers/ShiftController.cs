@@ -6,27 +6,24 @@ namespace MainApp.Controllers
     public class ShiftController : ControllerBase
     {
         public HeroModel Hero => _heroModels[_currentHeroIndex];
+        public HeroController HeroController => _heroControllers[_currentHeroIndex];
 
         private List<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private int _currentHeroIndex = 0;
 
-        private readonly int _countOfPlayers;
-
-
-        private int _currentHeroSuccessfulMovesCount = 0;
-
-        public ShiftController(List<HeroModel> heroes)
+        public ShiftController(List<HeroModel> heroes, List<HeroController> controllers)
         {
             _heroModels      = heroes;
-            _heroControllers = new List<HeroController>(heroes.Count);
-
-            for (var i = 0; i < heroes.Count; i++)
-            {
-                _heroControllers.Add(new HeroController(heroes[i]));
-            }
-
+            _heroControllers = controllers;
             _heroControllers[0].Activate();
+        }
+
+        public void ActivateNextPlayer()
+        {
+            HeroController.Deactivate();
+            _currentHeroIndex  = (_currentHeroIndex + 1) % _heroModels.Count;
+            HeroController.Activate();
         }
     }
 }
