@@ -58,10 +58,11 @@ namespace MainApp.Drawables
 
             _backgroundSprite = new Sprite();
 
-            var textureIndex = random.Next(0, 3); ;
+            var textureIndex = random.Next(0, 3);
+
             _backgroundSprite.Texture = Game.Instance.TextureCache.GetOrCache($"squareplate{textureIndex}");
-            var scaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
-            _backgroundSprite.Scale = new Vector2f(scaleFactor, scaleFactor);
+            var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
+            _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
 
             _hoveredEffectRectangle = new RectangleShape()
             {
@@ -113,7 +114,7 @@ namespace MainApp.Drawables
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
             if (_isOrangeVisible) target.Draw(_orange);
-            if(_isHoveredVisible) target.Draw(_hoveredEffectRectangle);
+            if (_isHoveredVisible) target.Draw(_hoveredEffectRectangle);
         }
 
         private void Update()
