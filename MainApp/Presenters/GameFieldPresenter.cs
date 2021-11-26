@@ -9,21 +9,21 @@ namespace MainApp.Presenters
     public class GameFieldPresenter : CellPresenterAbstract
     {
         private readonly GameField _field;
-        private List<FieldCellDrawable> _drawables;
+        private List<TexturedFieldCellDrawable> _drawables;
 
         public GameFieldPresenter(GameField field)
         {
             _field     = field;
-            _drawables = new List<FieldCellDrawable>(field.Cells.Count);
+            _drawables = new List<TexturedFieldCellDrawable>(field.Cells.Count);
             _drawables.AddRange(field.Cells.Select(cell =>
             {
-                var drawable = new FieldCellDrawable(cell, CellSize);
+                var drawable = new TexturedFieldCellDrawable(cell, CellSize);
 
                 var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
                 var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
 
                 drawable.SetPosition(positionX, positionY);
-                drawable.SetOutlineThickness(CellMargin);
+                // drawable.SetOutlineThickness(CellMargin);
                 return drawable;
             }));
         }

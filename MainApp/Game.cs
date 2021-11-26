@@ -14,6 +14,10 @@ namespace MainApp
 
         private Scene _activeScene;
 
+        public TextureCache TextureCache => _textureCache;
+        
+        private TextureCache _textureCache;
+
         private int _windowWidth;
         private int _windowHeight;
 
@@ -30,8 +34,9 @@ namespace MainApp
                 throw new KragException("You can't create more than one game in the app!");
             }
 
-            _instance    = this;
-            _windowWidth = StartWindowWidth;
+            _instance     = this;
+            _textureCache = new TextureCache();
+            _windowWidth  = StartWindowWidth;
             _windowHeight = StartWindowHeight;
         }
 
