@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainApp", "MainApp\MainApp.csproj", "{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KragmortaApp", "KragmortaApp\KragmortaApp.csproj", "{D00CC92F-A9BB-4702-91FB-DBCFDAAB5FC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
