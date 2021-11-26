@@ -140,6 +140,7 @@ namespace KragmortaApp.Scenes
 
         public override void OnUpdate(float deltaTime)
         {
+            _layersStack.Update(deltaTime);
         }
 
         public override void OnRender(RenderTarget target)

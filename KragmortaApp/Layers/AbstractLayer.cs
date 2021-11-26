@@ -8,7 +8,7 @@ namespace KragmortaApp.Layers
     {
         private readonly Presenter _presenter;
         private readonly AbstractHandler _handler;
-        
+
         public string Title { get; private set; }
 
         public AbstractLayer(Presenter presenter, AbstractHandler handler, string title = "Untitled layer")
@@ -70,6 +70,10 @@ namespace KragmortaApp.Layers
         public void HandleWindowResized(int width, int height)
         {
             _presenter.OnWindowResized(width, height);
+        }
+
+        public virtual void Update(float deltaTime)
+        {
         }
     }
 }

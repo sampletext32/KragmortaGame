@@ -60,7 +60,7 @@ namespace KragmortaApp.Drawables
 
             var textureIndex = random.Next(0, 3);
 
-            _backgroundSprite.Texture = Game.Instance.TextureCache.GetOrCache($"squareplate{textureIndex}");
+            _backgroundSprite.Texture = Engine.Instance.TextureCache.GetOrCache($"squareplate{textureIndex}");
             var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
             _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
 

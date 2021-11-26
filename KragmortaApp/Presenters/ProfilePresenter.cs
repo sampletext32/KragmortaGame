@@ -31,7 +31,7 @@ namespace KragmortaApp.Presenters
             _text.CharacterSize   = 24;
             _text.FillColor       = Color.Black;
 
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            Reshape(Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
         }
 
         public override void Render(RenderTarget target)

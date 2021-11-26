@@ -34,7 +34,7 @@ namespace KragmortaApp.Presenters
             _backgroundRectangle.Size      = new Vector2f(_width, _height);
             _backgroundRectangle.FillColor = new Color(255, 255, 255, 150);
 
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            Reshape(Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
         }
 
         public void SetDeck(MovementDeck deck)
@@ -132,7 +132,7 @@ namespace KragmortaApp.Presenters
                 _drawables[i].SetCard(null);
             }
 
-            Reshape(Game.Instance.WindowWidth, Game.Instance.WindowHeight);
+            Reshape(Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
         }
     }
 }

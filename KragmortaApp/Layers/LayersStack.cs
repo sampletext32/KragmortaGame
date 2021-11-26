@@ -92,5 +92,13 @@ namespace KragmortaApp.Layers
                 _layers[i].HandleWindowResized(width, height);
             }
         }
+
+        public void Update(float deltaTime)
+        {
+            for (var i = 0; i < _layers.Count; i++)
+            {
+                _layers[i].Update(deltaTime);
+            }
+        }
     }
 }

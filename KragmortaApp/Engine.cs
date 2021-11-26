@@ -4,13 +4,13 @@ using SFML.Graphics;
 
 namespace KragmortaApp
 {
-    public class Game
+    public class Engine
     {
         public const int StartWindowWidth = 1280;
         public const int StartWindowHeight = 720;
 
-        private static Game _instance;
-        public static Game Instance => _instance;
+        private static Engine _instance;
+        public static Engine Instance => _instance;
 
         private Scene _activeScene;
 
@@ -27,7 +27,7 @@ namespace KragmortaApp
         /// <summary>
         /// Game constructor, should not initialize any entities
         /// </summary>
-        public Game()
+        public Engine()
         {
             if (_instance is not null)
             {

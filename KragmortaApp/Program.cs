@@ -10,16 +10,16 @@ namespace KragmortaApp
     {
         static void Main(string[] args)
         {
-            Game game = new Game();
-            game.OnCreate();
+            Engine engine = new Engine();
+            engine.OnCreate();
 
             var scene = new GameTableScene();
             scene.OnCreate();
-            game.SetActiveScene(scene);
+            engine.SetActiveScene(scene);
 
             var videoMode = new VideoMode(
-                width: Game.StartWindowWidth,
-                height: Game.StartWindowHeight,
+                width: Engine.StartWindowWidth,
+                height: Engine.StartWindowHeight,
                 bpp: 24
             );
 
@@ -28,15 +28,15 @@ namespace KragmortaApp
             window.Resized += (sender, eventArgs) =>
             {
                 window.SetView(new View(new FloatRect(0, 0, window.Size.X, window.Size.Y)));
-                game.OnWindowResized((int)eventArgs.Width, (int)eventArgs.Height);
+                engine.OnWindowResized((int)eventArgs.Width, (int)eventArgs.Height);
             };
 
             window.Closed += (sender, eventArgs) => { window.Close(); };
 
-            window.MouseMoved += (sender, eventArgs) => { game.OnMouseMoved(eventArgs.X, eventArgs.Y); };
+            window.MouseMoved += (sender, eventArgs) => { engine.OnMouseMoved(eventArgs.X, eventArgs.Y); };
 
-            window.MouseButtonPressed  += (sender, eventArgs) => { game.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
-            window.MouseButtonReleased += (sender, eventArgs) => { game.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
 
             Clock clock = new Clock();
 
@@ -47,10 +47,10 @@ namespace KragmortaApp
                 window.DispatchEvents();
 
                 float deltaTime = clock.Restart().AsSeconds();
-                game.OnUpdate(deltaTime);
+                engine.OnUpdate(deltaTime);
 
                 window.Clear();
-                game.OnRender(window);
+                engine.OnRender(window);
 
                 window.Display();
             }
