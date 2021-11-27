@@ -38,6 +38,7 @@ namespace KragmortaApp.Presenters
                     x < positionX + (CellSize + CellMargin) &&
                     y >= positionY &&
                     y < positionY + (CellSize + CellMargin)
+                    && _path.Cells[i].Visible
                 )
                 {
                     return true;
