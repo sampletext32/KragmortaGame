@@ -5,17 +5,17 @@ namespace KragmortaApp.Handlers
     public class GameFieldHandler : AbstractHandler
     {
         private GameFieldController _gameFieldController;
-        private MovementDeckController _movementDeckController;
+        private MovementDecksController _movementDecksController;
         private PathController _pathController;
 
         public GameFieldHandler(
             GameFieldController controller,
-            MovementDeckController movementDeckController,
+            MovementDecksController movementDecksController,
             PathController pathController
         )
         {
             _gameFieldController    = controller;
-            _movementDeckController = movementDeckController;
+            _movementDecksController = movementDecksController;
             _pathController         = pathController;
         }
 

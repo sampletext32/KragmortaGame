@@ -7,6 +7,8 @@ namespace KragmortaApp.Entities
         public IReadOnlyList<MovementCard> MovementCards => _movementCards;
 
         private readonly List<MovementCard> _movementCards;
+        
+        public bool Visible { get; set; }
 
         public MovementDeck()
         {
