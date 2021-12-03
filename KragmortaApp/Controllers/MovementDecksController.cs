@@ -85,5 +85,16 @@ namespace KragmortaApp.Controllers
 
             CurrentDeck.MarkDirty();
         }
+
+        public void ActivateNextDeck()
+        {
+            CurrentDeck.Visible = false;
+            CurrentDeck.MarkDirty();
+
+            _currentDeckIndex = (_currentDeckIndex + 1) % _decks.Count;
+            
+            CurrentDeck.Visible = true;
+            CurrentDeck.MarkDirty();
+        }
     }
 }
