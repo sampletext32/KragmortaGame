@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Entities;
 using KragmortaApp.Handlers;
@@ -28,7 +29,7 @@ namespace KragmortaApp.Scenes
 
         private ProfilePresenter _profilePresenter;
         private GameFieldPresenter _fieldPresenter;
-        private MovementDeckPresenter _movementDeckPresenter;
+        private MovementDecksPresenter _movementDecksPresenter;
         private List<HeroPresenter> _heroPresenters;
         private PathPresenter _pathPresenter;
 
@@ -37,7 +38,7 @@ namespace KragmortaApp.Scenes
         #region Controllers
 
         private GameFieldController _fieldController;
-        private MovementDeckController _movementDeckController;
+        private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
         private PathController _pathController;
         private List<HeroController> _heroControllers;
@@ -95,8 +96,7 @@ namespace KragmortaApp.Scenes
 
             _pathPresenter = new PathPresenter(_path);
 
-            _movementDeckPresenter = new MovementDeckPresenter();
-            _movementDeckPresenter.SetDeck(_heroes[0].MovementDeck);
+            _movementDecksPresenter = new MovementDecksPresenter(_heroes.Select(h => h.MovementDeck).ToList());
 
             _heroPresenters = new List<HeroPresenter>(2);
             _heroPresenters.Add(new HeroPresenter(_heroes[0]));
@@ -115,18 +115,18 @@ namespace KragmortaApp.Scenes
 
             _pathController = new PathController(_path);
 
-            _movementDeckController = new MovementDeckController(_heroes[0].MovementDeck);
+            _movementDecksController = new MovementDecksController(_heroes.Select(h => h.MovementDeck).ToList());
         }
 
         private void InitAllHandlers()
         {
-            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDeckController, _pathController);
+            _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDecksController, _pathController);
             _heroHandlers     = new List<HeroHandler>();
             _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
             _heroHandlers.Add(new HeroHandler(_heroControllers[1]));
-            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDeckController, _shiftController);
+            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDecksController, _shiftController);
 
-            _movementDeckHandler = new MovementDeckHandler(_movementDeckController, _pathController, _shiftController, _fieldController);
+            _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController);
         }
 
         private void InitAllLayers()
@@ -135,7 +135,7 @@ namespace KragmortaApp.Scenes
             _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0], $"\"{_heroes[0].Nickname}\" Hero Layer"));
             _layersStack.AddLayer(new HeroLayer(_heroPresenters[1], _heroHandlers[1], $"\"{_heroes[1].Nickname}\" Hero Layer"));
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
-            _layersStack.AddLayer(new MovementDeckLayer(_movementDeckPresenter, _movementDeckHandler));
+            _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
         }
 
         public override void OnUpdate(float deltaTime)

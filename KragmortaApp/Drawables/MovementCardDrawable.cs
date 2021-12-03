@@ -17,6 +17,8 @@ namespace KragmortaApp.Drawables
 
         private int _fontHeight = 24;
 
+        private int _x;
+        private int _y;
         public static readonly int Width = 130;
         public static readonly int Height = 180;
 
@@ -56,6 +58,9 @@ namespace KragmortaApp.Drawables
 
         public void SetPosition(int x, int y)
         {
+            _x = x;
+            _y = y;
+
             _backgroundRectangle.Position = new Vector2f(x, y);
 
             _firstText.Position  = new Vector2f(x, y);
@@ -93,6 +98,24 @@ namespace KragmortaApp.Drawables
             else
             {
                 _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
+            }
+        }
+
+        public bool TryGetCardFromMousePosition(int x, int y, out MovementCard card)
+        {
+            if (x < _x ||
+                x >= _x + Width ||
+                y < _y ||
+                y >= _y + Height
+            )
+            {
+                card = null;
+                return false;
+            }
+            else
+            {
+                card = _movementCard;
+                return true;
             }
         }
     }

@@ -9,14 +9,14 @@ namespace KragmortaApp.Handlers
     {
         private PathController _pathController;
         private ShiftController _shiftController;
-        private MovementDeckController _movementDeckController;
+        private MovementDecksController _movementDecksController;
         private GameFieldController _fieldController;
 
         // TODO: encapsulate this list inside path controller (duplicate with PathHandler)
         private List<AbstractCell> _rawPaths;
 
         public MovementDeckHandler(
-            MovementDeckController movementDeckController,
+            MovementDecksController movementDecksController,
             PathController pathController,
             ShiftController shiftController,
             GameFieldController fieldController
@@ -25,7 +25,7 @@ namespace KragmortaApp.Handlers
             _shiftController        = shiftController;
             _fieldController        = fieldController;
             _pathController         = pathController;
-            _movementDeckController = movementDeckController;
+            _movementDecksController = movementDecksController;
             _rawPaths               = new List<AbstractCell>(4);
         }
 
@@ -37,19 +37,19 @@ namespace KragmortaApp.Handlers
             // 3 - no card is selected
 
             // case 1
-            if (_movementDeckController.HasActivatedCard())
+            if (_movementDecksController.HasActivatedCard())
             {
                 Console.WriteLine("Can't select a card, because there is already an activated one");
                 return;
             }
 
             // case 2
-            if (_movementDeckController.HasSelectedCard())
+            if (_movementDecksController.HasSelectedCard())
             {
-                if (_movementDeckController.LastSelectedMovementCard != card)
+                if (_movementDecksController.LastSelectedMovementCard != card)
                 {
-                    _movementDeckController.UnselectCard();
-                    _movementDeckController.SelectCard(card);
+                    _movementDecksController.UnselectCard();
+                    _movementDecksController.SelectCard(card);
 
                     var heroX = _shiftController.Hero.FieldX;
                     var heroY = _shiftController.Hero.FieldY;
@@ -61,7 +61,7 @@ namespace KragmortaApp.Handlers
                 }
                 else
                 {
-                    _movementDeckController.UnselectCard();
+                    _movementDecksController.UnselectCard();
                     // NOTE: we can pass a null card, because for empty path cells it won't be accessed
                     _rawPaths.Clear();
                     _pathController.SetVisiblePath(_rawPaths, null);
@@ -71,9 +71,9 @@ namespace KragmortaApp.Handlers
             }
 
             // case 3
-            if (!_movementDeckController.HasSelectedCard())
+            if (!_movementDecksController.HasSelectedCard())
             {
-                _movementDeckController.SelectCard(card);
+                _movementDecksController.SelectCard(card);
 
                 var heroX = _shiftController.Hero.FieldX;
                 var heroY = _shiftController.Hero.FieldY;

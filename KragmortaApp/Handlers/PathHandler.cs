@@ -9,7 +9,7 @@ namespace KragmortaApp.Handlers
     {
         private readonly PathController _pathController;
         private GameFieldController _gameFieldController;
-        private MovementDeckController _movementDeckController;
+        private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
 
         // TODO: encapsulate this list inside path controller (duplicate with MovementDeckHandler)
@@ -18,13 +18,13 @@ namespace KragmortaApp.Handlers
         public PathHandler(
             PathController pathController,
             GameFieldController gameFieldController,
-            MovementDeckController movementDeckController,
+            MovementDecksController movementDecksController,
             ShiftController shiftController
         )
         {
             _pathController         = pathController;
             _gameFieldController    = gameFieldController;
-            _movementDeckController = movementDeckController;
+            _movementDecksController = movementDecksController;
             _shiftController        = shiftController;
             _rawPaths               = new List<AbstractCell>(4);
         }
@@ -45,7 +45,7 @@ namespace KragmortaApp.Handlers
             // 2 - a card is selected
             // 3 - a card is activated
 
-            if (!_movementDeckController.HasSelectedCard())
+            if (!_movementDecksController.HasSelectedCard())
             {
                 // case 1
                 // not possible to reach in this method, because no path cells are present
@@ -54,29 +54,29 @@ namespace KragmortaApp.Handlers
             else
             {
                 // case 2
-                _movementDeckController.ActivateSelectedCard();
+                _movementDecksController.ActivateSelectedCard();
             }
 
             // case 3
 
-            _movementDeckController.SpendType(pathCell.Type);
+            _movementDecksController.SpendType(pathCell.Type);
 
             _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
-            if (_movementDeckController.ActivatedMovementCard.HasUsedFirstType &&
-                _movementDeckController.ActivatedMovementCard.HasUsedSecondType)
+            if (_movementDecksController.ActivatedMovementCard.HasUsedFirstType &&
+                _movementDecksController.ActivatedMovementCard.HasUsedSecondType)
             {
-                _movementDeckController.DismissActivatedCard();
+                _movementDecksController.DismissActivatedCard();
             }
 
             // by now, we could dismiss the card, if it was our second move, so we need to check for card availability
-            if (_movementDeckController.HasActivatedCard())
+            if (_movementDecksController.HasActivatedCard())
             {
                 // regenerate visible path
                 _rawPaths.Clear();
                 _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _rawPaths);
 
-                _pathController.SetVisiblePath(_rawPaths, _movementDeckController.ActivatedMovementCard);
+                _pathController.SetVisiblePath(_rawPaths, _movementDecksController.ActivatedMovementCard);
             }
             else
             {

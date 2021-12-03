@@ -1,25 +1,32 @@
-﻿using KragmortaApp.Entities;
+﻿using System.Collections.Generic;
+using KragmortaApp.Entities;
 using KragmortaApp.Enums;
 
 namespace KragmortaApp.Controllers
 {
     /// <summary>
-    /// Controls a single movement deck
+    /// Controls movement decks
     /// </summary>
-    public class MovementDeckController : ControllerBase
+    public class MovementDecksController : ControllerBase
     {
         public MovementCard LastSelectedMovementCard => _lastSelectedMovementCard;
         public MovementCard ActivatedMovementCard => _activatedMovementCard;
 
-        private MovementDeck _deck;
+        public MovementDeck CurrentDeck => _decks[_currentDeckIndex];
+
+        private List<MovementDeck> _decks;
+
+        private int _currentDeckIndex = 0;
 
         private MovementCard _lastSelectedMovementCard = null;
 
         private MovementCard _activatedMovementCard = null;
 
-        public MovementDeckController(MovementDeck deck)
+        public MovementDecksController(List<MovementDeck> decks)
         {
-            _deck = deck;
+            _decks              = decks;
+            CurrentDeck.Visible = true;
+            CurrentDeck.MarkDirty();
         }
 
         public bool HasSelectedCard()
@@ -72,11 +79,11 @@ namespace KragmortaApp.Controllers
 
         public void DismissActivatedCard()
         {
-            _deck.RemoveCard(_activatedMovementCard);
+            CurrentDeck.RemoveCard(_activatedMovementCard);
 
             _activatedMovementCard      = null;
 
-            _deck.MarkDirty();
+            CurrentDeck.MarkDirty();
         }
     }
 }
