@@ -12,9 +12,6 @@ namespace KragmortaApp.Handlers
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
 
-        // TODO: encapsulate this list inside path controller (duplicate with MovementDeckHandler)
-        private List<AbstractCell> _rawPaths;
-
         public PathHandler(
             PathController pathController,
             GameFieldController gameFieldController,
@@ -26,7 +23,6 @@ namespace KragmortaApp.Handlers
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
-            _rawPaths                = new List<AbstractCell>(4);
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -49,14 +45,21 @@ namespace KragmortaApp.Handlers
             {
                 // case 2
                 _movementDecksController.ActivateSelectedCard();
-                
-                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
-                
-                // regenerate visible path
-                _rawPaths.Clear();
-                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _rawPaths);
 
-                _pathController.SetVisiblePath(_rawPaths, _movementDecksController.ActivatedMovementCard);
+                _movementDecksController.SpendType(pathCell.Type);
+                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+                // regenerate visible path
+                _pathController.RawPath.Clear();
+                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pathController.RawPath);
+
+                if (!_pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard))
+                {
+                    _movementDecksController.DismissActivatedCard();
+                    _movementDecksController.PullNewCard();
+                    _shiftController.ActivateNextPlayer();
+                    _movementDecksController.ActivateNextDeck();
+                }
             }
             else if (_movementDecksController.HasActivatedCard())
             {
@@ -65,11 +68,12 @@ namespace KragmortaApp.Handlers
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
                 _movementDecksController.DismissActivatedCard();
+                _movementDecksController.PullNewCard();
 
 
                 // clear visible path
-                _rawPaths.Clear();
-                _pathController.SetVisiblePath(_rawPaths, null);
+                _pathController.RawPath.Clear();
+                _pathController.TrySetVisiblePath(null);
 
                 _shiftController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();

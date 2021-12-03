@@ -1,4 +1,5 @@
-﻿using KragmortaApp.Enums;
+﻿using System;
+using KragmortaApp.Enums;
 
 namespace KragmortaApp.Entities
 {
@@ -18,6 +19,8 @@ namespace KragmortaApp.Entities
         public bool HasUsedSecondType { get; set; }
         public bool Activated { get; set; }
 
+        private static Random _random = new Random(DateTime.Now.Millisecond);
+
         public MovementCard(CellType firstType, CellType secondType)
         {
             _firstType  = firstType;
@@ -32,6 +35,14 @@ namespace KragmortaApp.Entities
             var movementCard = new MovementCard(_firstType, _secondType);
 
             return movementCard;
+        }
+
+        public static MovementCard Generate()
+        {
+            int first = _random.Next(0, 4);
+            int second = _random.Next(0, 4);
+
+            return new MovementCard((CellType)(1 << first), (CellType)(1 << second));
         }
     }
 }

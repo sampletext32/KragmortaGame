@@ -12,9 +12,6 @@ namespace KragmortaApp.Handlers
         private MovementDecksController _movementDecksController;
         private GameFieldController _fieldController;
 
-        // TODO: encapsulate this list inside path controller (duplicate with PathHandler)
-        private List<AbstractCell> _rawPaths;
-
         public MovementDeckHandler(
             MovementDecksController movementDecksController,
             PathController pathController,
@@ -26,7 +23,6 @@ namespace KragmortaApp.Handlers
             _fieldController        = fieldController;
             _pathController         = pathController;
             _movementDecksController = movementDecksController;
-            _rawPaths               = new List<AbstractCell>(4);
         }
 
         public void OnCardPressed(MovementCard card)
@@ -54,17 +50,17 @@ namespace KragmortaApp.Handlers
                     var heroX = _shiftController.Hero.FieldX;
                     var heroY = _shiftController.Hero.FieldY;
 
-                    _rawPaths.Clear();
-                    _fieldController.CollectNeighboringCells(heroX, heroY, _rawPaths);
+                    _pathController.RawPath.Clear();
+                    _fieldController.CollectNeighboringCells(heroX, heroY, _pathController.RawPath);
 
-                    _pathController.SetVisiblePath(_rawPaths, card);
+                    _pathController.TrySetVisiblePath(card);
                 }
                 else
                 {
                     _movementDecksController.UnselectCard();
                     // NOTE: we can pass a null card, because for empty path cells it won't be accessed
-                    _rawPaths.Clear();
-                    _pathController.SetVisiblePath(_rawPaths, null);
+                    _pathController.RawPath.Clear();
+                    _pathController.TrySetVisiblePath(null);
                 }
 
                 return;
@@ -78,10 +74,10 @@ namespace KragmortaApp.Handlers
                 var heroX = _shiftController.Hero.FieldX;
                 var heroY = _shiftController.Hero.FieldY;
 
-                _rawPaths.Clear();
-                _fieldController.CollectNeighboringCells(heroX, heroY, _rawPaths);
+                _pathController.RawPath.Clear();
+                _fieldController.CollectNeighboringCells(heroX, heroY, _pathController.RawPath);
 
-                _pathController.SetVisiblePath(_rawPaths, card);
+                _pathController.TrySetVisiblePath(card);
             }
         }
     }
