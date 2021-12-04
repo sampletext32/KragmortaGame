@@ -58,8 +58,10 @@ namespace KragmortaApp.Presenters
                     var positionY = FieldOriginY + (CellSize + CellMargin) * _path.Cells[i].Y;
                     _drawables[i].SetPosition(positionX, positionY);
                 }
+
                 _path.ClearDirty();
             }
+
             foreach (var drawable in _drawables)
             {
                 target.Draw(drawable);
