@@ -2,11 +2,16 @@
 using System.Globalization;
 using System.Linq;
 using KragmortaApp.Controllers;
+using KragmortaApp.Controllers.ContextMenus;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.ContextMenus;
 using KragmortaApp.Handlers;
 using KragmortaApp.Layers;
 using KragmortaApp.Presenters;
 using KragmortaApp.Enums;
+using KragmortaApp.Handlers.ContextMenus;
+using KragmortaApp.Layers.ContextMenus;
+using KragmortaApp.Presenters.ContextMenus;
 using SFML.Graphics;
 
 namespace KragmortaApp.Scenes
@@ -58,6 +63,11 @@ namespace KragmortaApp.Scenes
 
         private LayersStack _layersStack;
 
+        private MovementCardContextMenuPresenter _movementCardContextMenuPresenter;
+        private MovementCardContextMenuHandler _movementCardContextMenuHandler;
+        private MovementCardContextMenuModel _movementCardContextMenuModel;
+        private MovementCardContextMenuController _movementCardContextMenuController;
+
         public override void OnCreate()
         {
             InitAllModels();
@@ -68,8 +78,8 @@ namespace KragmortaApp.Scenes
 
             InitAllHandlers();
 
-            // Initiating LayersStack (3 is gamefield + path + movement deck)
-            _layersStack = new LayersStack(3 + _heroCount);
+            // Initiating LayersStack (4 is gamefield + path + movement deck + context menu)
+            _layersStack = new LayersStack(4 + _heroCount);
 
             InitAllLayers();
         }
@@ -89,6 +99,8 @@ namespace KragmortaApp.Scenes
                 _heroes.Add(new HeroModel($"Hero {i + 1}", i * 2, 0));
             }
 
+            _movementCardContextMenuModel = new MovementCardContextMenuModel();
+
             _path = new Path();
         }
 
@@ -105,6 +117,8 @@ namespace KragmortaApp.Scenes
             {
                 _heroPresenters.Add(new HeroPresenter(_heroes[i]));
             }
+
+            _movementCardContextMenuPresenter = new MovementCardContextMenuPresenter(_movementCardContextMenuModel);
         }
 
         private void InitAllControllers()
@@ -121,7 +135,8 @@ namespace KragmortaApp.Scenes
 
             _pathController = new PathController(_path);
 
-            _movementDecksController = new MovementDecksController(_heroes.Select(h => h.MovementDeck).ToList());
+            _movementDecksController           = new MovementDecksController(_heroes.Select(h => h.MovementDeck).ToList());
+            _movementCardContextMenuController = new MovementCardContextMenuController(_movementCardContextMenuModel);
         }
 
         private void InitAllHandlers()
@@ -135,19 +150,23 @@ namespace KragmortaApp.Scenes
 
             _pathHandler = new PathHandler(_pathController, _fieldController, _movementDecksController, _shiftController);
 
-            _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController);
+            _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController, _movementCardContextMenuController);
+
+            _movementCardContextMenuHandler = new MovementCardContextMenuHandler(_movementCardContextMenuController);
         }
 
         private void InitAllLayers()
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
-            
+
             for (var i = 0; i < _heroCount; i++)
             {
                 _layersStack.AddLayer(new HeroLayer(_heroPresenters[i], _heroHandlers[i], $"\"{_heroes[i].Nickname}\" Hero Layer"));
             }
+
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
+            _layersStack.AddLayer(new MovementCardContextMenuLayer(_movementCardContextMenuPresenter, _movementCardContextMenuHandler));
         }
 
         public override void OnUpdate(float deltaTime)

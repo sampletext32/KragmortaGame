@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using KragmortaApp.Controllers;
+using KragmortaApp.Controllers.ContextMenus;
 using KragmortaApp.Entities;
+using KragmortaApp.Handlers.ContextMenus;
 
 namespace KragmortaApp.Handlers
 {
@@ -11,18 +13,20 @@ namespace KragmortaApp.Handlers
         private ShiftController _shiftController;
         private MovementDecksController _movementDecksController;
         private GameFieldController _fieldController;
+        private MovementCardContextMenuController _movementCardContextMenuController;
 
         public MovementDeckHandler(
             MovementDecksController movementDecksController,
             PathController pathController,
             ShiftController shiftController,
-            GameFieldController fieldController
-        )
+            GameFieldController fieldController,
+            MovementCardContextMenuController movementCardContextMenuController)
         {
-            _shiftController        = shiftController;
-            _fieldController        = fieldController;
-            _pathController         = pathController;
-            _movementDecksController = movementDecksController;
+            _shiftController                   = shiftController;
+            _fieldController                   = fieldController;
+            _movementCardContextMenuController = movementCardContextMenuController;
+            _pathController                    = pathController;
+            _movementDecksController           = movementDecksController;
         }
 
         public void OnCardPressed(MovementCard card)
@@ -79,6 +83,12 @@ namespace KragmortaApp.Handlers
 
                 _pathController.TrySetVisiblePath(card);
             }
+        }
+
+        public void ContextMenuFor(MovementCard card, int x, int y)
+        {
+            _movementCardContextMenuController.SetPosition(x, y);
+            _movementCardContextMenuController.SetCard(card);
         }
     }
 }
