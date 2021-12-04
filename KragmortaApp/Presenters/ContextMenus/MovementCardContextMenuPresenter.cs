@@ -59,6 +59,7 @@ namespace KragmortaApp.Presenters.ContextMenus
             if (_movementCardContextMenuModel.Dirty)
             {
                 Update();
+                _movementCardContextMenuModel.ClearDirty();
             }
 
             if (!_visible) return;
