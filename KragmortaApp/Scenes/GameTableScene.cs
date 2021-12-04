@@ -15,6 +15,8 @@ namespace KragmortaApp.Scenes
     {
         #region Models
 
+        private int _heroCount = 2;
+
         private GameField _field;
 
         private List<HeroModel> _heroes;
@@ -66,26 +68,26 @@ namespace KragmortaApp.Scenes
 
             InitAllHandlers();
 
-            // Initiating LayersStack:
-            _layersStack = new LayersStack(5);
+            // Initiating LayersStack (3 is gamefield + path + movement deck)
+            _layersStack = new LayersStack(3 + _heroCount);
 
             InitAllLayers();
         }
 
         private void InitAllModels()
         {
-            // TODO: Remove hardcode with user's input of players number.
-            var heroesCount = 2;
-
             _field = new GameField(10, 7);
 
             _profile = new Profile()
             {
                 Nickname = "Igrovogo personaja"
             };
-            _heroes = new List<HeroModel>(heroesCount);
-            _heroes.Add(new HeroModel("Eggplant", 0, 0));
-            _heroes.Add(new HeroModel("ABCDEF", 5, 0));
+            _heroes = new List<HeroModel>(_heroCount);
+
+            for (int i = 0; i < _heroCount; i++)
+            {
+                _heroes.Add(new HeroModel($"Hero {i + 1}", i * 2, 0));
+            }
 
             _path = new Path();
         }
@@ -98,18 +100,22 @@ namespace KragmortaApp.Scenes
 
             _movementDecksPresenter = new MovementDecksPresenter(_heroes.Select(h => h.MovementDeck).ToList());
 
-            _heroPresenters = new List<HeroPresenter>(2);
-            _heroPresenters.Add(new HeroPresenter(_heroes[0]));
-            _heroPresenters.Add(new HeroPresenter(_heroes[1]));
+            _heroPresenters = new List<HeroPresenter>(_heroCount);
+            for (var i = 0; i < _heroCount; i++)
+            {
+                _heroPresenters.Add(new HeroPresenter(_heroes[i]));
+            }
         }
 
         private void InitAllControllers()
         {
             _fieldController = new GameFieldController(_field);
 
-            _heroControllers = new List<HeroController>(2);
-            _heroControllers.Add(new HeroController(_heroes[0]));
-            _heroControllers.Add(new HeroController(_heroes[1]));
+            _heroControllers = new List<HeroController>(_heroCount);
+            for (var i = 0; i < _heroCount; i++)
+            {
+                _heroControllers.Add(new HeroController(_heroes[i]));
+            }
 
             _shiftController = new ShiftController(_heroes, _heroControllers);
 
@@ -121,9 +127,12 @@ namespace KragmortaApp.Scenes
         private void InitAllHandlers()
         {
             _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDecksController, _pathController);
-            _heroHandlers     = new List<HeroHandler>();
-            _heroHandlers.Add(new HeroHandler(_heroControllers[0]));
-            _heroHandlers.Add(new HeroHandler(_heroControllers[1]));
+            _heroHandlers     = new List<HeroHandler>(_heroCount);
+            for (var i = 0; i < _heroCount; i++)
+            {
+                _heroHandlers.Add(new HeroHandler(_heroControllers[i]));
+            }
+
             _pathHandler = new PathHandler(_pathController, _fieldController, _movementDecksController, _shiftController);
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController);
@@ -132,8 +141,11 @@ namespace KragmortaApp.Scenes
         private void InitAllLayers()
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
-            _layersStack.AddLayer(new HeroLayer(_heroPresenters[0], _heroHandlers[0], $"\"{_heroes[0].Nickname}\" Hero Layer"));
-            _layersStack.AddLayer(new HeroLayer(_heroPresenters[1], _heroHandlers[1], $"\"{_heroes[1].Nickname}\" Hero Layer"));
+            
+            for (var i = 0; i < _heroCount; i++)
+            {
+                _layersStack.AddLayer(new HeroLayer(_heroPresenters[i], _heroHandlers[i], $"\"{_heroes[i].Nickname}\" Hero Layer"));
+            }
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
         }

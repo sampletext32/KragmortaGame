@@ -55,6 +55,7 @@ namespace KragmortaApp.Handlers
 
                 if (!_pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard))
                 {
+                    Console.WriteLine("No moves with selected card");
                     _movementDecksController.DismissActivatedCard();
                     _movementDecksController.PullNewCard();
                     _shiftController.ActivateNextPlayer();
@@ -70,7 +71,6 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
 
-
                 // clear visible path
                 _pathController.RawPath.Clear();
                 _pathController.TrySetVisiblePath(null);
@@ -83,18 +83,6 @@ namespace KragmortaApp.Handlers
                 //case 1
                 throw new KragException("Unreachable");
             }
-        }
-
-        public override void RawOnMouseMoved(int x, int y)
-        {
-        }
-
-        public override void RawOnMouseReleased(int x, int y, KragMouseButton mouseButton)
-        {
-        }
-
-        public override void RawOnMouseLeft()
-        {
         }
     }
 }
