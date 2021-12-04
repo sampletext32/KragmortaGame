@@ -71,5 +71,11 @@ namespace KragmortaApp.Controllers
 
             return hasSet;
         }
+
+        public void ClearPaths()
+        {
+            RawPath.Clear();
+            TrySetVisiblePath(null);
+        }
     }
 }

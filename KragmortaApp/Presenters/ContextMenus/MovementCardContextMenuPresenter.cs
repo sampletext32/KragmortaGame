@@ -37,7 +37,7 @@ namespace KragmortaApp.Presenters.ContextMenus
             _button1Text = new Text()
             {
                 Font            = font,
-                DisplayedString = "Press me",
+                DisplayedString = "Delete card",
                 FillColor       = Color.White,
                 CharacterSize   = 18
             };

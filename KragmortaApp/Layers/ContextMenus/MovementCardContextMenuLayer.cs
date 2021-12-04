@@ -25,11 +25,12 @@ namespace KragmortaApp.Layers.ContextMenus
                 if (_presenter.IsMouseOverContextMenu(x, y))
                 {
                     // Handle click on context menu
+                    _handler.DeleteCard();
                 }
                 else
                 {
-                    _handler.Dismiss();
                     // Dismiss context menu
+                    _handler.Dismiss();
                 }
 
                 return true;

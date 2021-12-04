@@ -5,6 +5,7 @@ namespace KragmortaApp.Controllers.ContextMenus
 {
     public class MovementCardContextMenuController : ControllerBase
     {
+        public MovementCardContextMenuModel MovementCardContextMenuModel => _movementCardContextMenuModel;
         private MovementCardContextMenuModel _movementCardContextMenuModel;
 
         public MovementCardContextMenuController(MovementCardContextMenuModel movementCardContextMenuModel)

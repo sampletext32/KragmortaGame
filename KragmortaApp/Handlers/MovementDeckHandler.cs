@@ -87,6 +87,10 @@ namespace KragmortaApp.Handlers
 
         public void ContextMenuFor(MovementCard card, int x, int y)
         {
+            if (!_shiftController.HasAnyCardDeletionsLeft()) return;
+
+            if (_movementDecksController.HasActivatedCard()) return; 
+
             _movementCardContextMenuController.SetPosition(x, y);
             _movementCardContextMenuController.SetCard(card);
         }

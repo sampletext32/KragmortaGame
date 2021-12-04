@@ -18,11 +18,13 @@ namespace KragmortaApp.Entities
         public void AddCard(MovementCard card)
         {
             _movementCards.Add(card);
+            card.MarkDirty();
         }
 
         public void RemoveCard(MovementCard card)
         {
             _movementCards.Remove(card);
+            card.MarkDirty();
         }
     }
 }
