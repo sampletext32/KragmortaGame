@@ -12,9 +12,6 @@ namespace KragmortaApp.Handlers
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
 
-        // TODO: encapsulate this list inside path controller (duplicate with MovementDeckHandler)
-        private List<AbstractCell> _rawPaths;
-
         public PathHandler(
             PathController pathController,
             GameFieldController gameFieldController,
@@ -22,11 +19,10 @@ namespace KragmortaApp.Handlers
             ShiftController shiftController
         )
         {
-            _pathController         = pathController;
-            _gameFieldController    = gameFieldController;
+            _pathController          = pathController;
+            _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
-            _shiftController        = shiftController;
-            _rawPaths               = new List<AbstractCell>(4);
+            _shiftController         = shiftController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -45,47 +41,47 @@ namespace KragmortaApp.Handlers
             // 2 - a card is selected
             // 3 - a card is activated
 
-            if (!_movementDecksController.HasSelectedCard())
-            {
-                // case 1
-                // not possible to reach in this method, because no path cells are present
-                throw new KragException("Unreachable");
-            }
-            else
+            if (_movementDecksController.HasSelectedCard())
             {
                 // case 2
                 _movementDecksController.ActivateSelectedCard();
-            }
 
-            // case 3
+                _movementDecksController.SpendType(pathCell.Type);
+                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
-            _movementDecksController.SpendType(pathCell.Type);
-
-            _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
-
-            if (_movementDecksController.ActivatedMovementCard.HasUsedFirstType &&
-                _movementDecksController.ActivatedMovementCard.HasUsedSecondType)
-            {
-                _movementDecksController.DismissActivatedCard();
-            }
-
-            // by now, we could dismiss the card, if it was our second move, so we need to check for card availability
-            if (_movementDecksController.HasActivatedCard())
-            {
                 // regenerate visible path
-                _rawPaths.Clear();
-                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _rawPaths);
+                _pathController.RawPath.Clear();
+                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pathController.RawPath);
 
-                _pathController.SetVisiblePath(_rawPaths, _movementDecksController.ActivatedMovementCard);
+                if (!_pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard))
+                {
+                    _movementDecksController.DismissActivatedCard();
+                    _movementDecksController.PullNewCard();
+                    _shiftController.ActivateNextPlayer();
+                    _movementDecksController.ActivateNextDeck();
+                }
+            }
+            else if (_movementDecksController.HasActivatedCard())
+            {
+                // case 3 
+                _movementDecksController.SpendType(pathCell.Type);
+                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+                _movementDecksController.DismissActivatedCard();
+                _movementDecksController.PullNewCard();
+
+
+                // clear visible path
+                _pathController.RawPath.Clear();
+                _pathController.TrySetVisiblePath(null);
+
+                _shiftController.ActivateNextPlayer();
+                _movementDecksController.ActivateNextDeck();
             }
             else
             {
-                // clear visible path
-                _rawPaths.Clear();
-                _pathController.SetVisiblePath(_rawPaths, null);
-
-                _shiftController.ActivateNextPlayer();
-                // _movementDeckController.SetActiveDeck(_shiftController.Hero.MovementDeck);
+                //case 1
+                throw new KragException("Unreachable");
             }
         }
 

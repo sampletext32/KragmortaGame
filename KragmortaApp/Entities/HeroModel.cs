@@ -22,9 +22,9 @@ namespace KragmortaApp.Entities
 
             MovementDeck = new MovementDeck();
 
-            MovementDeck.AddCard(new MovementCard(CellType.Red, CellType.Green));
-            MovementDeck.AddCard(new MovementCard(CellType.Green, CellType.Orange));
-            MovementDeck.AddCard(new MovementCard(CellType.Blue, CellType.Red));
+            MovementDeck.AddCard(MovementCard.Generate());
+            MovementDeck.AddCard(MovementCard.Generate());
+            MovementDeck.AddCard(MovementCard.Generate());
         }
 
         public void SetFieldPosition(int x, int y)
