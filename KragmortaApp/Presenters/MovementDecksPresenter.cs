@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using KragmortaApp.Drawables;
 using KragmortaApp.Entities;
+using KragmortaApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
@@ -11,6 +13,8 @@ namespace KragmortaApp.Presenters
     {
         private RectangleShape _backgroundRectangle;
 
+        private Corner _corner;
+
         private List<MovementDeckDrawable> _drawables;
 
         private int _x;
@@ -18,8 +22,10 @@ namespace KragmortaApp.Presenters
         private int _width = 500;
         private int _height = 200;
 
-        public MovementDecksPresenter(List<MovementDeck> decks)
+        public MovementDecksPresenter(List<MovementDeck> decks, Corner corner)
         {
+            _corner = corner;
+
             _drawables = new List<MovementDeckDrawable>(decks.Count);
             _drawables.AddRange(decks.Select(d => new MovementDeckDrawable(d, _width, _height)));
 
@@ -67,9 +73,27 @@ namespace KragmortaApp.Presenters
 
         private void Reshape(int width, int height)
         {
-            _x = width / 2 - _width / 2;
-            _y = height - _height;
-            
+            switch (_corner)
+            {
+                case Corner.TopLeft:
+                    _x = _y = 0;
+                    break;
+                case Corner.TopRight:
+                    _x = width - _width;
+                    _y = 0;
+                    break;
+                case Corner.BottomLeft:
+                    _x = 0;
+                    _y = height - _height;
+                    break;
+                case Corner.BottomRight:
+                    _x = width - _width;
+                    _y = height - _height;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
             for (var i = 0; i < _drawables.Count; i++)
             {
                 _drawables[i].SetPosition(_x, _y);

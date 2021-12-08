@@ -117,5 +117,12 @@ namespace KragmortaApp.Controllers
         {
             CurrentDeck.AddCard(MovementCard.Generate());
         }
+
+        public void DismissCard(MovementCard movementCard)
+        {
+            CurrentDeck.RemoveCard(movementCard);
+
+            CurrentDeck.MarkDirty();
+        }
     }
 }

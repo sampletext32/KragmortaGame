@@ -5,7 +5,7 @@ namespace KragmortaApp.Presenters
         public static readonly int CellSize = 96;
         public static readonly int CellMargin = 6;
         
-        protected int FieldOriginX = 200;
+        protected int FieldOriginX = 350;
         protected int FieldOriginY = 50;
 
         /// <summary>

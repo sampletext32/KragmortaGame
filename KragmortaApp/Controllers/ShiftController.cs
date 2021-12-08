@@ -25,5 +25,15 @@ namespace KragmortaApp.Controllers
             _currentHeroIndex  = (_currentHeroIndex + 1) % _heroModels.Count;
             HeroController.Activate();
         }
+
+        public void NoticeCardDeletion()
+        {
+            HeroController.NoticeCardDeletion();
+        }
+
+        public bool HasAnyCardDeletionsLeft()
+        {
+            return HeroController.HasAnyCardDeletionsLeft();
+        }
     }
 }

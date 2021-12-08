@@ -20,7 +20,14 @@ namespace KragmortaApp.Layers
 
             if (_presenter.TryGetCardFromMousePosition(x, y, out var card))
             {
-                _handler.OnCardPressed(card);
+                if (mouseButton == KragMouseButton.Left)
+                {
+                    _handler.OnCardPressed(card);
+                }
+                else
+                {
+                    _handler.ContextMenuFor(card, x, y);
+                }
             }
 
             return true;
