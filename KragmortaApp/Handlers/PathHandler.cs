@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using KragmortaApp.Controllers;
 using KragmortaApp.Entities;
+using KragmortaApp.StateMachines;
 
 namespace KragmortaApp.Handlers
 {
@@ -49,6 +50,15 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.SpendType(pathCell.Type);
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
+                if (_shiftController.Hero.StateMachine.CurrentState is HeroChoosingWhereToMove1State)
+                {
+                    _shiftController.Hero.StateMachine.Transition(new HeroChoosingWhereToMove2State());
+                }
+                else
+                {
+                    _shiftController.Hero.StateMachine.Transition(new HeroWaitingForTurnState());
+                }
+
                 // regenerate visible path
                 _pathController.RawPath.Clear();
                 _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pathController.RawPath);
@@ -67,6 +77,15 @@ namespace KragmortaApp.Handlers
                 // case 3 
                 _movementDecksController.SpendType(pathCell.Type);
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+                if (_shiftController.Hero.StateMachine.CurrentState is HeroChoosingWhereToMove1State)
+                {
+                    _shiftController.Hero.StateMachine.Transition(new HeroChoosingWhereToMove2State());
+                }
+                else
+                {
+                    _shiftController.Hero.StateMachine.Transition(new HeroWaitingForTurnState());
+                }
 
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();

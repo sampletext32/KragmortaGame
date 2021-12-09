@@ -1,4 +1,5 @@
 using KragmortaApp.Enums;
+using KragmortaApp.StateMachines;
 
 namespace KragmortaApp.Entities
 {
@@ -14,11 +15,14 @@ namespace KragmortaApp.Entities
 
         public readonly MovementDeck MovementDeck;
 
+        public readonly HeroStateMachine StateMachine;
+
         public HeroModel(string nickname, int fieldX, int fieldY)
         {
-            Nickname = nickname;
-            FieldX   = fieldX;
-            FieldY   = fieldY;
+            Nickname     = nickname;
+            FieldX       = fieldX;
+            FieldY       = fieldY;
+            StateMachine = new HeroStateMachine(new HeroWaitingForTurnState());
 
             MovementDeck = new MovementDeck();
 

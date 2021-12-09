@@ -12,6 +12,7 @@ using KragmortaApp.Enums;
 using KragmortaApp.Handlers.ContextMenus;
 using KragmortaApp.Layers.ContextMenus;
 using KragmortaApp.Presenters.ContextMenus;
+using KragmortaApp.StateMachines;
 using SFML.Graphics;
 
 namespace KragmortaApp.Scenes
@@ -85,6 +86,8 @@ namespace KragmortaApp.Scenes
             _layersStack = new LayersStack(5 + _heroCount);
 
             InitAllLayers();
+            
+            _heroes[0].StateMachine.Transition(new HeroChoosingWhereToPushAfterBeingPushed(_heroes[1]));
         }
 
         private void InitAllModels()
