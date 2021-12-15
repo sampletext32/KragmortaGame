@@ -19,6 +19,7 @@ namespace KragmortaApp
         private readonly List<MovementDeck> _decks;
 
         public readonly Path Path;
+        public readonly Push Push;
 
         public readonly Profile Profile;
         
@@ -44,6 +45,7 @@ namespace KragmortaApp
             MovementCardContextMenuModel = new MovementCardContextMenuModel();
 
             Path = new Path();
+            Push = new Push();
         }
     }
 }

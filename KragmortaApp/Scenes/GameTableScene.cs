@@ -22,6 +22,7 @@ namespace KragmortaApp.Scenes
         private MovementDecksPresenter _movementDecksPresenter;
         private List<HeroPresenter> _heroPresenters;
         private PathPresenter _pathPresenter;
+        private PushPresenter _pushPresenter;
         private MovementCardContextMenuPresenter _movementCardContextMenuPresenter;
         private FinishButtonPresenter _finishButtonPresenter;
 
@@ -33,6 +34,7 @@ namespace KragmortaApp.Scenes
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
         private PathController _pathController;
+        private PushController _pushController;
         private List<HeroController> _heroControllers;
         private MovementCardContextMenuController _movementCardContextMenuController;
         private FinishButtonController _finishButtonController;
@@ -44,6 +46,7 @@ namespace KragmortaApp.Scenes
         private GameFieldHandler _gameFieldHandler;
         private MovementDeckHandler _movementDeckHandler;
         private PathHandler _pathHandler;
+        private PushHandler _pushHandler;
         private List<HeroHandler> _heroHandlers;
         private MovementCardContextMenuHandler _movementCardContextMenuHandler;
         private FinishButtonHandler _finishButtonHandler;
@@ -64,8 +67,8 @@ namespace KragmortaApp.Scenes
 
             InitAllHandlers();
 
-            // Initiating LayersStack (5 is gamefield + path + movement deck + context menu + finish button)
-            _layersStack = new LayersStack(5 + GameState.Instance.HeroCount);
+            // Initiating LayersStack (6 is gamefield + path + push + movement deck + context menu + finish button)
+            _layersStack = new LayersStack(6 + GameState.Instance.HeroCount);
 
             InitAllLayers();
         }
@@ -75,6 +78,7 @@ namespace KragmortaApp.Scenes
             _fieldPresenter = new GameFieldPresenter(GameState.Instance.Field);
 
             _pathPresenter = new PathPresenter(GameState.Instance.Path);
+            _pushPresenter = new PushPresenter(GameState.Instance.Push);
 
             _movementDecksPresenter = new MovementDecksPresenter(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList(), Corner.BottomRight);
 
@@ -102,6 +106,7 @@ namespace KragmortaApp.Scenes
             _shiftController = new ShiftController(GameState.Instance.Heroes, _heroControllers);
 
             _pathController = new PathController(GameState.Instance.Path);
+            _pushController = new PushController(GameState.Instance.Push);
 
             _movementDecksController           = new MovementDecksController(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList());
             _movementCardContextMenuController = new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel);
@@ -117,7 +122,8 @@ namespace KragmortaApp.Scenes
                 _heroHandlers.Add(new HeroHandler(_heroControllers[i]));
             }
 
-            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDecksController, _shiftController);
+            _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController, _shiftController);
+            _pushHandler = new PushHandler(_pushController, _fieldController, _movementDecksController, _shiftController);
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController, _movementCardContextMenuController);
 
@@ -135,6 +141,7 @@ namespace KragmortaApp.Scenes
             }
 
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
+            _layersStack.AddLayer(new PushLayer(_pushPresenter, _pushHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
             _layersStack.AddLayer(new MovementCardContextMenuLayer(_movementCardContextMenuPresenter, _movementCardContextMenuHandler));
             _layersStack.AddLayer(new FinishButtonLayer(_finishButtonPresenter, _finishButtonHandler));

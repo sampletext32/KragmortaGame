@@ -8,18 +8,21 @@ namespace KragmortaApp.Handlers
     public class PathHandler : AbstractHandler
     {
         private readonly PathController _pathController;
+        private readonly PushController _pushController;
         private GameFieldController _gameFieldController;
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
 
         public PathHandler(
             PathController pathController,
+            PushController pushController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
             ShiftController shiftController
         )
         {
             _pathController          = pathController;
+            _pushController          = pushController;
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
@@ -56,13 +59,14 @@ namespace KragmortaApp.Handlers
                     // use sameCellHero for further processing
                     Console.WriteLine($"Hero {_shiftController.Hero.Nickname} pushes {sameCellHero.Nickname}");
 
-                    // clear paths of current player
-                    _pathController.RawPath.Clear();
-                    _pathController.TrySetVisiblePath(null);
+                    _pathController.ClearPaths();
 
-                    // TODO: Highlight paths of push
+                    // Highlight paths of push
 
-                    // TODO: Perform push
+                    _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+                    _pushController.TrySetVisiblePush();
+
+                    return;
                 }
 
                 // regenerate visible path
@@ -94,13 +98,14 @@ namespace KragmortaApp.Handlers
                     // use sameCellHero for further processing
                     Console.WriteLine($"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
 
-                    // clear paths of current player
-                    _pathController.RawPath.Clear();
-                    _pathController.TrySetVisiblePath(null);
+                    _pathController.ClearPaths();
 
-                    // TODO: Highlight paths of push
+                    // Highlight paths of push
 
-                    // TODO: Perform push
+                    _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+                    _pushController.TrySetVisiblePush();
+
+                    return;
                 }
 
                 // clear visible path
