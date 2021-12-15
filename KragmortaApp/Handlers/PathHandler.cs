@@ -1,8 +1,7 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Entities;
-using KragmortaApp.StateMachines;
 
 namespace KragmortaApp.Handlers
 {
@@ -50,13 +49,20 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.SpendType(pathCell.Type);
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
-                if (_shiftController.Hero.StateMachine.CurrentState is HeroChoosingWhereToMove1State)
+                // In the destination cell there are 2 heroes
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
                 {
-                    _shiftController.Hero.StateMachine.Transition(new HeroChoosingWhereToMove2State());
-                }
-                else
-                {
-                    _shiftController.Hero.StateMachine.Transition(new HeroWaitingForTurnState());
+                    // use sameCellHero for further processing
+                    Console.WriteLine($"Hero {_shiftController.Hero.Nickname} pushes {sameCellHero.Nickname}");
+
+                    // clear paths of current player
+                    _pathController.RawPath.Clear();
+                    _pathController.TrySetVisiblePath(null);
+
+                    // TODO: Highlight paths of push
+
+                    // TODO: Perform push
                 }
 
                 // regenerate visible path
@@ -78,17 +84,24 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.SpendType(pathCell.Type);
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
-                if (_shiftController.Hero.StateMachine.CurrentState is HeroChoosingWhereToMove1State)
-                {
-                    _shiftController.Hero.StateMachine.Transition(new HeroChoosingWhereToMove2State());
-                }
-                else
-                {
-                    _shiftController.Hero.StateMachine.Transition(new HeroWaitingForTurnState());
-                }
-
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
+
+                // In the destination cell there are 2 heroes
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                {
+                    // use sameCellHero for further processing
+                    Console.WriteLine($"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+
+                    // clear paths of current player
+                    _pathController.RawPath.Clear();
+                    _pathController.TrySetVisiblePath(null);
+
+                    // TODO: Highlight paths of push
+
+                    // TODO: Perform push
+                }
 
                 // clear visible path
                 _pathController.RawPath.Clear();

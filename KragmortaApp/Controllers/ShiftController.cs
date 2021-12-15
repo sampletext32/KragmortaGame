@@ -8,11 +8,11 @@ namespace KragmortaApp.Controllers
         public HeroModel Hero => _heroModels[_currentHeroIndex];
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
 
-        private List<HeroModel> _heroModels;
+        private IReadOnlyList<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private int _currentHeroIndex = 0;
 
-        public ShiftController(List<HeroModel> heroes, List<HeroController> controllers)
+        public ShiftController(IReadOnlyList<HeroModel> heroes, List<HeroController> controllers)
         {
             _heroModels      = heroes;
             _heroControllers = controllers;
