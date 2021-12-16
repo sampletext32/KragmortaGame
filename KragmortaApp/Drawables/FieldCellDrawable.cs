@@ -12,7 +12,7 @@ namespace KragmortaApp.Drawables
         /// <summary>
         /// Background rectangle
         /// </summary>
-        private RectangleShape _backgroundRectangle;
+        protected ConvexShape _backgroundRectangle;
 
         /// <summary>
         /// Red sub-rect
@@ -49,14 +49,17 @@ namespace KragmortaApp.Drawables
         private static readonly Color DefaultOutlineColor = Color.Magenta;
         private static readonly Color ClickedColor = new Color(127, 127, 127);
 
-        public FieldCellDrawable(FieldCell cell, int cellSize)
+        public FieldCellDrawable(FieldCell cell)
         {
-            _cell = cell;
-            _backgroundRectangle = new RectangleShape()
-            {
-                Size      = new Vector2f(cellSize, cellSize),
-                FillColor = DefaultBackgroundColor
-            };
+            _cell                          = cell;
+            _backgroundRectangle           = new ConvexShape();
+            _backgroundRectangle.FillColor = DefaultBackgroundColor;
+            // {
+            //     Size      = new Vector2f(cellSize, cellSize),
+            //     FillColor = DefaultBackgroundColor
+            // };
+            // _backgroundRectangle.SetPointCount(4);
+            // _backgroundRectangle
             
             _red = new RectangleShape()
             {
