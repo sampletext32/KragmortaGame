@@ -123,7 +123,7 @@ namespace KragmortaApp.Scenes
             }
 
             _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController, _shiftController);
-            _pushHandler = new PushHandler(_pushController, _fieldController, _movementDecksController, _shiftController);
+            _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController, _shiftController);
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController, _movementCardContextMenuController);
 

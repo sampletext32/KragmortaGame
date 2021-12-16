@@ -50,6 +50,10 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.ActivateSelectedCard();
 
                 _movementDecksController.SpendType(pathCell.Type);
+
+                var heroPreviousX = _shiftController.Hero.FieldX;
+                var heroPreviousY = _shiftController.Hero.FieldY;
+
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
                 // In the destination cell there are 2 heroes
@@ -64,7 +68,12 @@ namespace KragmortaApp.Handlers
                     // Highlight paths of push
 
                     _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+                    _pushController.Except(heroPreviousX, heroPreviousY);
                     _pushController.TrySetVisiblePush();
+
+                    _pushController.SetVictim(sameCellHero);
+                    _pushController.SetReturnMoveToPusher(_shiftController.Hero);
 
                     return;
                 }
@@ -86,6 +95,10 @@ namespace KragmortaApp.Handlers
             {
                 // case 3 
                 _movementDecksController.SpendType(pathCell.Type);
+
+                var heroPreviousX = _shiftController.Hero.FieldX;
+                var heroPreviousY = _shiftController.Hero.FieldY;
+
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
                 _movementDecksController.DismissActivatedCard();
@@ -103,14 +116,18 @@ namespace KragmortaApp.Handlers
                     // Highlight paths of push
 
                     _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+                    _pushController.Except(heroPreviousX, heroPreviousY);
                     _pushController.TrySetVisiblePush();
+
+                    _pushController.SetVictim(sameCellHero);
+                    // No return move to pusher in this case (second move)
 
                     return;
                 }
 
                 // clear visible path
-                _pathController.RawPath.Clear();
-                _pathController.TrySetVisiblePath(null);
+                _pathController.ClearPaths();
 
                 _shiftController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();

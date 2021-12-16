@@ -9,6 +9,11 @@ namespace KragmortaApp.Controllers
 
         private Push _push;
 
+        public HeroModel Pusher { get; private set; }
+        public bool ShouldReturnMoveToPusher { get; private set; }
+
+        public HeroModel Victim { get; private set; }
+
         public PushController(Push push)
         {
             _push = push;
@@ -63,10 +68,44 @@ namespace KragmortaApp.Controllers
             return hasSet;
         }
 
+        public void Except(int cellX, int cellY)
+        {
+            for (var i = 0; i < RawPush.Count; i++)
+            {
+                if (RawPush[i].X == cellX && RawPush[i].Y == cellY)
+                {
+                    RawPush.RemoveAt(i);
+                    return;
+                }
+            }
+        }
+
         public void ClearPush()
         {
             RawPush.Clear();
             TrySetVisiblePush();
+        }
+
+        public void SetVictim(HeroModel victim)
+        {
+            Victim = victim;
+        }
+
+        public void ClearVictim()
+        {
+            Victim = null;
+        }
+
+        public void SetReturnMoveToPusher(HeroModel pusher)
+        {
+            Pusher                   = pusher;
+            ShouldReturnMoveToPusher = true;
+        }
+
+        public void ClearReturnMoveToPusher()
+        {
+            Pusher                   = null;
+            ShouldReturnMoveToPusher = false;
         }
     }
 }
