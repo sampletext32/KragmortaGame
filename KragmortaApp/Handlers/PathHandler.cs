@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Entities;
 
@@ -8,18 +8,21 @@ namespace KragmortaApp.Handlers
     public class PathHandler : AbstractHandler
     {
         private readonly PathController _pathController;
+        private readonly PushController _pushController;
         private GameFieldController _gameFieldController;
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
 
         public PathHandler(
             PathController pathController,
+            PushController pushController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
             ShiftController shiftController
         )
         {
             _pathController          = pathController;
+            _pushController          = pushController;
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
@@ -47,7 +50,33 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.ActivateSelectedCard();
 
                 _movementDecksController.SpendType(pathCell.Type);
+
+                var heroPreviousX = _shiftController.Hero.FieldX;
+                var heroPreviousY = _shiftController.Hero.FieldY;
+
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+                // In the destination cell there are 2 heroes
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                {
+                    // use sameCellHero for further processing
+                    Console.WriteLine($"Hero {_shiftController.Hero.Nickname} pushes {sameCellHero.Nickname}");
+
+                    _pathController.ClearPaths();
+
+                    // Highlight paths of push
+
+                    _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+                    _pushController.Except(heroPreviousX, heroPreviousY);
+                    _pushController.TrySetVisiblePush();
+
+                    _pushController.SetVictim(sameCellHero);
+                    _pushController.SetReturnMoveToPusher(_shiftController.Hero);
+
+                    return;
+                }
 
                 // regenerate visible path
                 _pathController.RawPath.Clear();
@@ -66,14 +95,39 @@ namespace KragmortaApp.Handlers
             {
                 // case 3 
                 _movementDecksController.SpendType(pathCell.Type);
+
+                var heroPreviousX = _shiftController.Hero.FieldX;
+                var heroPreviousY = _shiftController.Hero.FieldY;
+
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
 
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
 
+                // In the destination cell there are 2 heroes
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                {
+                    // use sameCellHero for further processing
+                    Console.WriteLine($"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+
+                    _pathController.ClearPaths();
+
+                    // Highlight paths of push
+
+                    _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+                    _pushController.Except(heroPreviousX, heroPreviousY);
+                    _pushController.TrySetVisiblePush();
+
+                    _pushController.SetVictim(sameCellHero);
+                    // No return move to pusher in this case (second move)
+
+                    return;
+                }
+
                 // clear visible path
-                _pathController.RawPath.Clear();
-                _pathController.TrySetVisiblePath(null);
+                _pathController.ClearPaths();
 
                 _shiftController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();

@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Controllers.ContextMenus;
-using KragmortaApp.Entities;
-using KragmortaApp.Entities.ContextMenus;
 using KragmortaApp.Handlers;
 using KragmortaApp.Layers;
 using KragmortaApp.Presenters;
@@ -18,21 +15,6 @@ namespace KragmortaApp.Scenes
 {
     public class GameTableScene : Scene
     {
-        #region Models
-
-        private int _heroCount = 2;
-
-        private GameField _field;
-
-        private List<HeroModel> _heroes;
-        private List<MovementDeck> _decks;
-        private Path _path;
-
-        private Profile _profile;
-        private MovementCardContextMenuModel _movementCardContextMenuModel;
-
-        #endregion
-
         #region Presenters
 
         private ProfilePresenter _profilePresenter;
@@ -40,6 +22,7 @@ namespace KragmortaApp.Scenes
         private MovementDecksPresenter _movementDecksPresenter;
         private List<HeroPresenter> _heroPresenters;
         private PathPresenter _pathPresenter;
+        private PushPresenter _pushPresenter;
         private MovementCardContextMenuPresenter _movementCardContextMenuPresenter;
         private FinishButtonPresenter _finishButtonPresenter;
 
@@ -51,6 +34,7 @@ namespace KragmortaApp.Scenes
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
         private PathController _pathController;
+        private PushController _pushController;
         private List<HeroController> _heroControllers;
         private MovementCardContextMenuController _movementCardContextMenuController;
         private FinishButtonController _finishButtonController;
@@ -62,6 +46,7 @@ namespace KragmortaApp.Scenes
         private GameFieldHandler _gameFieldHandler;
         private MovementDeckHandler _movementDeckHandler;
         private PathHandler _pathHandler;
+        private PushHandler _pushHandler;
         private List<HeroHandler> _heroHandlers;
         private MovementCardContextMenuHandler _movementCardContextMenuHandler;
         private FinishButtonHandler _finishButtonHandler;
@@ -73,7 +58,8 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            InitAllModels();
+            // NOTE: unused, because of singleton usage
+            var gameState = new GameState();
 
             InitAllPresenters();
 
@@ -81,80 +67,63 @@ namespace KragmortaApp.Scenes
 
             InitAllHandlers();
 
-            // Initiating LayersStack (5 is gamefield + path + movement deck + context menu + finish button)
-            _layersStack = new LayersStack(5 + _heroCount);
+            // Initiating LayersStack (6 is gamefield + path + push + movement deck + context menu + finish button)
+            _layersStack = new LayersStack(6 + GameState.Instance.HeroCount);
 
             InitAllLayers();
         }
 
-        private void InitAllModels()
-        {
-            _field = new GameField(10, 7);
-
-            _profile = new Profile()
-            {
-                Nickname = "Igrovogo personaja"
-            };
-            _heroes = new List<HeroModel>(_heroCount);
-
-            for (int i = 0; i < _heroCount; i++)
-            {
-                _heroes.Add(new HeroModel($"Hero {i + 1}", i * 2, 0));
-            }
-
-            _movementCardContextMenuModel = new MovementCardContextMenuModel();
-
-            _path = new Path();
-        }
-
         private void InitAllPresenters()
         {
-            _fieldPresenter = new GameFieldPresenter(_field);
+            _fieldPresenter = new GameFieldPresenter(GameState.Instance.Field);
 
-            _pathPresenter = new PathPresenter(_path);
+            _pathPresenter = new PathPresenter(GameState.Instance.Path);
+            _pushPresenter = new PushPresenter(GameState.Instance.Push);
 
-            _movementDecksPresenter = new MovementDecksPresenter(_heroes.Select(h => h.MovementDeck).ToList(), Corner.BottomRight);
+            _movementDecksPresenter = new MovementDecksPresenter(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList(), Corner.BottomRight);
 
-            _heroPresenters = new List<HeroPresenter>(_heroCount);
-            for (var i = 0; i < _heroCount; i++)
+            _heroPresenters = new List<HeroPresenter>(GameState.Instance.HeroCount);
+            for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
-                _heroPresenters.Add(new HeroPresenter(_heroes[i]));
+                _heroPresenters.Add(new HeroPresenter(GameState.Instance.Heroes[i]));
             }
 
-            _movementCardContextMenuPresenter = new MovementCardContextMenuPresenter(_movementCardContextMenuModel);
+            _movementCardContextMenuPresenter = new MovementCardContextMenuPresenter(GameState.Instance.MovementCardContextMenuModel);
 
             _finishButtonPresenter = new FinishButtonPresenter();
         }
 
         private void InitAllControllers()
         {
-            _fieldController = new GameFieldController(_field);
+            _fieldController = new GameFieldController(GameState.Instance.Field);
 
-            _heroControllers = new List<HeroController>(_heroCount);
-            for (var i = 0; i < _heroCount; i++)
+            _heroControllers = new List<HeroController>(GameState.Instance.HeroCount);
+            for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
-                _heroControllers.Add(new HeroController(_heroes[i]));
+                _heroControllers.Add(new HeroController(GameState.Instance.Heroes[i]));
             }
 
-            _shiftController = new ShiftController(_heroes, _heroControllers);
+            _shiftController = new ShiftController(GameState.Instance.Heroes, _heroControllers);
 
-            _pathController = new PathController(_path);
+            _pathController = new PathController(GameState.Instance.Path);
+            _pushController = new PushController(GameState.Instance.Push);
 
-            _movementDecksController           = new MovementDecksController(_heroes.Select(h => h.MovementDeck).ToList());
-            _movementCardContextMenuController = new MovementCardContextMenuController(_movementCardContextMenuModel);
-            _finishButtonController = new FinishButtonController();
+            _movementDecksController           = new MovementDecksController(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList());
+            _movementCardContextMenuController = new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel);
+            _finishButtonController            = new FinishButtonController();
         }
 
         private void InitAllHandlers()
         {
             _gameFieldHandler = new GameFieldHandler(_fieldController, _movementDecksController, _pathController);
-            _heroHandlers     = new List<HeroHandler>(_heroCount);
-            for (var i = 0; i < _heroCount; i++)
+            _heroHandlers     = new List<HeroHandler>(GameState.Instance.HeroCount);
+            for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
                 _heroHandlers.Add(new HeroHandler(_heroControllers[i]));
             }
 
-            _pathHandler = new PathHandler(_pathController, _fieldController, _movementDecksController, _shiftController);
+            _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController, _shiftController);
+            _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController, _shiftController);
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController, _movementCardContextMenuController);
 
@@ -166,12 +135,13 @@ namespace KragmortaApp.Scenes
         {
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
 
-            for (var i = 0; i < _heroCount; i++)
+            for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
-                _layersStack.AddLayer(new HeroLayer(_heroPresenters[i], _heroHandlers[i], $"\"{_heroes[i].Nickname}\" Hero Layer"));
+                _layersStack.AddLayer(new HeroLayer(_heroPresenters[i], _heroHandlers[i], $"\"{GameState.Instance.Heroes[i].Nickname}\" Hero Layer"));
             }
 
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
+            _layersStack.AddLayer(new PushLayer(_pushPresenter, _pushHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
             _layersStack.AddLayer(new MovementCardContextMenuLayer(_movementCardContextMenuPresenter, _movementCardContextMenuHandler));
             _layersStack.AddLayer(new FinishButtonLayer(_finishButtonPresenter, _finishButtonHandler));

@@ -1,5 +1,3 @@
-using KragmortaApp.Enums;
-
 namespace KragmortaApp.Entities
 {
     public class HeroModel : VisualEntity
@@ -16,9 +14,9 @@ namespace KragmortaApp.Entities
 
         public HeroModel(string nickname, int fieldX, int fieldY)
         {
-            Nickname = nickname;
-            FieldX   = fieldX;
-            FieldY   = fieldY;
+            Nickname     = nickname;
+            FieldX       = fieldX;
+            FieldY       = fieldY;
 
             MovementDeck = new MovementDeck();
 
