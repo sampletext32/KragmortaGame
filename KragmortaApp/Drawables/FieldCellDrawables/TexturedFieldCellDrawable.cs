@@ -21,6 +21,8 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
 
         protected Sprite _hoveredEffectRectangle;
 
+        protected Sprite _effectSprite;
+
         /// <summary>
         /// Red sub-rect
         /// </summary>

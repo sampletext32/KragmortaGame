@@ -9,7 +9,8 @@ namespace KragmortaApp.Layers
         private readonly GameFieldPresenter _presenter;
         private readonly GameFieldHandler _handler;
 
-        public GameFieldLayer(GameFieldPresenter presenter, GameFieldHandler handler, string title = "GameField Layer") : base(presenter, handler, title)
+        public GameFieldLayer(GameFieldPresenter presenter, GameFieldHandler handler, string title = "GameField Layer")
+            : base(presenter, handler, title)
         {
             _presenter = presenter;
             _handler   = handler;
@@ -60,8 +61,16 @@ namespace KragmortaApp.Layers
             }
             else
             {
-                CellPresenterAbstract.FieldOriginX -= (int)(10 * delta);
-                CellPresenterAbstract.InvokeFieldOriginChanged(-(int)(10 * delta), 0);
+                if (Environment.OSVersion.Platform != PlatformID.MacOSX)
+                {
+                    CellPresenterAbstract.FieldOriginX += (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged((int)(10 * delta), 0);
+                }
+                else
+                {
+                    CellPresenterAbstract.FieldOriginX -= (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged(-(int)(10 * delta), 0);
+                }
             }
 
             return true;

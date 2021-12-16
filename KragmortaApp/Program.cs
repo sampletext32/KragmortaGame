@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Channels;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
 using SFML.System;
@@ -36,20 +37,39 @@ namespace KragmortaApp
             window.MouseMoved += (sender, eventArgs) => { engine.OnMouseMoved(eventArgs.X, eventArgs.Y); };
 
             bool isShiftPressed = false;
-            
-            window.KeyPressed += (sender, eventArgs) =>
+
+            window.KeyPressed  += (sender, eventArgs) => { isShiftPressed |= eventArgs.Shift; };
+            window.KeyReleased += (sender, eventArgs) => { isShiftPressed &= eventArgs.Shift; };
+
+            window.MouseWheelScrolled += (sender, eventArgs) =>
             {
-                isShiftPressed |= eventArgs.Shift;
-            };
-            window.KeyReleased += (sender, eventArgs) =>
-            {
-                isShiftPressed &= eventArgs.Shift;
+                Console.WriteLine(eventArgs.Wheel);
+
+                if (eventArgs.Wheel == Mouse.Wheel.VerticalWheel)
+                {
+                    if (isShiftPressed)
+                    {
+                        engine.OnMouseScrolled(eventArgs.X, eventArgs.Y, false, eventArgs.Delta);
+                    }
+                    else
+                    {
+                        engine.OnMouseScrolled(eventArgs.X, eventArgs.Y, true, eventArgs.Delta);
+                    }
+                }
+                else
+                {
+                    engine.OnMouseScrolled(eventArgs.X, eventArgs.Y, false, eventArgs.Delta);
+                }
             };
 
-            window.MouseWheelScrolled += (sender, eventArgs) => { engine.OnMouseScrolled(eventArgs.X, eventArgs.Y, !isShiftPressed, eventArgs.Delta); };
-
-            window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
-            window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonPressed += (sender, eventArgs) =>
+            {
+                engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
+            };
+            window.MouseButtonReleased += (sender, eventArgs) =>
+            {
+                engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
+            };
 
             Clock clock = new Clock();
 
