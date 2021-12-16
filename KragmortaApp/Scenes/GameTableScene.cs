@@ -128,7 +128,7 @@ namespace KragmortaApp.Scenes
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController, _fieldController, _movementCardContextMenuController);
 
             _movementCardContextMenuHandler = new MovementCardContextMenuHandler(_movementCardContextMenuController, _movementDecksController, _shiftController, _pathController);
-            _finishButtonHandler = new FinishButtonHandler(_movementDecksController, _shiftController, _pathController);
+            _finishButtonHandler            = new FinishButtonHandler(_movementDecksController, _shiftController, _pathController);
         }
 
         private void InitAllLayers()
@@ -175,6 +175,11 @@ namespace KragmortaApp.Scenes
         public override void OnWindowResized(int width, int height)
         {
             _layersStack.OnWindowResized(width, height);
+        }
+
+        public override void OnMouseScrolled(int x, int y, bool isVertical, float delta)
+        {
+            _layersStack?.OnMouseScrolled(x, y, isVertical, delta);
         }
     }
 }

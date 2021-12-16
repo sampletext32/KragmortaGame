@@ -19,6 +19,16 @@ namespace KragmortaApp.Presenters
         {
             _field     = field;
             _drawables = InitTexturedFieldCellDrawables(field.Cells.Count);
+
+            FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private void OnFieldOriginChanged(int x, int y)
+        {
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                _drawables[i].ShiftPosition(x, y);
+            }
         }
 
         private List<TexturedFieldCellDrawable> InitTexturedFieldCellDrawables(int count)
@@ -156,22 +166,6 @@ namespace KragmortaApp.Presenters
 
             #endregion
 
-
-            // TODO: Remove this loop
-            // for (int i = 40; i < 70; i++)
-            // {
-            //     var cell     = _field.Cells[i];
-            //     var drawable = new SquareTexturedFieldCellDrawable(cell, CellSize);
-            //
-            //     var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
-            //     var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
-            //
-            //     drawable.SetPosition(positionX, positionY);
-            //
-            //     result.Add(drawable);
-            // }
-
-
             return result;
         }
 
@@ -256,7 +250,7 @@ namespace KragmortaApp.Presenters
                 if (drawable.IsMouseWithinBounds(x, y))
                 {
                     Console.WriteLine($"RAW CELL X: {drawable.Cell.X}; Y: {drawable.Cell.Y}");
-                    
+
                     if (drawable.IsTransparentPixel(x, y)) continue;
 
                     cellX = drawable.Cell.X;
@@ -268,60 +262,6 @@ namespace KragmortaApp.Presenters
 
             cellX = cellY = -1;
             return false;
-
-            #region Hard center
-
-            // cellX = ConvertMouseXToCellX(x);
-            // cellY = ConvertMouseYToCellY(y);
-            // // Check if mouse is within the found Rect. If yes, finish.
-            //
-            //
-            // if (_drawables[_field.SizeX * cellY + cellX].IsMouseWithinBounds(x, y))
-            // {
-            //     return true;
-            // }
-            //
-            // if (cellX != _field.SizeX - 1)
-            // {
-            //     if (_drawables[_field.SizeX * cellY + (cellX + 1)].IsMouseWithinBounds(x, y))
-            //     {
-            //         cellX += 1;
-            //         return true;
-            //     }
-            // }
-            //
-            // if (cellX != 0)
-            // {
-            //     if (_drawables[_field.SizeX * cellY + (cellX - 1)].IsMouseWithinBounds(x, y))
-            //     {
-            //         cellX -= 1;
-            //         return true;
-            //     }
-            // }
-            //
-            // if (cellY != 0)
-            // {
-            //     if (_drawables[_field.SizeX * (cellY - 1) + cellX].IsMouseWithinBounds(x, y))
-            //     {
-            //         cellY -= 1;
-            //         return true;
-            //     }
-            // }
-            //
-            // if (cellY != _field.SizeY - 1)
-            // {
-            //     if (_drawables[_field.SizeX * (cellY + 1) + cellX].IsMouseWithinBounds(x, y))
-            //     {
-            //         cellY += 1;
-            //         return true;
-            //     }
-            // }
-            //
-            // // If no, check 8 neighboring cells, if the mouse is within any of them.
-            //
-            // return false;
-
-            #endregion
         }
     }
 }

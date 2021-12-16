@@ -35,6 +35,19 @@ namespace KragmortaApp
 
             window.MouseMoved += (sender, eventArgs) => { engine.OnMouseMoved(eventArgs.X, eventArgs.Y); };
 
+            bool isShiftPressed = false;
+            
+            window.KeyPressed += (sender, eventArgs) =>
+            {
+                isShiftPressed |= eventArgs.Shift;
+            };
+            window.KeyReleased += (sender, eventArgs) =>
+            {
+                isShiftPressed &= eventArgs.Shift;
+            };
+
+            window.MouseWheelScrolled += (sender, eventArgs) => { engine.OnMouseScrolled(eventArgs.X, eventArgs.Y, !isShiftPressed, eventArgs.Delta); };
+
             window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
             window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
 

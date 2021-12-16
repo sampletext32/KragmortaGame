@@ -42,6 +42,7 @@ namespace KragmortaApp.Layers
             {
                 throw new KragException($"Layers stack is not big enough. Occured on adding {layer.Title}");
             }
+
             _layers.Add(layer);
             _layerDebugText.DisplayedString += new string(' ', _layers.Count) + layer.Title + "\n";
         }
@@ -98,6 +99,17 @@ namespace KragmortaApp.Layers
             for (var i = 0; i < _layers.Count; i++)
             {
                 _layers[i].Update(deltaTime);
+            }
+        }
+
+        public void OnMouseScrolled(int x, int y, bool isVertical, float delta)
+        {
+            for (var i = _layers.Count - 1; i >= 0; i--)
+            {
+                if (_layers[i].TryHandleMouseScroll(x, y, isVertical, delta))
+                {
+                    break;
+                }
             }
         }
     }

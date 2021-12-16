@@ -32,6 +32,12 @@ namespace KragmortaApp.Drawables
             _effectRectangle.Position = new Vector2f(x, y);
         }
 
+        public void ShiftPosition(int x, int y)
+        {
+            var shiftVector = new Vector2f(x, y);
+            _effectRectangle.Position       += shiftVector;
+        }
+
         public void Draw(RenderTarget target, RenderStates states)
         {
             if (_pushCell.Dirty)

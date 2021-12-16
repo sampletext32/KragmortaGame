@@ -14,5 +14,6 @@ namespace KragmortaApp.Scenes
         public abstract void OnMouseButtonPressed(int x, int y, KragMouseButton mouseButton);
         public abstract void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton);
         public abstract void OnWindowResized(int width, int height);
+        public abstract void OnMouseScrolled(int x, int y, bool isVertical, float delta);
     }
 }

@@ -32,6 +32,13 @@ namespace KragmortaApp.Presenters
                 blue: (byte)Rand.Next(0, 256),
                 alpha: 100
             );
+            
+            FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private void OnFieldOriginChanged(int x, int y)
+        {
+            _rectangle.Position += new Vector2f(x, y);
         }
 
         public override void Render(RenderTarget target)

@@ -16,7 +16,6 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
 
             var textureIndex = random.Next(0, 3);
 
-
             switch (corner)
             {
                 case Corner.TopLeft:

@@ -71,6 +71,17 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _orange.Position                 = new Vector2f(x + 70, y + 10);
         }
 
+        public void ShiftPosition(int x, int y)
+        {
+            var shiftVector = new Vector2f(x, y);
+            _backgroundSprite.Position       += shiftVector;
+            _hoveredEffectRectangle.Position +=  shiftVector;
+            _red.Position                    +=  shiftVector;
+            _green.Position                  +=  shiftVector;
+            _blue.Position                   +=  shiftVector;
+            _orange.Position                 +=  shiftVector;
+        }
+
         public void Draw(RenderTarget target, RenderStates states)
         {
             if (_cell.Dirty)
