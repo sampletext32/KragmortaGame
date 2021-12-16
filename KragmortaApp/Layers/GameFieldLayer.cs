@@ -18,8 +18,7 @@ namespace KragmortaApp.Layers
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
-            var cellX = _presenter.ConvertMouseXToCellX(x);
-            var cellY = _presenter.ConvertMouseYToCellY(y);
+            if (!_presenter.TryConvertMouseCoordsToCellCoords(x, y,out int cellX, out int cellY)) return false;
 
             _handler.OnMouseMovedOverCell(cellX, cellY);
             return true;

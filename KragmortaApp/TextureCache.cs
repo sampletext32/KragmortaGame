@@ -20,7 +20,7 @@ namespace KragmortaApp
             }
             else
             {
-                var texture = new Texture($"assets/textures/{name}.png");
+                var texture = new Texture(Engine.Instance.ImageCache.GetOrCache(name));
                 _textures[name] = texture;
                 return texture;
             }

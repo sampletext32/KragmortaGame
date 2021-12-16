@@ -15,8 +15,10 @@ namespace KragmortaApp
         private Scene _activeScene;
 
         public TextureCache TextureCache => _textureCache;
+        public ImageCache ImageCache => _imageCache;
         
         private TextureCache _textureCache;
+        private ImageCache _imageCache;
 
         private int _windowWidth;
         private int _windowHeight;
@@ -36,6 +38,7 @@ namespace KragmortaApp
 
             _instance     = this;
             _textureCache = new TextureCache();
+            _imageCache   = new ImageCache();
             _windowWidth  = StartWindowWidth;
             _windowHeight = StartWindowHeight;
         }

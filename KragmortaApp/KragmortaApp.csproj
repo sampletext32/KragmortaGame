@@ -11,6 +11,8 @@
 
     <ItemGroup>
       <Compile Remove="Controllers\MovementDecks\MovementDecksController.cs" />
+      <Compile Remove="Controllers\TempTurnController.cs" />
+      <Compile Remove="Entities\TempTurnQueueModel.cs" />
     </ItemGroup>
 
 
