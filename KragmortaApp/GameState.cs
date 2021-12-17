@@ -33,7 +33,7 @@ namespace KragmortaApp
             Instance    = this;
             
             // Field = new GameField(10, 7);
-            Field = new GameField(7, 10);
+            Field = new GameField(2, 10);
 
             Profile = new Profile()
             {
