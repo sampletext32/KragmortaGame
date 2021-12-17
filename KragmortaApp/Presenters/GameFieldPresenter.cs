@@ -35,6 +35,23 @@ namespace KragmortaApp.Presenters
         {
             var result = new List<TexturedFieldCellDrawable>(70);
 
+            if (GameState.Instance.Field.SizeX == 10)
+            {
+                InitField10X7(result);
+            } else if (GameState.Instance.Field.SizeX == 7)
+            {
+                InitField7X10(result);
+            }
+            else
+            {
+                throw new Exception(ErrorMsg);
+            }
+
+            return result;
+        }
+
+        private void InitField10X7(List<TexturedFieldCellDrawable> result)
+        {
             #region 1st row
 
             result.Add(InitBigPolynomial(_field.Cells[0], Corner.TopLeft));
@@ -165,8 +182,161 @@ namespace KragmortaApp.Presenters
             result.Add(InitSquare(_field.Cells[69]));
 
             #endregion
+        }
+        
+        private void InitField7X10(List<TexturedFieldCellDrawable> result)
+        {
+            int i = 0;
+            #region 1st row
 
-            return result;
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+
+            #endregion
+
+            #region 2nd row
+
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+
+            #endregion
+
+            #region 3rd row
+
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
+
+            #endregion
+
+            #region 4th row
+
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
+
+            #endregion
+
+            #region 5th row
+
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+
+            #endregion
+
+            #region 6th row
+
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+
+            #endregion
+
+            #region 7th row
+
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+
+            #endregion
+
+            #region 8th row
+
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+
+            #endregion
+
+            #region 9th row
+
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+
+            #endregion
+
+            #region 10th row
+
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitSquare(_field.Cells[i++]));
+            result.Add(InitSquare(_field.Cells[i++]));
+            
+            result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
+            result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
+            
+            result.Add(InitSquare(_field.Cells[i]));
+
+            #endregion
         }
 
         private BigPolygonTexturedFieldCellDrawable InitBigPolynomial(FieldCell cell, Corner corner)
@@ -225,10 +395,6 @@ namespace KragmortaApp.Presenters
             {
                 target.Draw(drawable);
             }
-
-            // var polygon = new BigPolygonFieldCellDrawable(new FieldCell(), CellSize);
-            // var polygon = new SquareFieldCellDrawable(new FieldCell(), CellSize);
-            // target.Draw((polygon));
         }
 
         /// <summary>
@@ -249,8 +415,6 @@ namespace KragmortaApp.Presenters
             {
                 if (drawable.IsMouseWithinBounds(x, y))
                 {
-                    Console.WriteLine($"RAW CELL X: {drawable.Cell.X}; Y: {drawable.Cell.Y}");
-
                     if (drawable.IsTransparentPixel(x, y)) continue;
 
                     cellX = drawable.Cell.X;
@@ -263,5 +427,8 @@ namespace KragmortaApp.Presenters
             cellX = cellY = -1;
             return false;
         }
+
+        private readonly string ErrorMsg =
+            "Ебать мой хуй поле у тебя кусок хуеты, с размерами которой я не ебу шо делать... поэтому лови исключение, уебан(ка)!";
     }
 }

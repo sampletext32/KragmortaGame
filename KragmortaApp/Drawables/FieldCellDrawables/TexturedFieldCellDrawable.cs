@@ -77,11 +77,11 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         {
             var shiftVector = new Vector2f(x, y);
             _backgroundSprite.Position       += shiftVector;
-            _hoveredEffectRectangle.Position +=  shiftVector;
-            _red.Position                    +=  shiftVector;
-            _green.Position                  +=  shiftVector;
-            _blue.Position                   +=  shiftVector;
-            _orange.Position                 +=  shiftVector;
+            _hoveredEffectRectangle.Position += shiftVector;
+            _red.Position                    += shiftVector;
+            _green.Position                  += shiftVector;
+            _blue.Position                   += shiftVector;
+            _orange.Position                 += shiftVector;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -136,15 +136,8 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         public bool IsMouseWithinBounds(int x, int y)
         {
             return !(x < _backgroundSprite.GetGlobalBounds().Left) && !(x > _backgroundSprite.GetGlobalBounds().Left +
-                _backgroundSprite.GetGlobalBounds().Width) && !(y < _backgroundSprite.GetGlobalBounds().Top) && !(y > _backgroundSprite.GetGlobalBounds().Top + _backgroundSprite.GetGlobalBounds().Height);
-
-            // Console.WriteLine(_backgroundImage.GetPixel(
-            //     (uint)(x - (int)_backgroundSprite.GetGlobalBounds().Left),
-            //     (uint)(y - (int)_backgroundSprite.GetGlobalBounds().Top)));
-            //
-            // return _backgroundImage.GetPixel(
-            //     (uint)(x - (int)_backgroundSprite.GetGlobalBounds().Left),
-            //     (uint)(y - (int)_backgroundSprite.GetGlobalBounds().Top)) != Color.Transparent;
+                       _backgroundSprite.GetGlobalBounds().Width) && !(y < _backgroundSprite.GetGlobalBounds().Top) &&
+                   !(y > _backgroundSprite.GetGlobalBounds().Top + _backgroundSprite.GetGlobalBounds().Height);
         }
 
         public bool IsTransparentPixel(int x, int y)
@@ -157,7 +150,6 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             var pixel = _backgroundImage.GetPixel(
                 textureX,
                 textureY);
-            Console.WriteLine($"TEXTURE ({textureX}, {textureY}): {pixel}");
 
             return pixel.A == 0;
         }

@@ -2,6 +2,6 @@
 {
     public class PushCell : AbstractCell
     {
-        public bool Visible { get; set; }
+        // public bool Visible { get; set; }
     }
 }

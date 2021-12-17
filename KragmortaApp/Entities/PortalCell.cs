@@ -1,6 +1,6 @@
 namespace KragmortaApp.Entities
 {
-    public class PathCell : AbstractCell
+    public class PortalCell : AbstractCell
     {
     }
 }

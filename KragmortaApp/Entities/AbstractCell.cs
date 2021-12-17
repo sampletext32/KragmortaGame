@@ -18,5 +18,7 @@ namespace KragmortaApp.Entities
         /// The type of current cell
         /// </summary>
         public CellType Type { get; set; }
+        
+        public bool Visible { get; set; }
     }
 }
