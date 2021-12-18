@@ -1,6 +1,7 @@
 ﻿using System;
 using KragmortaApp.Entities;
 using KragmortaApp.Enums;
+using KragmortaApp.Presenters;
 using SFML.Graphics;
 using SFML.System;
 
@@ -20,8 +21,6 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         protected Image _backgroundImage;
 
         protected Sprite _hoveredEffectRectangle;
-
-        protected Sprite _effectSprite;
 
         /// <summary>
         /// Red sub-rect
@@ -61,6 +60,277 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         public TexturedFieldCellDrawable(FieldCell cell, int cellSize)
         {
             _cell = cell;
+
+            _backgroundSprite       = new Sprite();
+            _hoveredEffectRectangle = new Sprite();
+
+            switch (cell.Form)
+            {
+                case CellForm.Big:
+                {
+                    InitBig(cell.Corner, cellSize);
+                    break;
+                }
+                case CellForm.Small:
+                {
+                    InitSmall(cell.Corner, cellSize);
+                    break;
+                }
+                case CellForm.Square:
+                {
+                    InitSquare(cellSize);
+                    break;
+                }
+                default:
+                {
+                    throw new KragException($"Unknown type of the cell X: {cell.X}, Y: {cell.Y}");
+                }
+            }
+        }
+
+        private void InitBig(Corner corner, int cellSize)
+        {
+            var textureIndex = random.Next(0, 3);
+
+
+            switch (corner)
+            {
+                case Corner.TopLeft:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache($"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlate/bigtrapezeplateline");
+                    break;
+                }
+                case Corner.TopRight:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplatelineref");
+                    break;
+                }
+                case Corner.BottomLeft:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplatelinerefreversed");
+                    break;
+                }
+                case Corner.BottomRight:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplatelinereversed");
+                    break;
+                }
+                default:
+                {
+                    _backgroundSprite.Color = Color.Red;
+                    break;
+                }
+            }
+            
+            const int offset    = 15;
+            cellSize += offset;
+
+            var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
+            _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
+
+            
+            var       positionX = 
+                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var       positionY = 
+                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            if (corner is Corner.BottomRight or Corner.TopRight)
+            {
+                positionX -= offset;
+            }
+
+            if (corner is Corner.BottomLeft or Corner.BottomRight)
+            {
+                positionY -= 18;
+            }
+
+            _red = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Red
+            };
+            _green = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Green
+            };
+            _blue = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Blue
+            };
+            _orange = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = new Color(255, 165, 0)
+            };
+            
+            SetPosition(positionX, positionY);
+        }
+
+        private void InitSmall(Corner corner, int cellSize)
+        {
+            var textureIndex = random.Next(0, 3);
+
+            switch (corner)
+            {
+                case Corner.TopLeft:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplateline");
+                    break;
+                }
+                case Corner.TopRight:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplatelineref");
+                    break;
+                }
+                case Corner.BottomLeft:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplatelinerefreversed");
+                    break;
+                }
+                case Corner.BottomRight:
+                {
+                    _backgroundSprite.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed");
+                    _backgroundImage =
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed");
+                    _hoveredEffectRectangle.Texture =
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplatelinereversed");
+                    break;
+                }
+                default:
+                {
+                    _backgroundSprite.Color = Color.Red;
+                    break;
+                }
+            }
+
+            var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
+            _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
+
+            _red = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Red
+            };
+            _green = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Green
+            };
+            _blue = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Blue
+            };
+            _orange = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = new Color(255, 165, 0)
+            };
+            
+            var positionX = 
+                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var positionY = 
+                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            SetPosition(positionX, positionY);
+        }
+
+        private void InitSquare(int cellSize)
+        {
+            var textureIndex = random.Next(0, 3);
+
+
+            _backgroundSprite.Texture =
+                Engine.Instance.TextureCache.GetOrCache($"squareplate/squareplate{textureIndex}");
+            _backgroundImage = Engine.Instance.ImageCache.GetOrCache($"squareplate/squareplate{textureIndex}");
+            _hoveredEffectRectangle.Texture =
+                Engine.Instance.TextureCache.GetOrCache($"squareplate/squareplateline");
+
+            var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
+            _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
+
+
+            _red = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Red
+            };
+            _green = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Green
+            };
+            _blue = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = Color.Blue
+            };
+            _orange = new RectangleShape()
+            {
+                Size      = new Vector2f(10, 10),
+                FillColor = new Color(255, 165, 0)
+            };
+            
+            var positionX = 
+                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var positionY = 
+                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            SetPosition(positionX, positionY);
         }
 
         public void SetPosition(int x, int y)

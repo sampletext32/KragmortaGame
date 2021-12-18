@@ -19,6 +19,10 @@ namespace KragmortaApp.Entities
         /// </summary>
         public CellType Type { get; set; }
         
+        public CellForm Form { get; set; }
+
+        public Corner Corner { get; set; }
+        
         public bool Visible { get; set; }
     }
 }
