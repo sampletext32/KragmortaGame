@@ -49,6 +49,8 @@ namespace KragmortaApp.Controllers
                 _push.Cells[i].X       = RawPush[i].X;
                 _push.Cells[i].Y       = RawPush[i].Y;
                 _push.Cells[i].Type    = RawPush[i].Type;
+                _push.Cells[i].Corner  = RawPush[i].Corner;
+                _push.Cells[i].Form    = RawPush[i].Form;
                 _push.Cells[i].Visible = true;
                 hasSet                 = true;
 

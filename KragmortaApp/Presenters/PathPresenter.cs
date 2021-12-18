@@ -77,13 +77,7 @@ namespace KragmortaApp.Presenters
             if (_path.Dirty)
             {
                 LoadTextures();
-                // for (var i = 0; i < _path.Cells.Count; i++)
-                // {
-                //     var positionX = FieldOriginX + (CellSize + CellMargin) * _path.Cells[i].X;
-                //     var positionY = FieldOriginY + (CellSize + CellMargin) * _path.Cells[i].Y;
-                //     _drawables[i].SetPosition(positionX, positionY);
-                // }
-
+                
                 _path.ClearDirty();
             }
 
