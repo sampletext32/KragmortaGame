@@ -14,7 +14,7 @@ namespace KragmortaApp
             Engine engine = new Engine();
             engine.OnCreate();
 
-            var scene = new GameTableScene();
+            var scene = new MenuScene();
             scene.OnCreate();
             engine.SetActiveScene(scene);
 
