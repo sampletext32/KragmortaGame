@@ -29,11 +29,11 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 Size      = new Vector2f(10, 10),
                 FillColor = Color.Red
             };
-            _green = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Green
-            };
+            // _green = new RectangleShape()
+            // {
+            //     Size      = new Vector2f(10, 10),
+            //     FillColor = Color.Green
+            // };
             _blue = new RectangleShape()
             {
                 Size      = new Vector2f(10, 10),
