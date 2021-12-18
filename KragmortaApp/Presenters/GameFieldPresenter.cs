@@ -388,7 +388,6 @@ namespace KragmortaApp.Presenters
             drawable.SetPosition(positionX, positionY);
             return drawable;
         }
-
         public override void Render(RenderTarget target)
         {
             if (_field.Dirty)
