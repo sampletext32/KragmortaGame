@@ -15,6 +15,9 @@ namespace KragmortaApp.Presenters
 
         private List<TexturedFieldCellDrawable> _drawables;
 
+        private readonly string ErrorMsg =
+            "Ебать мой хуй поле у тебя кусок хуеты, с размерами которой я не ебу шо делать... поэтому лови исключение, уебан(ка)!";
+
         public GameFieldPresenter(GameField field)
         {
             _field     = field;
@@ -38,13 +41,14 @@ namespace KragmortaApp.Presenters
             if (GameState.Instance.Field.SizeX == 10)
             {
                 InitField10X7(result);
-            } else if (GameState.Instance.Field.SizeX == 7)
+            }
+            else if (GameState.Instance.Field.SizeX == 7)
             {
                 InitField7X10(result);
             }
             else
             {
-                throw new Exception(ErrorMsg);
+                throw new KragException(ErrorMsg);
             }
 
             return result;
@@ -183,20 +187,21 @@ namespace KragmortaApp.Presenters
 
             #endregion
         }
-        
+
         private void InitField7X10(List<TexturedFieldCellDrawable> result)
         {
             int i = 0;
+
             #region 1st row
 
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
 
@@ -205,13 +210,13 @@ namespace KragmortaApp.Presenters
             #region 2nd row
 
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
 
@@ -221,12 +226,12 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
 
@@ -236,12 +241,12 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
 
@@ -251,13 +256,13 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
 
             #endregion
@@ -266,13 +271,13 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
 
             #endregion
@@ -281,12 +286,12 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
 
@@ -295,13 +300,13 @@ namespace KragmortaApp.Presenters
             #region 8th row
 
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
 
@@ -310,15 +315,15 @@ namespace KragmortaApp.Presenters
             #region 9th row
 
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.TopLeft));
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.TopRight));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
 
             #endregion
@@ -327,13 +332,13 @@ namespace KragmortaApp.Presenters
 
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitSquare(_field.Cells[i++]));
             result.Add(InitSquare(_field.Cells[i++]));
-            
+
             result.Add(InitBigPolynomial(_field.Cells[i++], Corner.BottomLeft));
             result.Add(InitSmallPolynomial(_field.Cells[i++], Corner.BottomRight));
-            
+
             result.Add(InitSquare(_field.Cells[i]));
 
             #endregion
@@ -427,8 +432,5 @@ namespace KragmortaApp.Presenters
             cellX = cellY = -1;
             return false;
         }
-
-        private readonly string ErrorMsg =
-            "Ебать мой хуй поле у тебя кусок хуеты, с размерами которой я не ебу шо делать... поэтому лови исключение, уебан(ка)!";
     }
 }
