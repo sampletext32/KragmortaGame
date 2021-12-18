@@ -30,7 +30,8 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         /// <summary>
         /// Green sub-rect
         /// </summary>
-        protected RectangleShape _green;
+        protected Sprite _green;
+        // protected RectangleShape _green;
 
         /// <summary>
         /// Blue sub-rect
@@ -176,11 +177,9 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 Size      = new Vector2f(10, 10),
                 FillColor = Color.Red
             };
-            _green = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Green
-            };
+            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
+            _green.Scale    = new Vector2f(0.7f, 0.7f);
+            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
             _blue = new RectangleShape()
             {
                 Size      = new Vector2f(10, 10),
@@ -265,11 +264,9 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 Size      = new Vector2f(10, 10),
                 FillColor = Color.Red
             };
-            _green = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Green
-            };
+            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
+            _green.Scale    = new Vector2f(0.7f, 0.7f);
+            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
             _blue = new RectangleShape()
             {
                 Size      = new Vector2f(10, 10),
@@ -309,11 +306,9 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 Size      = new Vector2f(10, 10),
                 FillColor = Color.Red
             };
-            _green = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Green
-            };
+            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
+            _green.Scale    = new Vector2f(0.7f, 0.7f);
+            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
             _blue = new RectangleShape()
             {
                 Size      = new Vector2f(10, 10),
@@ -338,7 +333,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _backgroundSprite.Position       = new Vector2f(x, y);
             _hoveredEffectRectangle.Position = new Vector2f(x, y);
             _red.Position                    = new Vector2f(x + 10, y + 10);
-            _green.Position                  = new Vector2f(x + 30, y + 10);
+            _green.Position                  = new Vector2f(x + 15, y + 15);
             _blue.Position                   = new Vector2f(x + 50, y + 10);
             _orange.Position                 = new Vector2f(x + 70, y + 10);
         }

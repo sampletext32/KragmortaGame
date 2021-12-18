@@ -12,6 +12,11 @@ namespace KragmortaApp
             _textures = new();
         }
 
+        /// <summary>
+        /// Loads up a texture given by the path or return already cached one.
+        /// </summary>
+        /// <param name="name">Path to the image WITHOUT extenstion. Only .png files!</param>
+        /// <returns></returns>
         public Texture GetOrCache(string name)
         {
             if (_textures.ContainsKey(name))
