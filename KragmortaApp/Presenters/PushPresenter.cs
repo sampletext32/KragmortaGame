@@ -14,21 +14,35 @@ namespace KragmortaApp.Presenters
         public PushPresenter(Push push)
         {
             _push      = push;
-            _drawables = new List<PushCellDrawable>(push.Cells.Count);
-            _drawables.AddRange(push.Cells.Select(cell =>
-            {
-                var drawable = new PushCellDrawable(cell, CellSize);
-
-                var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
-                var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
-
-                drawable.SetPosition(positionX, positionY);
-                return drawable;
-            }));
+            
+            _drawables = InitPushCellDrawables(push.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
         }
 
+        private List<PushCellDrawable> InitPushCellDrawables(int count)
+        {
+            var result = new List<PushCellDrawable>(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(new PushCellDrawable(_push.Cells[i], CellSize));
+            }
+
+            return result;
+        }
+        
+        private void LoadTextures()
+        {
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                if (_push.Cells[i].Visible)
+                {
+                    _drawables[i].LoadTexture();
+                }
+            }
+        }
+        
         private void OnFieldOriginChanged(int x, int y)
         {
             for (var i = 0; i < _drawables.Count; i++)
@@ -62,12 +76,7 @@ namespace KragmortaApp.Presenters
         {
             if (_push.Dirty)
             {
-                for (var i = 0; i < _push.Cells.Count; i++)
-                {
-                    var positionX = FieldOriginX + (CellSize + CellMargin) * _push.Cells[i].X;
-                    var positionY = FieldOriginY + (CellSize + CellMargin) * _push.Cells[i].Y;
-                    _drawables[i].SetPosition(positionX, positionY);
-                }
+                LoadTextures();
 
                 _push.ClearDirty();
             }

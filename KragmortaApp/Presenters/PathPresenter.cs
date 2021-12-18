@@ -14,19 +14,33 @@ namespace KragmortaApp.Presenters
         public PathPresenter(Path path)
         {
             _path      = path;
-            _drawables = new List<PathCellDrawable>(path.Cells.Count);
-            _drawables.AddRange(path.Cells.Select(cell =>
-            {
-                var drawable = new PathCellDrawable(cell, CellSize);
 
-                var positionX = FieldOriginX + (CellSize + CellMargin) * cell.X;
-                var positionY = FieldOriginY + (CellSize + CellMargin) * cell.Y;
-
-                drawable.SetPosition(positionX, positionY);
-                return drawable;
-            }));
-
+            _drawables = InitPathCellDrawables(path.Cells.Count);
+            
             FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private List<PathCellDrawable> InitPathCellDrawables(int count)
+        {
+            var result = new List<PathCellDrawable>(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(new PathCellDrawable(_path.Cells[i], CellSize));
+            }
+
+            return result;
+        }
+        
+        private void LoadTextures()
+        {
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                if (_path.Cells[i].Visible)
+                {
+                    _drawables[i].LoadTexture();
+                }
+            }
         }
 
         private void OnFieldOriginChanged(int x, int y)
@@ -62,13 +76,8 @@ namespace KragmortaApp.Presenters
         {
             if (_path.Dirty)
             {
-                for (var i = 0; i < _path.Cells.Count; i++)
-                {
-                    var positionX = FieldOriginX + (CellSize + CellMargin) * _path.Cells[i].X;
-                    var positionY = FieldOriginY + (CellSize + CellMargin) * _path.Cells[i].Y;
-                    _drawables[i].SetPosition(positionX, positionY);
-                }
-
+                LoadTextures();
+                
                 _path.ClearDirty();
             }
 
@@ -77,5 +86,7 @@ namespace KragmortaApp.Presenters
                 target.Draw(drawable);
             }
         }
+
+        
     }
 }
