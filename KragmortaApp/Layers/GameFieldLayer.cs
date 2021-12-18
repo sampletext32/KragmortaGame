@@ -1,3 +1,4 @@
+using System;
 using KragmortaApp.Handlers;
 using KragmortaApp.Presenters;
 
@@ -8,7 +9,8 @@ namespace KragmortaApp.Layers
         private readonly GameFieldPresenter _presenter;
         private readonly GameFieldHandler _handler;
 
-        public GameFieldLayer(GameFieldPresenter presenter, GameFieldHandler handler, string title = "GameField Layer") : base(presenter, handler, title)
+        public GameFieldLayer(GameFieldPresenter presenter, GameFieldHandler handler, string title = "GameField Layer")
+            : base(presenter, handler, title)
         {
             _presenter = presenter;
             _handler   = handler;
@@ -18,7 +20,7 @@ namespace KragmortaApp.Layers
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
-            if (!_presenter.TryConvertMouseCoordsToCellCoords(x, y,out int cellX, out int cellY)) return false;
+            if (!_presenter.TryConvertMouseCoordsToCellCoords(x, y, out int cellX, out int cellY)) return false;
 
             _handler.OnMouseMovedOverCell(cellX, cellY);
             return true;
@@ -28,8 +30,7 @@ namespace KragmortaApp.Layers
         {
             if (!_presenter.IsMouseWithinBounds(x, y)) return false;
 
-            var cellX = _presenter.ConvertMouseXToCellX(x);
-            var cellY = _presenter.ConvertMouseYToCellY(y);
+            if (!_presenter.TryConvertMouseCoordsToCellCoords(x, y, out int cellX, out int cellY)) return false;
 
             _handler.OnMousePressedCell(cellX, cellY);
 
@@ -39,6 +40,40 @@ namespace KragmortaApp.Layers
         public override void HandleMouseLeft()
         {
             _handler.OnMouseLeft();
+        }
+
+        public override bool TryHandleMouseScroll(int x, int y, bool isVertical, float delta)
+        {
+            if (!_presenter.IsMouseWithinBounds(x, y)) return false;
+
+            if (isVertical)
+            {
+                if (Environment.OSVersion.Platform == PlatformID.MacOSX)
+                {
+                    CellPresenterAbstract.FieldOriginY -= (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged(0, -(int)(10 * delta));
+                }
+                else
+                {
+                    CellPresenterAbstract.FieldOriginY += (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged(0, (int)(10 * delta));
+                }
+            }
+            else
+            {
+                if (Environment.OSVersion.Platform != PlatformID.MacOSX)
+                {
+                    CellPresenterAbstract.FieldOriginX += (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged((int)(10 * delta), 0);
+                }
+                else
+                {
+                    CellPresenterAbstract.FieldOriginX -= (int)(10 * delta);
+                    CellPresenterAbstract.InvokeFieldOriginChanged(-(int)(10 * delta), 0);
+                }
+            }
+
+            return true;
         }
     }
 }

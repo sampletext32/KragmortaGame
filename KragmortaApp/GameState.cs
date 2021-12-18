@@ -20,16 +20,20 @@ namespace KragmortaApp
 
         public readonly Path Path;
         public readonly Push Push;
+        public readonly Portal Portal;
 
         public readonly Profile Profile;
         
         public MovementCardContextMenuModel MovementCardContextMenuModel;
 
+        public ColorsStorage ColorsStorage;
+
         public GameState()
         {
-            Instance = this;
+            Instance    = this;
             
-            Field = new GameField(10, 7);
+            Field = new GameField(7, 10);
+            // Field = new GameField(2, 10);
 
             Profile = new Profile()
             {
@@ -44,8 +48,11 @@ namespace KragmortaApp
 
             MovementCardContextMenuModel = new MovementCardContextMenuModel();
 
-            Path = new Path();
-            Push = new Push();
+            Path   = new Path();
+            Push   = new Push();
+            Portal = new Portal();
+
+            ColorsStorage = new ColorsStorage();
         }
     }
 }

@@ -1,12 +1,21 @@
+using System;
+
 namespace KragmortaApp.Presenters
 {
     public abstract class CellPresenterAbstract : Presenter
     {
         public static readonly int CellSize = 96;
         public static readonly int CellMargin = 6;
-        
-        protected int FieldOriginX = 350;
-        protected int FieldOriginY = 50;
+
+        public static int FieldOriginX = 350;
+        public static int FieldOriginY = 50;
+
+        public static event Action<int, int> FieldOriginChanged;
+
+        public static void InvokeFieldOriginChanged(int x, int y)
+        {
+            FieldOriginChanged?.Invoke(x, y);
+        }
 
         /// <summary>
         /// Converts the screen X to field Cell X

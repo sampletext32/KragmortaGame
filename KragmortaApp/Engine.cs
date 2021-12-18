@@ -16,7 +16,7 @@ namespace KragmortaApp
 
         public TextureCache TextureCache => _textureCache;
         public ImageCache ImageCache => _imageCache;
-        
+
         private TextureCache _textureCache;
         private ImageCache _imageCache;
 
@@ -99,9 +99,14 @@ namespace KragmortaApp
 
         public void OnWindowResized(int width, int height)
         {
-            _windowWidth = width;
+            _windowWidth  = width;
             _windowHeight = height;
             _activeScene?.OnWindowResized(width, height);
+        }
+
+        public void OnMouseScrolled(int x, int y, bool isVertical, float delta)
+        {
+            _activeScene?.OnMouseScrolled(x, y, isVertical, delta);
         }
     }
 }

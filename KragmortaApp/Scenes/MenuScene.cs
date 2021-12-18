@@ -31,5 +31,10 @@ namespace KragmortaApp.Scenes
         public override void OnWindowResized(int width, int height)
         {
         }
+
+        public override void OnMouseScrolled(int x, int y, bool isVertical, float delta)
+        {
+            
+        }
     }
 }

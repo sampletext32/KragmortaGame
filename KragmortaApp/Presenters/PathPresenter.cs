@@ -25,6 +25,16 @@ namespace KragmortaApp.Presenters
                 drawable.SetPosition(positionX, positionY);
                 return drawable;
             }));
+
+            FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private void OnFieldOriginChanged(int x, int y)
+        {
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                _drawables[i].ShiftPosition(x, y);
+            }
         }
 
         public override bool IsMouseWithinBounds(int x, int y)
@@ -39,7 +49,7 @@ namespace KragmortaApp.Presenters
                     y >= positionY &&
                     y < positionY + (CellSize + CellMargin)
                     && _path.Cells[i].Visible
-                )
+                   )
                 {
                     return true;
                 }

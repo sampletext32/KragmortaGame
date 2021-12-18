@@ -75,5 +75,10 @@ namespace KragmortaApp.Layers
         public virtual void Update(float deltaTime)
         {
         }
+
+        public virtual bool TryHandleMouseScroll(int x, int y, bool isVertical, float delta)
+        {
+            return false;
+        }
     }
 }
