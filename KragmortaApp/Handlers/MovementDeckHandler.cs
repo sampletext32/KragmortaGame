@@ -71,7 +71,6 @@ namespace KragmortaApp.Handlers
             }
 
             // case 3
-            if (!_movementDecksController.HasSelectedCard())
             {
                 _movementDecksController.SelectCard(card);
 
@@ -89,7 +88,7 @@ namespace KragmortaApp.Handlers
         {
             if (!_shiftController.HasAnyCardDeletionsLeft()) return;
 
-            if (_movementDecksController.HasActivatedCard()) return; 
+            if (_movementDecksController.HasActivatedCard()) return;
 
             _movementCardContextMenuController.SetPosition(x, y);
             _movementCardContextMenuController.SetCard(card);

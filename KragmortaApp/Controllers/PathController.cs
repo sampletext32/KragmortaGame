@@ -48,6 +48,8 @@ namespace KragmortaApp.Controllers
                     _path.Cells[i].X       = RawPath[i].X;
                     _path.Cells[i].Y       = RawPath[i].Y;
                     _path.Cells[i].Type    = RawPath[i].Type;
+                    _path.Cells[i].Form    = RawPath[i].Form;
+                    _path.Cells[i].Corner  = RawPath[i].Corner;
                     _path.Cells[i].Visible = true;
                     hasSet                 = true;
                 }
