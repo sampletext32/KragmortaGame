@@ -63,6 +63,9 @@ namespace KragmortaApp.Scenes
         private void StartButtonOnClicked()
         {
             Console.WriteLine("Start");
+            var gameTableScene = new GameTableScene();
+            gameTableScene.OnCreate();
+            Engine.Instance.SetActiveScene(gameTableScene);
         }
 
         public override void OnUpdate(float deltaTime)
