@@ -26,6 +26,8 @@ namespace KragmortaApp
         public int WindowWidth => _windowWidth;
         public int WindowHeight => _windowHeight;
 
+        public RenderWindow Window { get; set; }
+
         /// <summary>
         /// Game constructor, should not initialize any entities
         /// </summary>

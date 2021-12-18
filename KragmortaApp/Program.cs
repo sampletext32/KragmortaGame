@@ -25,7 +25,9 @@ namespace KragmortaApp
             );
 
             var window = new RenderWindow(videoMode, "Kragmorta Game");
-
+            
+            engine.Window = window;
+            
             window.Resized += (sender, eventArgs) =>
             {
                 window.SetView(new View(new FloatRect(0, 0, window.Size.X, window.Size.Y)));
