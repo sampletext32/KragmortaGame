@@ -16,7 +16,12 @@ namespace KragmortaApp.UI
         {
             Width  = width;
             Height = height;
-            _text  = new Text(text, font);
+            _text  = new Text(text, font, (uint)Height);
+        }
+
+        public void SetText(string text)
+        {
+            _text.DisplayedString = text;
         }
 
         public void ApplyReflow()

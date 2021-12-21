@@ -19,15 +19,16 @@ namespace KragmortaApp
             engine.PushScene(scene);
 
             var videoMode = new VideoMode(
-                width: Engine.StartWindowWidth,
-                height: Engine.StartWindowHeight,
+                width: 320,
+                height: 240,
                 bpp: 24
             );
 
-            var window = new RenderWindow(videoMode, "Kragmorta Game");
-            
+            var window = new RenderWindow(videoMode, "Kragmorta Game", engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
+
             engine.Window = window;
-            
+            engine.SetWindowSize(Engine.Instance.Settings.ResolutionWidth, Engine.Instance.Settings.ResolutionHeight);
+
             window.Resized += (sender, eventArgs) =>
             {
                 window.SetView(new View(new FloatRect(0, 0, window.Size.X, window.Size.Y)));
@@ -64,14 +65,8 @@ namespace KragmortaApp
                 }
             };
 
-            window.MouseButtonPressed += (sender, eventArgs) =>
-            {
-                engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
-            };
-            window.MouseButtonReleased += (sender, eventArgs) =>
-            {
-                engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
-            };
+            window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
 
             Clock clock = new Clock();
 

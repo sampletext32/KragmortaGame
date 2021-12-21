@@ -50,7 +50,7 @@ namespace KragmortaApp.UI
             {
                 FillColor = BackgroundColor
             };
-            _text = new Text(text, font);
+            _text = new Text(text, font, (uint)(Height * 0.8f));
         }
 
         public void ApplyReflow()

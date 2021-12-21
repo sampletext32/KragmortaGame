@@ -25,7 +25,7 @@ namespace KragmortaApp.UI
         {
             Width   = width;
             Height  = height;
-            _text   = new Text(text, font);
+            _text   = new Text(text, font, (uint)Height);
             Checked = initialState;
 
             _markBackground = new RectangleShape()
@@ -42,8 +42,8 @@ namespace KragmortaApp.UI
 
         public void ApplyReflow()
         {
-            _markBackground.Position = new Vector2f(X, Y + _text.CharacterSize / 2 - _markSize / 2);
-            _markRect.Position       = new Vector2f(X + _markSize / 4, Y + _text.CharacterSize / 2 - _markSize / 4);
+            _markBackground.Position = new Vector2f(X, Y + Height / 2 - _markSize / 2);
+            _markRect.Position       = new Vector2f(X + _markSize / 4, Y + Height / 2 - _markSize / 4);
             _text.Position           = new Vector2f(X + _markSize, Y);
         }
 

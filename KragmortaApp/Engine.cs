@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
+using SFML.System;
+using SFML.Window;
 
 namespace KragmortaApp
 {
     public class Engine
     {
-        public const int StartWindowWidth = 1280;
-        public const int StartWindowHeight = 720;
-
         private static Engine _instance;
         public static Engine Instance => _instance;
 
@@ -30,6 +29,8 @@ namespace KragmortaApp
 
         public RenderWindow Window { get; set; }
 
+        public SettingsData Settings { get; set; }
+
         /// <summary>
         /// Game constructor, should not initialize any entities
         /// </summary>
@@ -44,8 +45,16 @@ namespace KragmortaApp
             _textureCache = new TextureCache();
             _imageCache   = new ImageCache();
             _scenesStack  = new Stack<Scene>();
-            _windowWidth  = StartWindowWidth;
-            _windowHeight = StartWindowHeight;
+
+            Settings = SettingsData.Load();
+        }
+
+        public void SetWindowSize(int width, int height)
+        {
+            _windowWidth    = width;
+            _windowHeight   = height;
+            Window.Size     = new Vector2u((uint)_windowWidth, (uint)_windowHeight);
+            Window.Position = new Vector2i((int)(VideoMode.DesktopMode.Width / 2 - width / 2), (int)(VideoMode.DesktopMode.Height / 2 - height / 2));
         }
 
         /// <summary>
@@ -115,6 +124,10 @@ namespace KragmortaApp
         {
             _windowWidth  = width;
             _windowHeight = height;
+            foreach (var scene in _scenesStack)
+            {
+                scene?.OnWindowResized(width, height);
+            }
             _activeScene?.OnWindowResized(width, height);
         }
 
