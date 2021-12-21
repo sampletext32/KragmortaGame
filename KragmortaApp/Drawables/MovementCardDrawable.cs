@@ -28,7 +28,7 @@ namespace KragmortaApp.Drawables
             _backgroundRectangle.Size      = new Vector2f(Width, Height);
             _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
 
-            _font = new Font("assets/fonts/arial.ttf");
+            _font = Engine.Instance.FontCache.GetOrCache("arial");
 
             _firstText  = new Text();
             _secondText = new Text();

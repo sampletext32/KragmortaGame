@@ -23,7 +23,7 @@ namespace KragmortaApp
         {
             if (!File.Exists("settings.json"))
             {
-                new SettingsData().Save();
+                new SettingsData(){ResolutionWidth = 1280, ResolutionHeight = 720}.Save();
             }
             var json = File.ReadAllText("settings.json");
             return JsonSerializer.Deserialize<SettingsData>(json);

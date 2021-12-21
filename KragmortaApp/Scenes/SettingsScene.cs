@@ -20,28 +20,31 @@ namespace KragmortaApp.Scenes
         private int _selectedResolution;
         private int _currentResolution;
         private UIText _resolutionText;
+        private bool _currentFullscreen;
 
         public override void OnCreate()
         {
             _layout = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
 
-            Font font = new Font("assets/fonts/arial.ttf");
+            Font font = Engine.Instance.FontCache.GetOrCache("arial");
             _layout.AddElement(new UIText(300, 50, "SETTINGS", font));
 
             var soundsCheckBox = new UICheckBox(300, 30, "Enable Sounds", font, Engine.Instance.Settings.EnableSounds);
             soundsCheckBox.CheckedChanged += SoundsCheckBoxOnCheckedChanged;
             _layout.AddElement(soundsCheckBox);
 
-            var fullscreenCheckBox = new UICheckBox(300, 30, "Enable Fullscreen", font, Engine.Instance.Settings.FullScreen);
+            _currentFullscreen = Engine.Instance.Settings.FullScreen;
+            var fullscreenCheckBox = new UICheckBox(300, 30, "Enable Fullscreen", font, _currentFullscreen);
             fullscreenCheckBox.CheckedChanged += FullScreenCheckBoxOnCheckedChanged;
             _layout.AddElement(fullscreenCheckBox);
+            _layout.AddElement(new UIText(300, 16, "Fullscreen toggle requires restart", font));
 
             _layout.AddElement(new UIText(300, 30, "Resolution", font));
 
-            _resolutionText = new UIText(300, 16, $"Current: {Engine.Instance.WindowWidth}x{Engine.Instance.WindowHeight}", font);
+            _resolutionText = new UIText(300, 16, $"Current: {Engine.Instance.Settings.ResolutionWidth}x{Engine.Instance.Settings.ResolutionHeight}", font);
             _layout.AddElement(_resolutionText);
 
-            _currentResolution  = _resolutions.AsSpan().IndexOf($"{Engine.Instance.WindowWidth}x{Engine.Instance.WindowHeight}");
+            _currentResolution  = _resolutions.AsSpan().IndexOf($"{Engine.Instance.Settings.ResolutionWidth}x{Engine.Instance.Settings.ResolutionHeight}");
             _selectedResolution = _currentResolution;
             var sliderResolution = new UISlider(300, 30, _resolutions.Length, _currentResolution);
             sliderResolution.StepChanged += SliderOnStepChanged;
@@ -64,7 +67,7 @@ namespace KragmortaApp.Scenes
 
         private void FullScreenCheckBoxOnCheckedChanged(bool state)
         {
-            Engine.Instance.Settings.FullScreen = state;
+            _currentFullscreen = state;
         }
 
         private void ApplyButtonOnClicked()
@@ -76,13 +79,26 @@ namespace KragmortaApp.Scenes
                 int width      = Convert.ToInt32(resParts[0]);
                 int height     = Convert.ToInt32(resParts[1]);
                 Engine.Instance.SetWindowSize(width, height);
-                _resolutionText.SetText($"Current: {Engine.Instance.WindowWidth}x{Engine.Instance.WindowHeight}");
-                _currentResolution = _selectedResolution;
 
                 Engine.Instance.Settings.ResolutionWidth  = width;
                 Engine.Instance.Settings.ResolutionHeight = height;
+                _resolutionText.SetText($"Current: {Engine.Instance.Settings.ResolutionWidth}x{Engine.Instance.Settings.ResolutionHeight}");
+                _currentResolution = _selectedResolution;
             }
-            Engine.Instance.Settings.Save();
+
+            if (Engine.Instance.Settings.FullScreen != _currentFullscreen)
+            {
+                Engine.Instance.Settings.FullScreen = _currentFullscreen;
+                Engine.Instance.Settings.Save();
+                var pleaseRestartScene = new PleaseRestartScene();
+                pleaseRestartScene.OnCreate();
+                Engine.Instance.PushScene(pleaseRestartScene);
+            }
+            else
+            {
+                Engine.Instance.Settings.Save();
+            }
+
         }
 
         private void SliderOnStepChanged(int step)

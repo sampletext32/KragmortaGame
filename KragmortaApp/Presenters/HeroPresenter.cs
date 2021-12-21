@@ -19,7 +19,6 @@ namespace KragmortaApp.Presenters
         public HeroPresenter(HeroModel hero)
         {
             _hero = hero;
-            // _font = new Font("assets/fonts/arial.ttf");
 
             _rectangle = new RectangleShape();
 

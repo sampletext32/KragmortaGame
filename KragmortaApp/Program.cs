@@ -18,7 +18,7 @@ namespace KragmortaApp
             scene.OnCreate();
             engine.PushScene(scene);
 
-            var videoMode = new VideoMode(
+            var videoMode = engine.Settings.FullScreen ? VideoMode.FullscreenModes[0] : new VideoMode(
                 width: 320,
                 height: 240,
                 bpp: 24
@@ -27,7 +27,14 @@ namespace KragmortaApp
             var window = new RenderWindow(videoMode, "Kragmorta Game", engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
 
             engine.Window = window;
-            engine.SetWindowSize(Engine.Instance.Settings.ResolutionWidth, Engine.Instance.Settings.ResolutionHeight);
+            if (engine.Settings.FullScreen)
+            {
+                engine.SetWindowSize((int)videoMode.Width, (int)videoMode.Height);
+            }
+            else
+            {
+                engine.SetWindowSize(Engine.Instance.Settings.ResolutionWidth, Engine.Instance.Settings.ResolutionHeight);
+            }
 
             window.Resized += (sender, eventArgs) =>
             {

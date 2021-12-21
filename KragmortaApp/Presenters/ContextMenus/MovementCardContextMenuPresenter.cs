@@ -33,7 +33,7 @@ namespace KragmortaApp.Presenters.ContextMenus
                 OutlineThickness = 3
             };
 
-            Font font = new Font("assets/fonts/arial.ttf");
+            Font font = Engine.Instance.FontCache.GetOrCache("arial");
             _button1Text = new Text()
             {
                 Font            = font,

@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Reflection;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
 using SFML.System;
@@ -17,9 +20,11 @@ namespace KragmortaApp
 
         public TextureCache TextureCache => _textureCache;
         public ImageCache ImageCache => _imageCache;
+        public FontCache FontCache => _fontCache;
 
         private TextureCache _textureCache;
         private ImageCache _imageCache;
+        private FontCache _fontCache;
 
         private int _windowWidth;
         private int _windowHeight;
@@ -44,6 +49,7 @@ namespace KragmortaApp
             _instance     = this;
             _textureCache = new TextureCache();
             _imageCache   = new ImageCache();
+            _fontCache   = new FontCache();
             _scenesStack  = new Stack<Scene>();
 
             Settings = SettingsData.Load();
@@ -55,6 +61,7 @@ namespace KragmortaApp
             _windowHeight   = height;
             Window.Size     = new Vector2u((uint)_windowWidth, (uint)_windowHeight);
             Window.Position = new Vector2i((int)(VideoMode.DesktopMode.Width / 2 - width / 2), (int)(VideoMode.DesktopMode.Height / 2 - height / 2));
+            OnWindowResized(width, height);
         }
 
         /// <summary>
@@ -80,6 +87,11 @@ namespace KragmortaApp
             {
                 _activeScene = _scenesStack.Pop();
             }
+        }
+
+        public void Close()
+        {
+            Process.GetCurrentProcess().Kill();
         }
 
         /// <summary>
@@ -128,6 +140,7 @@ namespace KragmortaApp
             {
                 scene?.OnWindowResized(width, height);
             }
+
             _activeScene?.OnWindowResized(width, height);
         }
 
