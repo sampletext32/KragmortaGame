@@ -53,6 +53,9 @@ namespace KragmortaApp.Scenes
         private void SettingsButtonOnClicked()
         {
             Console.WriteLine("Settings");
+            var settingsScene = new SettingsScene();
+            settingsScene.OnCreate();
+            Engine.Instance.PushScene(settingsScene);
         }
 
         private void RulesButtonOnClicked()
@@ -65,7 +68,7 @@ namespace KragmortaApp.Scenes
             Console.WriteLine("Start");
             var gameTableScene = new GameTableScene();
             gameTableScene.OnCreate();
-            Engine.Instance.SetActiveScene(gameTableScene);
+            Engine.Instance.PushScene(gameTableScene);
         }
 
         public override void OnUpdate(float deltaTime)

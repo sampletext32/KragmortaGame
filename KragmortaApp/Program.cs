@@ -16,7 +16,7 @@ namespace KragmortaApp
 
             var scene = new MenuScene();
             scene.OnCreate();
-            engine.SetActiveScene(scene);
+            engine.PushScene(scene);
 
             var videoMode = new VideoMode(
                 width: Engine.StartWindowWidth,

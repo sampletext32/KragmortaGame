@@ -14,6 +14,8 @@ namespace KragmortaApp
 
         private Scene _activeScene;
 
+        private Stack<Scene> _scenesStack;
+
         public TextureCache TextureCache => _textureCache;
         public ImageCache ImageCache => _imageCache;
 
@@ -41,6 +43,7 @@ namespace KragmortaApp
             _instance     = this;
             _textureCache = new TextureCache();
             _imageCache   = new ImageCache();
+            _scenesStack  = new Stack<Scene>();
             _windowWidth  = StartWindowWidth;
             _windowHeight = StartWindowHeight;
         }
@@ -56,9 +59,18 @@ namespace KragmortaApp
         /// <summary>
         /// sets the currently active scene
         /// </summary>
-        public void SetActiveScene(Scene scene)
+        public void PushScene(Scene scene)
         {
+            _scenesStack.Push(_activeScene);
             _activeScene = scene;
+        }
+
+        public void PopScene()
+        {
+            if (_scenesStack.Count > 0)
+            {
+                _activeScene = _scenesStack.Pop();
+            }
         }
 
         /// <summary>
