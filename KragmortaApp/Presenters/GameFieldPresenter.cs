@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using KragmortaApp.Drawables;
+﻿using System.Collections.Generic;
 using KragmortaApp.Drawables.FieldCellDrawables;
 using KragmortaApp.Entities;
-using KragmortaApp.Enums;
 using SFML.Graphics;
 
 namespace KragmortaApp.Presenters

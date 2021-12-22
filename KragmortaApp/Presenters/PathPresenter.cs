@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using KragmortaApp.Drawables;
 using KragmortaApp.Entities;
 using SFML.Graphics;

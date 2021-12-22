@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Channels;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
 using SFML.System;
@@ -54,7 +53,11 @@ namespace KragmortaApp
 
             bool isShiftPressed = false;
 
-            window.KeyPressed  += (sender, eventArgs) => { isShiftPressed |= eventArgs.Shift; };
+            window.KeyPressed += (sender, eventArgs) =>
+            {
+                isShiftPressed |= eventArgs.Shift;
+                engine.OnKeyPressed(eventArgs.Code);
+            };
             window.KeyReleased += (sender, eventArgs) => { isShiftPressed &= eventArgs.Shift; };
 
             window.MouseWheelScrolled += (sender, eventArgs) =>

@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using System.Reflection;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
 using SFML.System;
@@ -152,6 +150,11 @@ namespace KragmortaApp
         public void OnMouseScrolled(int x, int y, bool isVertical, float delta)
         {
             _activeScene?.OnMouseScrolled(x, y, isVertical, delta);
+        }
+
+        public void OnKeyPressed(Keyboard.Key code)
+        {
+            _activeScene?.OnKeyPressed(code);
         }
     }
 }

@@ -55,9 +55,9 @@ namespace KragmortaApp.UI
 
         public void ApplyReflow()
         {
-            var textBounds = _text.GetGlobalBounds();
+            var textBounds = _text.GetLocalBounds();
             _backgroundRectangle.Position = new Vector2f(X, Y);
-            _text.Position                = new Vector2f(X + Width / 2 - textBounds.Width / 2, Y + Height / 2 - textBounds.Height / 2);
+            _text.Position                = new Vector2f(X + Width / 2 - textBounds.Width / 2, Y + Height / 2 - textBounds.Height * 1.2f / 2);
         }
 
         public void Render(RenderTarget target)

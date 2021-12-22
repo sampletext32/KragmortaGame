@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using KragmortaApp.Controllers;
 using KragmortaApp.Controllers.ContextMenus;
 using KragmortaApp.Entities;
-using KragmortaApp.Handlers.ContextMenus;
 
 namespace KragmortaApp.Handlers
 {
