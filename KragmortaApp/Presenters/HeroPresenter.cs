@@ -26,10 +26,10 @@ namespace KragmortaApp.Presenters
             _rectangle.Size     = new Vector2f(HeroSize, HeroSize);
 
             _rectangle.FillColor = new Color(
-                red: (byte)Rand.Next(0, 256),
-                green: (byte)Rand.Next(0, 256),
-                blue: (byte)Rand.Next(0, 256),
-                alpha: 100
+                red: (byte)Rand.Next(100, 256),
+                green: (byte)Rand.Next(100, 256),
+                blue: (byte)Rand.Next(100, 256),
+                alpha: 150
             );
             
             FieldOriginChanged += OnFieldOriginChanged;

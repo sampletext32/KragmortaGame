@@ -26,8 +26,7 @@ namespace KragmortaApp
                     bpp: 24
                 );
 
-            var window = new RenderWindow(videoMode, "Kragmorta Game",
-                engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
+            var window = new RenderWindow(videoMode, "Kragmorta Game", engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
 
             engine.Window = window;
 
@@ -60,8 +59,6 @@ namespace KragmortaApp
 
             window.MouseWheelScrolled += (sender, eventArgs) =>
             {
-                Console.WriteLine(eventArgs.Wheel);
-
                 if (eventArgs.Wheel == Mouse.Wheel.VerticalWheel)
                 {
                     if (isShiftPressed)
@@ -79,14 +76,8 @@ namespace KragmortaApp
                 }
             };
 
-            window.MouseButtonPressed += (sender, eventArgs) =>
-            {
-                engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
-            };
-            window.MouseButtonReleased += (sender, eventArgs) =>
-            {
-                engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
-            };
+            window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
 
             Clock clock = new Clock();
 

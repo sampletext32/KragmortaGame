@@ -10,7 +10,8 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            _layout = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
+            OnCreateCalled = true;
+            _layout        = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
 
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
 
@@ -37,38 +38,25 @@ namespace KragmortaApp.Scenes
             exitButton.TextColor =  Color.Black;
             exitButton.TextSize  =  32;
             _layout.AddElement(exitButton);
-
-            // Начать игру
-            // Правила
-            // Настройки
-            // Выход
         }
 
         private void ExitButtonOnClicked()
         {
-            Console.WriteLine("Exit");
             Engine.Instance.Window.Close();
         }
 
         private void SettingsButtonOnClicked()
         {
-            Console.WriteLine("Settings");
-            var settingsScene = new SettingsScene();
-            settingsScene.OnCreate();
-            Engine.Instance.PushScene(settingsScene);
+            Engine.Instance.PushScene(new SettingsScene());
         }
 
         private void RulesButtonOnClicked()
         {
-            Console.WriteLine("Rules");
         }
 
         private void StartButtonOnClicked()
         {
-            Console.WriteLine("Start");
-            var gameTableScene = new GameTableScene();
-            gameTableScene.OnCreate();
-            Engine.Instance.PushScene(gameTableScene);
+            Engine.Instance.PushScene(new GameStartScene());
         }
 
         public override void OnUpdate(float deltaTime)

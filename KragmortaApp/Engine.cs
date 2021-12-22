@@ -78,6 +78,10 @@ namespace KragmortaApp
         /// </summary>
         public void PushScene(Scene scene)
         {
+            if (!scene.OnCreateCalled)
+            {
+                scene.OnCreate();
+            }
             _scenesStack.Push(_activeScene);
             _activeScene = scene;
         }

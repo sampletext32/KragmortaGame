@@ -24,7 +24,8 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            _layout = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
+            OnCreateCalled = true;
+            _layout        = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
 
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
             _layout.AddElement(new UIText(300, 50, "SETTINGS", font));
@@ -90,15 +91,13 @@ namespace KragmortaApp.Scenes
             {
                 Engine.Instance.Settings.FullScreen = _currentFullscreen;
                 Engine.Instance.Settings.Save();
-                var pleaseRestartScene = new PleaseRestartScene();
-                pleaseRestartScene.OnCreate();
-                Engine.Instance.PushScene(pleaseRestartScene);
+
+                Engine.Instance.PushScene(new PleaseRestartScene());
             }
             else
             {
                 Engine.Instance.Settings.Save();
             }
-
         }
 
         private void SliderOnStepChanged(int step)
@@ -109,7 +108,6 @@ namespace KragmortaApp.Scenes
                 var resParts   = resolution.Split('x');
                 int width      = Convert.ToInt32(resParts[0]);
                 int height     = Convert.ToInt32(resParts[1]);
-                // Console.WriteLine($"New resolution is {resolution}");
                 _resolutionText.SetText($"Current: {Engine.Instance.WindowWidth}x{Engine.Instance.WindowHeight}, Selected: {width}x{height}");
                 _selectedResolution = step;
             }
@@ -121,7 +119,6 @@ namespace KragmortaApp.Scenes
 
         private void SoundsCheckBoxOnCheckedChanged(bool state)
         {
-            Console.WriteLine($"Sounds set to {state}");
         }
 
         private void BackButtonOnClicked()
