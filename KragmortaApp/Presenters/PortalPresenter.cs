@@ -14,19 +14,21 @@ namespace KragmortaApp.Presenters
         public PortalPresenter(Portal portal)
         {
             _portal    = portal;
-            _drawables = new List<PortalCellDrawable>(_portal.Cells.Count);
-            _drawables.AddRange(portal.Cells.Select(cell =>
-            {
-                var drawable = new PortalCellDrawable(cell, CellSize);
-
-                var positionX = FieldOriginX + (CellSize + CellMargin);
-                var positionY = FieldOriginY + (CellSize + CellMargin);
-
-                drawable.SetPosition(positionX, positionY);
-                return drawable;
-            }));
+            _drawables = InitPortalCellDrawables(portal.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private List<PortalCellDrawable> InitPortalCellDrawables(int count)
+        {
+            var result = new List<PortalCellDrawable>(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                // result.Add(new PortalCellDrawable(_portal.Cells[i], CellSize));
+            }
+
+            return result;
         }
 
         private void OnFieldOriginChanged(int x, int y)

@@ -54,7 +54,7 @@ namespace KragmortaApp
 
             Path   = new Path();
             Push   = new Push();
-            Portal = new Portal();
+            Portal = new Portal(Field);
 
             ColorsStorage = new ColorsStorage();
         }
