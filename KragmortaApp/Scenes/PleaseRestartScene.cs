@@ -10,7 +10,8 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            _layout = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
+            OnCreateCalled = true;
+            _layout        = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
 
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
             

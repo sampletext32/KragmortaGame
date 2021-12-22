@@ -61,8 +61,7 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            // NOTE: unused, because of singleton usage
-            var gameState = new GameState();
+            OnCreateCalled = true;
 
             InitAllPresenters();
 

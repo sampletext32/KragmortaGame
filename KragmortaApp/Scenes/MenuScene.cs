@@ -10,7 +10,8 @@ namespace KragmortaApp.Scenes
 
         public override void OnCreate()
         {
-            _layout = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
+            OnCreateCalled = true;
+            _layout        = new(0, 0, Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
 
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
 
@@ -46,9 +47,7 @@ namespace KragmortaApp.Scenes
 
         private void SettingsButtonOnClicked()
         {
-            var settingsScene = new SettingsScene();
-            settingsScene.OnCreate();
-            Engine.Instance.PushScene(settingsScene);
+            Engine.Instance.PushScene(new SettingsScene());
         }
 
         private void RulesButtonOnClicked()
@@ -57,9 +56,7 @@ namespace KragmortaApp.Scenes
 
         private void StartButtonOnClicked()
         {
-            var gameTableScene = new GameTableScene();
-            gameTableScene.OnCreate();
-            Engine.Instance.PushScene(gameTableScene);
+            Engine.Instance.PushScene(new GameStartScene());
         }
 
         public override void OnUpdate(float deltaTime)

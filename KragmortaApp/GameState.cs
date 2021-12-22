@@ -7,8 +7,8 @@ namespace KragmortaApp
     public class GameState
     {
         public static GameState Instance;
-        
-        public readonly int HeroCount = 2;
+
+        public readonly int HeroCount;
 
         public readonly GameField Field;
 
@@ -23,16 +23,20 @@ namespace KragmortaApp
         public readonly Portal Portal;
 
         public readonly Profile Profile;
-        
+
         public MovementCardContextMenuModel MovementCardContextMenuModel;
 
         public ColorsStorage ColorsStorage;
 
-        public GameState()
+        public static void InitForPlayers(int count)
         {
-            Instance    = this;
-            
-            Field = new GameField(7, 10);
+            Instance = new(count);
+        }
+
+        private GameState(int count)
+        {
+            HeroCount = count;
+            Field     = new GameField(7, 10);
             // Field = new GameField(10, 7);
 
             Profile = new Profile()
@@ -43,7 +47,7 @@ namespace KragmortaApp
 
             for (int i = 0; i < HeroCount; i++)
             {
-                _heroes.Add(new HeroModel($"Hero {i + 1}", i * 2, 0));
+                _heroes.Add(new HeroModel($"Hero {i + 1}", (i * 2) % Field.SizeX, (i * 2) / Field.SizeX));
             }
 
             MovementCardContextMenuModel = new MovementCardContextMenuModel();

@@ -4,6 +4,7 @@ namespace KragmortaApp.Scenes
 {
     public abstract class Scene
     {
+        public bool OnCreateCalled = false;
         public abstract void OnCreate();
 
         public abstract void OnUpdate(float deltaTime);
