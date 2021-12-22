@@ -150,7 +150,6 @@ namespace KragmortaApp.Scenes
             // Initiating LayersStack (7 is gamefield + path + push + portal + movement deck + context menu + finish button)
             _layersStack = new LayersStack(7 + GameState.Instance.HeroCount);
 
-
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
             for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {

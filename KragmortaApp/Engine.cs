@@ -19,10 +19,12 @@ namespace KragmortaApp
         public TextureCache TextureCache => _textureCache;
         public ImageCache ImageCache => _imageCache;
         public FontCache FontCache => _fontCache;
+        public SoundCache SoundCache => _soundCache;
 
         private TextureCache _textureCache;
         private ImageCache _imageCache;
         private FontCache _fontCache;
+        private SoundCache _soundCache;
 
         private int _windowWidth;
         private int _windowHeight;
@@ -48,6 +50,8 @@ namespace KragmortaApp
             _textureCache = new TextureCache();
             _imageCache   = new ImageCache();
             _fontCache   = new FontCache();
+            _soundCache   = new SoundCache();
+            
             _scenesStack  = new Stack<Scene>();
 
             Settings = SettingsData.Load();
@@ -133,6 +137,7 @@ namespace KragmortaApp
         public void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton)
         {
             _activeScene?.OnMouseButtonReleased(x, y, mouseButton);
+            _soundCache.GetOrCache("click").Play();
         }
 
         public void OnWindowResized(int width, int height)

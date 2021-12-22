@@ -43,6 +43,7 @@ namespace KragmortaApp.Handlers
             
             // push victim to position
             _pushController.Victim.SetFieldPosition(pushCell.X, pushCell.Y);
+            Engine.Instance.SoundCache.GetOrCache("whoosh_push").Play();
             _pushController.ClearPush();
 
             Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({pushCell.X},{pushCell.Y})");
