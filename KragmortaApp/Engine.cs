@@ -61,6 +61,7 @@ namespace KragmortaApp
             _windowHeight   = height;
             Window.Size     = new Vector2u((uint)_windowWidth, (uint)_windowHeight);
             Window.Position = new Vector2i((int)(VideoMode.DesktopMode.Width / 2 - width / 2), (int)(VideoMode.DesktopMode.Height / 2 - height / 2));
+            Window.SetView(new View(new FloatRect(0, 0, width, height)));
             OnWindowResized(width, height);
         }
 

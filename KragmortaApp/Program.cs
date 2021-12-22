@@ -18,29 +18,36 @@ namespace KragmortaApp
             scene.OnCreate();
             engine.PushScene(scene);
 
-            var videoMode = engine.Settings.FullScreen ? VideoMode.FullscreenModes[0] : new VideoMode(
-                width: 320,
-                height: 240,
-                bpp: 24
-            );
+            var videoMode = engine.Settings.FullScreen
+                ? VideoMode.FullscreenModes[0]
+                : new VideoMode(
+                    width: 1280,
+                    height: 720,
+                    bpp: 24
+                );
 
-            var window = new RenderWindow(videoMode, "Kragmorta Game", engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
+            var window = new RenderWindow(videoMode, "Kragmorta Game",
+                engine.Settings.FullScreen ? Styles.Fullscreen : Styles.Close);
 
             engine.Window = window;
-            if (engine.Settings.FullScreen)
-            {
-                engine.SetWindowSize((int)videoMode.Width, (int)videoMode.Height);
-            }
-            else
-            {
-                engine.SetWindowSize(Engine.Instance.Settings.ResolutionWidth, Engine.Instance.Settings.ResolutionHeight);
-            }
 
             window.Resized += (sender, eventArgs) =>
             {
                 window.SetView(new View(new FloatRect(0, 0, window.Size.X, window.Size.Y)));
                 engine.OnWindowResized((int)eventArgs.Width, (int)eventArgs.Height);
             };
+
+
+            if (engine.Settings.FullScreen)
+            {
+                engine.SetWindowSize((int)videoMode.Width, (int)videoMode.Height);
+            }
+            else
+            {
+                engine.SetWindowSize(Engine.Instance.Settings.ResolutionWidth,
+                    Engine.Instance.Settings.ResolutionHeight);
+            }
+
 
             window.Closed += (sender, eventArgs) => { window.Close(); };
 
@@ -72,8 +79,14 @@ namespace KragmortaApp
                 }
             };
 
-            window.MouseButtonPressed  += (sender, eventArgs) => { engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
-            window.MouseButtonReleased += (sender, eventArgs) => { engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton()); };
+            window.MouseButtonPressed += (sender, eventArgs) =>
+            {
+                engine.OnMouseButtonPressed(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
+            };
+            window.MouseButtonReleased += (sender, eventArgs) =>
+            {
+                engine.OnMouseButtonReleased(eventArgs.X, eventArgs.Y, eventArgs.Button.ToKragMouseButton());
+            };
 
             Clock clock = new Clock();
 
