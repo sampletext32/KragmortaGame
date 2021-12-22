@@ -34,8 +34,9 @@ namespace KragmortaApp.Scenes
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
             _layout.AddElement(new UIText(300, 50, "SETTINGS", font));
 
-            var soundsCheckBox = new UICheckBox(300, 30, "Enable Sounds", font, Engine.Instance.Settings.EnableSounds);
-            soundsCheckBox.CheckedChanged += SoundsCheckBoxOnCheckedChanged;
+            _enableSounds = Engine.Instance.Settings.EnableSounds;
+            var soundsCheckBox = new UICheckBox(300, 30, "Enable Sounds", font, _enableSounds);
+            soundsCheckBox.CheckedChanged += EnableSoundsCheckBoxOnCheckedChanged;
             _layout.AddElement(soundsCheckBox);
 
             _layout.AddElement(new UIText(300, 16, "Volume", font));
@@ -156,7 +157,7 @@ namespace KragmortaApp.Scenes
             }
         }
 
-        private void SoundsCheckBoxOnCheckedChanged(bool state)
+        private void EnableSoundsCheckBoxOnCheckedChanged(bool state)
         {
             _enableSounds = state;
         }
