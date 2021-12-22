@@ -19,7 +19,7 @@ namespace KragmortaApp.Presenters
         {
             _profile = profile;
             _corner  = corner;
-            _font    = new Font("assets/fonts/arial.ttf");
+            _font    = Engine.Instance.FontCache.GetOrCache("arial");
 
             _text      = new Text();
             _rectangle = new RectangleShape();
