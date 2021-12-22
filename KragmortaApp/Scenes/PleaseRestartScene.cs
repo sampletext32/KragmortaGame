@@ -25,7 +25,6 @@ namespace KragmortaApp.Scenes
 
         private void ExitButtonOnClicked()
         {
-            Console.WriteLine("Exit");
             Engine.Instance.Window.Close();
         }
 

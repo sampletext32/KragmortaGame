@@ -37,22 +37,15 @@ namespace KragmortaApp.Scenes
             exitButton.TextColor =  Color.Black;
             exitButton.TextSize  =  32;
             _layout.AddElement(exitButton);
-
-            // Начать игру
-            // Правила
-            // Настройки
-            // Выход
         }
 
         private void ExitButtonOnClicked()
         {
-            Console.WriteLine("Exit");
             Engine.Instance.Window.Close();
         }
 
         private void SettingsButtonOnClicked()
         {
-            Console.WriteLine("Settings");
             var settingsScene = new SettingsScene();
             settingsScene.OnCreate();
             Engine.Instance.PushScene(settingsScene);
@@ -60,12 +53,10 @@ namespace KragmortaApp.Scenes
 
         private void RulesButtonOnClicked()
         {
-            Console.WriteLine("Rules");
         }
 
         private void StartButtonOnClicked()
         {
-            Console.WriteLine("Start");
             var gameTableScene = new GameTableScene();
             gameTableScene.OnCreate();
             Engine.Instance.PushScene(gameTableScene);

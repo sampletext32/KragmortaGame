@@ -31,7 +31,6 @@ namespace KragmortaApp.UI
                 int step = (int)(value / valPerStep);
                 if (_previousStep != step)
                 {
-                    Console.WriteLine($"Step changed to {step}");
                     StepChanged?.Invoke(step);
                     _previousStep = step;
                 }
@@ -49,7 +48,6 @@ namespace KragmortaApp.UI
             Height        = height;
             _steps        = steps;
             _previousStep = initialStep;
-            Console.WriteLine($"Previous step set to {_previousStep}");
             Value         = (float)(initialStep) / (_steps - 1);
             _backgroundRectangle = new RectangleShape(new Vector2f(Width, _backgroundLineHeight))
             {

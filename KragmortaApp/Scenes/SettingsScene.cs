@@ -109,7 +109,6 @@ namespace KragmortaApp.Scenes
                 var resParts   = resolution.Split('x');
                 int width      = Convert.ToInt32(resParts[0]);
                 int height     = Convert.ToInt32(resParts[1]);
-                // Console.WriteLine($"New resolution is {resolution}");
                 _resolutionText.SetText($"Current: {Engine.Instance.WindowWidth}x{Engine.Instance.WindowHeight}, Selected: {width}x{height}");
                 _selectedResolution = step;
             }
@@ -121,7 +120,6 @@ namespace KragmortaApp.Scenes
 
         private void SoundsCheckBoxOnCheckedChanged(bool state)
         {
-            Console.WriteLine($"Sounds set to {state}");
         }
 
         private void BackButtonOnClicked()
