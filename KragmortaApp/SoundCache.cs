@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using SFML.Audio;
-using SFML.Graphics;
 
 namespace KragmortaApp
 {
@@ -23,8 +22,22 @@ namespace KragmortaApp
             {
                 var soundBuffer = new SoundBuffer($"assets/sounds/{name}.ogg");
                 var sound       = new Sound(soundBuffer);
+                sound.Volume  = Engine.Instance.Settings.Volume;
                 _sounds[name] = sound;
                 return sound;
+            }
+        }
+
+        public void SetVolume(int volume)
+        {
+            if (volume < 0 || volume > 100)
+            {
+                throw new KragException($"Invalid volume value: {volume}");
+            }
+
+            foreach (var (key, value) in _sounds)
+            {
+                value.Volume = volume;
             }
         }
     }
