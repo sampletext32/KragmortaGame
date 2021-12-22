@@ -25,7 +25,8 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         /// <summary>
         /// Red sub-rect
         /// </summary>
-        protected RectangleShape _red;
+        // protected RectangleShape _red;
+        protected Sprite _red;
 
         /// <summary>
         /// Green sub-rect
@@ -36,12 +37,14 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         /// <summary>
         /// Blue sub-rect
         /// </summary>
-        protected RectangleShape _blue;
+        // protected RectangleShape _blue;
+        protected Sprite _blue;
 
         /// <summary>
         /// Orange sub-rect
         /// </summary>
-        protected RectangleShape _orange;
+        // protected RectangleShape _orange;
+        protected Sprite _orange;
 
 
         // Visibility flags
@@ -172,26 +175,40 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 positionY -= 18;
             }
 
-            _red = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Red
-            };
-            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
-            _green.Scale    = new Vector2f(0.7f, 0.7f);
-            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
-            _blue = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Blue
-            };
-            _orange = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = new Color(255, 165, 0)
-            };
-            
+            InitRedIcon();
+            InitGreenIcon();
+            InitBlueIcon();
+            InitOrangeIcon();
+
             SetPosition(positionX, positionY);
+        }
+
+        private void InitOrangeIcon()
+        {
+            _orange          = new Sprite(Engine.Instance.TextureCache.GetOrCache("scrolls"));
+            _orange.Scale    = new Vector2f(0.6f, 0.6f);
+            _orange.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
+        }
+
+        private void InitBlueIcon()
+        {
+            _blue          = new Sprite(Engine.Instance.TextureCache.GetOrCache("stones"));
+            _blue.Scale    = new Vector2f(0.65f, 0.65f);
+            _blue.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
+        }
+
+        private void InitGreenIcon()
+        {
+            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
+            _green.Scale    = new Vector2f(0.6f, 0.6f);
+            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
+        }
+
+        private void InitRedIcon()
+        {
+            _red          = new Sprite(Engine.Instance.TextureCache.GetOrCache("book"));
+            _red.Scale    = new Vector2f(0.5f, 0.5f);
+            _red.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }
 
         private void InitSmall(Corner corner, int cellSize)
@@ -259,24 +276,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
             _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
 
-            _red = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Red
-            };
-            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
-            _green.Scale    = new Vector2f(0.7f, 0.7f);
-            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
-            _blue = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Blue
-            };
-            _orange = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = new Color(255, 165, 0)
-            };
+            InitRedIcon();
+            InitGreenIcon();
+            InitBlueIcon();
+            InitOrangeIcon();
             
             var positionX = 
                 CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
@@ -301,24 +304,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
 
 
-            _red = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Red
-            };
-            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
-            _green.Scale    = new Vector2f(0.7f, 0.7f);
-            _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
-            _blue = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = Color.Blue
-            };
-            _orange = new RectangleShape()
-            {
-                Size      = new Vector2f(10, 10),
-                FillColor = new Color(255, 165, 0)
-            };
+            InitRedIcon();
+            InitGreenIcon();
+            InitBlueIcon();
+            InitOrangeIcon();
             
             var positionX = 
                 CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;

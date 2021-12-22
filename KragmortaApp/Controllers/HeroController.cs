@@ -17,6 +17,7 @@ namespace KragmortaApp.Controllers
         public void Activate()
         {
             _hero.IsCurrentHero = true;
+            _cardDeletionLeft   = 1;
             _hero.MarkDirty();
         }
 
