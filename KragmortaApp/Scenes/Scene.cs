@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.Window;
 
 namespace KragmortaApp.Scenes
 {
@@ -16,5 +17,6 @@ namespace KragmortaApp.Scenes
         public abstract void OnMouseButtonReleased(int x, int y, KragMouseButton mouseButton);
         public abstract void OnWindowResized(int width, int height);
         public abstract void OnMouseScrolled(int x, int y, bool isVertical, float delta);
+        public abstract void OnKeyPressed(Keyboard.Key code);
     }
 }

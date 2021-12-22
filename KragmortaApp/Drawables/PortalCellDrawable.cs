@@ -1,5 +1,4 @@
 using KragmortaApp.Entities;
-using SFML.Graphics;
 
 namespace KragmortaApp.Drawables
 {

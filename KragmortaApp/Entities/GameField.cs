@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using KragmortaApp.Enums;
-using SFML.Graphics;
 
 namespace KragmortaApp.Entities
 {

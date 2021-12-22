@@ -10,6 +10,7 @@ using KragmortaApp.Handlers.ContextMenus;
 using KragmortaApp.Layers.ContextMenus;
 using KragmortaApp.Presenters.ContextMenus;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace KragmortaApp.Scenes
 {
@@ -133,12 +134,8 @@ namespace KragmortaApp.Scenes
                 _shiftController);
             _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController,
                 _shiftController);
-            
-            
-            
+
             _portalHandler = new PortalHandler();
-            
-            
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,
                 _fieldController, _movementCardContextMenuController);
@@ -203,6 +200,16 @@ namespace KragmortaApp.Scenes
         public override void OnMouseScrolled(int x, int y, bool isVertical, float delta)
         {
             _layersStack?.OnMouseScrolled(x, y, isVertical, delta);
+        }
+
+        public override void OnKeyPressed(Keyboard.Key code)
+        {
+            if (code == Keyboard.Key.Escape)
+            {
+                Engine.Instance.PushScene(new PauseMenuScene());
+            }
+            
+            _layersStack.OnKeyPressed(code);
         }
     }
 }

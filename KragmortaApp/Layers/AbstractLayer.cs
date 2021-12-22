@@ -1,6 +1,7 @@
 using KragmortaApp.Handlers;
 using KragmortaApp.Presenters;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace KragmortaApp.Layers
 {
@@ -77,6 +78,11 @@ namespace KragmortaApp.Layers
         }
 
         public virtual bool TryHandleMouseScroll(int x, int y, bool isVertical, float delta)
+        {
+            return false;
+        }
+
+        public virtual bool TryHandleKeyPressed(Keyboard.Key code)
         {
             return false;
         }

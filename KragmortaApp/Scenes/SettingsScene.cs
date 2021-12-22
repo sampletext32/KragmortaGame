@@ -1,6 +1,7 @@
 ﻿using System;
 using KragmortaApp.UI;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace KragmortaApp.Scenes
 {
@@ -158,6 +159,10 @@ namespace KragmortaApp.Scenes
         }
 
         public override void OnMouseScrolled(int x, int y, bool isVertical, float delta)
+        {
+        }
+
+        public override void OnKeyPressed(Keyboard.Key code)
         {
         }
     }

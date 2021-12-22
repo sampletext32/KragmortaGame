@@ -1,6 +1,4 @@
-using System;
 using KragmortaApp.Entities;
-using KragmortaApp.Presenters;
 
 namespace KragmortaApp.Controllers
 {

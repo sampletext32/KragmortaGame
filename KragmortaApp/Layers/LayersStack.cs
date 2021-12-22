@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using SFML.Graphics;
+using SFML.Window;
 
 namespace KragmortaApp.Layers
 {
@@ -107,6 +108,17 @@ namespace KragmortaApp.Layers
             for (var i = _layers.Count - 1; i >= 0; i--)
             {
                 if (_layers[i].TryHandleMouseScroll(x, y, isVertical, delta))
+                {
+                    break;
+                }
+            }
+        }
+
+        public void OnKeyPressed(Keyboard.Key code)
+        {
+            for (var i = _layers.Count - 1; i >= 0; i--)
+            {
+                if (_layers[i].TryHandleKeyPressed(code))
                 {
                     break;
                 }
