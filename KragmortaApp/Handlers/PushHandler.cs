@@ -58,7 +58,7 @@ namespace KragmortaApp.Handlers
                 // Case 1
                 
                 // use sameCellHero for further processing
-                Console.WriteLine($"Hero {_pushController.Victim} pushes {victimSameCellHero}");
+                Console.WriteLine($"Hero {_pushController.Victim.Nickname} pushes {victimSameCellHero.Nickname}");
 
                 // Highlight new paths of push
 
