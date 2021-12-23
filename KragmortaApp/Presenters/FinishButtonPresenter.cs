@@ -1,3 +1,4 @@
+using KragmortaApp.Entities.Buttons;
 using SFML.Graphics;
 using SFML.System;
 
@@ -5,6 +6,7 @@ namespace KragmortaApp.Presenters
 {
     public class FinishButtonPresenter : Presenter
     {
+        private readonly FinishButtonModel _finishButtonModel;
         private RectangleShape _backgroundRectangle;
 
         private RectangleShape _button1Rectangle;
@@ -17,8 +19,9 @@ namespace KragmortaApp.Presenters
         private readonly int _offsetX = 10;
         private readonly int _offsetY = 8;
 
-        public FinishButtonPresenter()
+        public FinishButtonPresenter(FinishButtonModel finishButtonModel)
         {
+            _finishButtonModel = finishButtonModel;
             _backgroundRectangle = new RectangleShape()
             {
                 Size      = new Vector2f(_width, _height),
@@ -52,7 +55,6 @@ namespace KragmortaApp.Presenters
 
             _backgroundRectangle.Position = new Vector2f(_x, _y);
             _button1Rectangle.Position    = new Vector2f(_x + _offsetX / 2, _y + _offsetY / 2);
-            // TODO: Calculate central position of the text.
             _button1Text.Position         = new Vector2f(_x + 40, 
             _y + _height / 2);
         }
@@ -65,6 +67,8 @@ namespace KragmortaApp.Presenters
 
         public override void Render(RenderTarget target)
         {
+            if (!_finishButtonModel.IsVisible) return;
+            
             target.Draw(_backgroundRectangle);
             target.Draw(_button1Rectangle);
             target.Draw(_button1Text);

@@ -120,7 +120,6 @@ namespace KragmortaApp.Scenes
             _movementCardContextMenuController =
                 new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel);
 
-            //TODO: pass finishBtnModel
             _finishButtonController = new FinishButtonController(GameState.Instance.FinishButtonModel);
         }
 
@@ -134,13 +133,13 @@ namespace KragmortaApp.Scenes
             }
 
             _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController,
-                _shiftController, _portalController);
+                _shiftController, _portalController, _finishButtonController);
             _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController,
-                _shiftController);
+                _shiftController, _finishButtonController, _portalController);
 
 
             _portalHandler = new PortalHandler(_portalController, _shiftController, _movementDecksController,
-                _fieldController, _pushController);
+                _fieldController, _pushController, _finishButtonController);
 
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,

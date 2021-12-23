@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Buttons;
 using KragmortaApp.Entities.ContextMenus;
 
 namespace KragmortaApp
@@ -28,6 +29,7 @@ namespace KragmortaApp
 
         public ColorsStorage ColorsStorage;
 
+        public readonly FinishButtonModel FinishButtonModel;
         public static void InitForPlayers(int count)
         {
             Instance = new(count);
@@ -55,6 +57,8 @@ namespace KragmortaApp
             Path   = new Path();
             Push   = new Push();
             Portal = new Portal(Field);
+
+            FinishButtonModel = new FinishButtonModel();
 
             ColorsStorage = new ColorsStorage();
         }

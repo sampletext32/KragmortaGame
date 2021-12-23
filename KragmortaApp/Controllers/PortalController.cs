@@ -1,11 +1,14 @@
+using System;
 using System.Linq;
 using KragmortaApp.Entities;
+using SFML.System;
 
 namespace KragmortaApp.Controllers
 {
     public class PortalController : ControllerBase
     {
         private Portal _portal;
+        Random _rand = new Random(DateTime.Now.Millisecond);
 
         public PortalController(Portal portal)
         {
@@ -26,7 +29,7 @@ namespace KragmortaApp.Controllers
             }
 
             _portal.Cells.First(c => c.X == x && c.Y == y).Visible = false;
-            
+
             _portal.MarkDirty();
         }
 
@@ -37,6 +40,18 @@ namespace KragmortaApp.Controllers
                 _portal.Cells[i].Visible = false;
                 _portal.Cells[i].MarkDirty();
             }
+        }
+
+        public PortalCell RandomExcept(int cellX, int cellY)
+        {
+            PortalCell result;
+            
+            do
+            {
+                result = _portal.Cells[_rand.Next(_portal.Cells.Count)];
+            } while (result.X == cellX && result.Y == cellY);
+
+            return result;
         }
     }
 }

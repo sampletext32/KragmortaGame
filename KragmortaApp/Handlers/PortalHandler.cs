@@ -12,16 +12,18 @@ namespace KragmortaApp.Handlers
         private readonly MovementDecksController _movementDecksController;
         private readonly GameFieldController _gameFieldController;
         private readonly PushController _pushController;
+        private readonly FinishButtonController _finishButtonController;
 
         public PortalHandler(PortalController portalController, ShiftController shiftController,
             MovementDecksController movementDecksController, GameFieldController gameFieldController,
-            PushController pushController)
+            PushController pushController, FinishButtonController finishButtonController)
         {
-            _portalController        = portalController;
-            _shiftController         = shiftController;
-            _movementDecksController = movementDecksController;
-            _gameFieldController     = gameFieldController;
-            _pushController          = pushController;
+            _portalController            = portalController;
+            _shiftController             = shiftController;
+            _movementDecksController     = movementDecksController;
+            _gameFieldController         = gameFieldController;
+            _pushController              = pushController;
+            _finishButtonController = finishButtonController;
         }
 
         public void OnPortalCellClicked(int pathCellX, int pathCellY, KragMouseButton mouseButton)
@@ -72,6 +74,7 @@ namespace KragmortaApp.Handlers
 
             _shiftController.ActivateNextPlayer();
             _movementDecksController.ActivateNextDeck();
+            _finishButtonController.ShowButton();
         }
     }
 }
