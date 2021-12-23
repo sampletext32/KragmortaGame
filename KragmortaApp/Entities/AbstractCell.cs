@@ -24,5 +24,7 @@ namespace KragmortaApp.Entities
         public Corner Corner { get; set; }
         
         public bool Visible { get; set; }
+        
+        public bool IsPortal { get; set; }
     }
 }

@@ -9,23 +9,27 @@ namespace KragmortaApp.Handlers
     {
         private readonly PathController _pathController;
         private readonly PushController _pushController;
-        private GameFieldController _gameFieldController;
-        private MovementDecksController _movementDecksController;
-        private ShiftController _shiftController;
+        private readonly GameFieldController _gameFieldController;
+        private readonly MovementDecksController _movementDecksController;
+        private readonly ShiftController _shiftController;
+        private readonly PortalController _portalController;
+        private readonly FinishButtonController _finishButtonController;
 
         public PathHandler(
             PathController pathController,
             PushController pushController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
-            ShiftController shiftController
-        )
+            ShiftController shiftController, PortalController portalController,
+            FinishButtonController finishButtonController)
         {
             _pathController          = pathController;
             _pushController          = pushController;
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
+            _portalController        = portalController;
+            _finishButtonController  = finishButtonController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -60,10 +64,23 @@ namespace KragmortaApp.Handlers
                     Engine.Instance.SoundCache.GetOrCache("whoosh_move").Play();
                 }
 
+
+                if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
+                {
+                    _finishButtonController.HideButton();
+                    _movementDecksController.DismissActivatedCard();
+                    _movementDecksController.PullNewCard();
+                    _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                    _pathController.ClearPaths();
+                    return;
+                }
+
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
-                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
                 {
+                    _finishButtonController.HideButton();
                     // use sameCellHero for further processing
                     Console.WriteLine($"Hero {_shiftController.Hero.Nickname} pushes {sameCellHero.Nickname}");
 
@@ -112,12 +129,24 @@ namespace KragmortaApp.Handlers
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
 
+                if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
+                {
+                    _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                    _pathController.ClearPaths();
+                    _finishButtonController.HideButton();
+                    return;
+                }
+
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
-                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
                 {
+                    _finishButtonController.HideButton();
+                    
                     // use sameCellHero for further processing
-                    Console.WriteLine($"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+                    Console.WriteLine(
+                        $"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
 
                     _pathController.ClearPaths();
 

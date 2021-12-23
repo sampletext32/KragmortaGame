@@ -9,23 +9,26 @@ namespace KragmortaApp.Handlers
     {
         private readonly PushController _pushController;
         private readonly PathController _pathController;
-        private GameFieldController _gameFieldController;
-        private MovementDecksController _movementDecksController;
-        private ShiftController _shiftController;
+        private readonly GameFieldController _gameFieldController;
+        private readonly MovementDecksController _movementDecksController;
+        private readonly ShiftController _shiftController;
+        private readonly PortalController _portalController;
+        private readonly FinishButtonController _finishButtonController;
 
         public PushHandler(
             PushController pushController,
             PathController pathController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
-            ShiftController shiftController
-        )
+            ShiftController shiftController, FinishButtonController finishButtonController, PortalController portalController)
         {
             _pushController          = pushController;
             _pathController          = pathController;
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
+            _finishButtonController  = finishButtonController;
+            _portalController   = portalController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -41,16 +44,24 @@ namespace KragmortaApp.Handlers
             var victimPreviousX = _pushController.Victim.FieldX;
             var victimPreviousY = _pushController.Victim.FieldY;
 
-            // push victim to position
-            _pushController.Victim.SetFieldPosition(pushCell.X, pushCell.Y);
+            if (_gameFieldController.GetCell(pushCellX, pushCellY).IsPortal)
+            {
+                var randPortalCell = _portalController.RandomExcept(pushCellX, pushCellY);
+                
+                _pushController.Victim.SetFieldPosition(randPortalCell.X, randPortalCell.Y);
+            }
+            else
+            {
+                // push victim to position
+                _pushController.Victim.SetFieldPosition(pushCell.X, pushCell.Y);
+
+                Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({pushCell.X},{pushCell.Y})");
+            }
             if (Engine.Instance.Settings.EnableSounds)
             {
                 Engine.Instance.SoundCache.GetOrCache("whoosh_push").Play();
             }
-
             _pushController.ClearPush();
-
-            Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({pushCell.X},{pushCell.Y})");
 
             // From this moment we have 2 situations
             // 1 - victim is now in another hero position
@@ -58,7 +69,8 @@ namespace KragmortaApp.Handlers
 
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
-            if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _pushController.Victim && h.FieldX == pushCell.X && h.FieldY == pushCell.Y)) is not null)
+            if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h != _pushController.Victim && h.FieldX == pushCell.X && h.FieldY == pushCell.Y)) is not null)
             {
                 // Case 1
 
@@ -98,6 +110,8 @@ namespace KragmortaApp.Handlers
                     _shiftController.ActivateNextPlayer();
                     _movementDecksController.ActivateNextDeck();
                 }
+
+                _finishButtonController.ShowButton();
             }
         }
     }

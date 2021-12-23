@@ -61,9 +61,12 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
 
         protected static Random random = new Random(DateTime.Now.Millisecond);
 
+        private readonly string appendix;
+
         public TexturedFieldCellDrawable(FieldCell cell, int cellSize)
         {
-            _cell = cell;
+            _cell    = cell;
+            appendix = _cell.IsPortal ? "_portal" : "";
 
             _backgroundSprite       = new Sprite();
             _hoveredEffectRectangle = new Sprite();
@@ -96,15 +99,16 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         {
             var textureIndex = random.Next(0, 3);
 
-
             switch (corner)
             {
                 case Corner.TopLeft:
                 {
                     _backgroundSprite.Texture =
-                        Engine.Instance.TextureCache.GetOrCache($"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}");
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}{appendix}");
                     _backgroundImage =
-                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}");
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlate/bigtrapezeplate{textureIndex}{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"bigtrapezeplate/BigTrapezePlate/bigtrapezeplateline");
@@ -113,9 +117,11 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 case Corner.TopRight:
                 {
                     _backgroundSprite.Texture =
-                        Engine.Instance.TextureCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref");
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref{appendix}");
                     _backgroundImage =
-                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref");
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplate{textureIndex}ref{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"bigtrapezeplate/BigTrapezePlateRef/bigtrapezeplatelineref");
@@ -125,10 +131,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 {
                     _backgroundSprite.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
-                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed");
+                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed{appendix}");
                     _backgroundImage =
                         Engine.Instance.ImageCache.GetOrCache(
-                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed");
+                            $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplate{textureIndex}refreversed{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"bigtrapezeplate/BigTrapezePlateRefReversed/bigtrapezeplatelinerefreversed");
@@ -138,9 +144,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 {
                     _backgroundSprite.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
-                            $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed");
+                            $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed{appendix}");
                     _backgroundImage =
-                        Engine.Instance.ImageCache.GetOrCache($"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed");
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplate{textureIndex}reversed{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"bigtrapezeplate/BigTrapezePlateReversed/bigtrapezeplatelinereversed");
@@ -152,18 +159,20 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                     break;
                 }
             }
-            
-            const int offset    = 15;
+
+            const int offset = 15;
             cellSize += offset;
 
             var downscaleFactor = (float)cellSize / _backgroundSprite.Texture.Size.X;
             _hoveredEffectRectangle.Scale = _backgroundSprite.Scale = new Vector2f(downscaleFactor, downscaleFactor);
 
-            
-            var       positionX = 
-                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
-            var       positionY = 
-                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            var positionX =
+                CellPresenterAbstract.FieldOriginX +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var positionY =
+                CellPresenterAbstract.FieldOriginY +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
 
             if (corner is Corner.BottomRight or Corner.TopRight)
             {
@@ -220,9 +229,11 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 case Corner.TopLeft:
                 {
                     _backgroundSprite.Texture =
-                        Engine.Instance.TextureCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}");
+                        Engine.Instance.TextureCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}{appendix}");
                     _backgroundImage =
-                        Engine.Instance.ImageCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}");
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplate{textureIndex}{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"smalltrapezeplate/SmallTrapezePlate/smalltrapezeplateline");
@@ -232,9 +243,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 {
                     _backgroundSprite.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
-                            $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref");
+                            $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref{appendix}");
                     _backgroundImage =
-                        Engine.Instance.ImageCache.GetOrCache($"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref");
+                        Engine.Instance.ImageCache.GetOrCache(
+                            $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplate{textureIndex}ref{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"smalltrapezeplate/SmallTrapezePlateRef/smalltrapezeplatelineref");
@@ -244,10 +256,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 {
                     _backgroundSprite.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
-                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed");
+                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed{appendix}");
                     _backgroundImage =
                         Engine.Instance.ImageCache.GetOrCache(
-                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed");
+                            $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplate{textureIndex}refreversed{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"smalltrapezeplate/SmallTrapezePlateRefReversed/smalltrapezeplatelinerefreversed");
@@ -257,10 +269,10 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
                 {
                     _backgroundSprite.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
-                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed");
+                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed{appendix}");
                     _backgroundImage =
                         Engine.Instance.ImageCache.GetOrCache(
-                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed");
+                            $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplate{textureIndex}reversed{appendix}");
                     _hoveredEffectRectangle.Texture =
                         Engine.Instance.TextureCache.GetOrCache(
                             $"smalltrapezeplate/SmallTrapezePlateReversed/smalltrapezeplatelinereversed");
@@ -280,11 +292,13 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             InitGreenIcon();
             InitBlueIcon();
             InitOrangeIcon();
-            
-            var positionX = 
-                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
-            var positionY = 
-                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            var positionX =
+                CellPresenterAbstract.FieldOriginX +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var positionY =
+                CellPresenterAbstract.FieldOriginY +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
 
             SetPosition(positionX, positionY);
         }
@@ -295,8 +309,9 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
 
 
             _backgroundSprite.Texture =
-                Engine.Instance.TextureCache.GetOrCache($"squareplate/squareplate{textureIndex}");
-            _backgroundImage = Engine.Instance.ImageCache.GetOrCache($"squareplate/squareplate{textureIndex}");
+                Engine.Instance.TextureCache.GetOrCache($"squareplate/squareplate{textureIndex}{appendix}");
+            _backgroundImage =
+                Engine.Instance.ImageCache.GetOrCache($"squareplate/squareplate{textureIndex}{appendix}");
             _hoveredEffectRectangle.Texture =
                 Engine.Instance.TextureCache.GetOrCache($"squareplate/squareplateline");
 
@@ -308,11 +323,13 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             InitGreenIcon();
             InitBlueIcon();
             InitOrangeIcon();
-            
-            var positionX = 
-                CellPresenterAbstract.FieldOriginX + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
-            var positionY = 
-                CellPresenterAbstract.FieldOriginY + (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
+
+            var positionX =
+                CellPresenterAbstract.FieldOriginX +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.X;
+            var positionY =
+                CellPresenterAbstract.FieldOriginY +
+                (CellPresenterAbstract.CellSize + CellPresenterAbstract.CellMargin) * _cell.Y;
 
             SetPosition(positionX, positionY);
         }

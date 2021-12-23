@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KragmortaApp.Drawables;
@@ -14,20 +15,23 @@ namespace KragmortaApp.Presenters
         public PortalPresenter(Portal portal)
         {
             _portal    = portal;
-            _drawables = new List<PortalCellDrawable>(_portal.Cells.Count);
-            _drawables.AddRange(portal.Cells.Select(cell =>
-            {
-                var drawable = new PortalCellDrawable(cell, CellSize);
-
-                var positionX = FieldOriginX + (CellSize + CellMargin);
-                var positionY = FieldOriginY + (CellSize + CellMargin);
-
-                drawable.SetPosition(positionX, positionY);
-                return drawable;
-            }));
+            _drawables = InitPortalCellDrawables(portal.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
         }
+
+        private List<PortalCellDrawable> InitPortalCellDrawables(int count)
+        {
+            var result = new List<PortalCellDrawable>(count);
+
+            for (var i = 0; i < count; i++)
+            {
+                result.Add(new PortalCellDrawable(_portal.Cells[i], CellSize));
+            }
+
+            return result;
+        }
+        
 
         private void OnFieldOriginChanged(int x, int y)
         {
@@ -43,7 +47,7 @@ namespace KragmortaApp.Presenters
             {
                 var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
                 var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-
+            
                 if (x >= positionX &&
                     x < positionX + (CellSize + CellMargin) &&
                     y >= positionY &&
@@ -54,7 +58,7 @@ namespace KragmortaApp.Presenters
                     return true;
                 }
             }
-
+            
             return false;
         }
 
@@ -62,20 +66,15 @@ namespace KragmortaApp.Presenters
         {
             if (_portal.Dirty)
             {
-                for (var i = 0; i < _portal.Cells.Count; i++)
-                {
-                    var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-                    var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-                    _drawables[i].SetPosition(positionX, positionY);
-                }
-
                 _portal.ClearDirty();
             }
-
+            
             foreach (var drawable in _drawables)
             {
                 target.Draw(drawable);
             }
         }
+
+        
     }
 }

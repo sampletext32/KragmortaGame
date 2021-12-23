@@ -70,6 +70,11 @@ namespace KragmortaApp.Controllers
             return hasSet;
         }
 
+        /// <summary>
+        /// Excludes the possible
+        /// </summary>
+        /// <param name="cellX"></param>
+        /// <param name="cellY"></param>
         public void Except(int cellX, int cellY)
         {
             for (var i = 0; i < RawPush.Count; i++)

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using KragmortaApp.Enums;
+using SFML.Graphics;
+using SFML.System;
 
 namespace KragmortaApp.Entities
 {
@@ -373,6 +375,15 @@ namespace KragmortaApp.Entities
             _cells.Add(InitSquare(x, y));
 
             #endregion
+            
+            
+            GetCell(0, 0).IsPortal = true;
+            GetCell(6, 0).IsPortal = true;
+            GetCell(3, 2).IsPortal = true;
+            GetCell(1, 4).IsPortal = true;
+            GetCell(5, 4).IsPortal = true;
+            GetCell(4, 6).IsPortal = true;
+            GetCell(6, 9).IsPortal = true;
         }
 
         private FieldCell InitBigPolynomial(int x, int y, Corner corner)
@@ -418,6 +429,15 @@ namespace KragmortaApp.Entities
         public FieldCell GetCell(int cX, int cY)
         {
             return _cells[GetCellIndex(cX, cY)];
+        }
+        
+        /// <summary>
+        /// Retrieves field cell by it's field coordinates.
+        /// <remarks>Doesn't perform any checks for indices</remarks>
+        /// </summary>
+        public FieldCell GetCell(Vector2i coords)
+        {
+            return _cells[GetCellIndex(coords.X, coords.Y)];
         }
 
         /// <summary>
