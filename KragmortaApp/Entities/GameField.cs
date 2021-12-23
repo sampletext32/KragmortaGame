@@ -373,6 +373,15 @@ namespace KragmortaApp.Entities
             _cells.Add(InitSquare(x, y));
 
             #endregion
+            
+            
+            GetCell(0, 0).IsPortal = true;
+            GetCell(6, 0).IsPortal = true;
+            GetCell(3, 2).IsPortal = true;
+            GetCell(1, 4).IsPortal = true;
+            GetCell(5, 4).IsPortal = true;
+            GetCell(4, 6).IsPortal = true;
+            GetCell(6, 9).IsPortal = true;
         }
 
         private FieldCell InitBigPolynomial(int x, int y, Corner corner)

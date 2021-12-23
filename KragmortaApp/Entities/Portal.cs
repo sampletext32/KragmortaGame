@@ -10,22 +10,22 @@ namespace KragmortaApp.Entities
 
         public Portal(GameField field)
         {
-            _field = field;
-            _cells = new List<AbstractCell>(7);
-
-            if (field.SizeX == 10)
-            {
-                Init10X7();
-            }
-            else
-            {
-                Init7X10();
-            }
-            
-            foreach (var cell in _cells)
-            {
-                cell.IsPortal = true;
-            }
+            // _field = field;
+            // _cells = new List<AbstractCell>(7);
+            //
+            // if (field.SizeX == 10)
+            // {
+            //     Init10X7();
+            // }
+            // else
+            // {
+            //     Init7X10();
+            // }
+            //
+            // foreach (var cell in _cells)
+            // {
+            //     cell.IsPortal = true;
+            // }
         }
 
         private void Init7X10()

@@ -14,7 +14,7 @@ namespace KragmortaApp.Presenters
         public PortalPresenter(Portal portal)
         {
             _portal    = portal;
-            _drawables = InitPortalCellDrawables(portal.Cells.Count);
+            // _drawables = InitPortalCellDrawables(portal.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
         }
@@ -33,51 +33,51 @@ namespace KragmortaApp.Presenters
 
         private void OnFieldOriginChanged(int x, int y)
         {
-            for (var i = 0; i < _drawables.Count; i++)
-            {
-                _drawables[i].ShiftPosition(x, y);
-            }
+            // for (var i = 0; i < _drawables.Count; i++)
+            // {
+            //     _drawables[i].ShiftPosition(x, y);
+            // }
         }
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
-            for (var i = 0; i < _portal.Cells.Count; i++)
-            {
-                var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-                var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-
-                if (x >= positionX &&
-                    x < positionX + (CellSize + CellMargin) &&
-                    y >= positionY &&
-                    y < positionY + (CellSize + CellMargin)
-                    && _portal.Cells[i].Visible
-                )
-                {
-                    return true;
-                }
-            }
-
+            // for (var i = 0; i < _portal.Cells.Count; i++)
+            // {
+            //     var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
+            //     var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
+            //
+            //     if (x >= positionX &&
+            //         x < positionX + (CellSize + CellMargin) &&
+            //         y >= positionY &&
+            //         y < positionY + (CellSize + CellMargin)
+            //         && _portal.Cells[i].Visible
+            //     )
+            //     {
+            //         return true;
+            //     }
+            // }
+            
             return false;
         }
 
         public override void Render(RenderTarget target)
         {
-            if (_portal.Dirty)
-            {
-                for (var i = 0; i < _portal.Cells.Count; i++)
-                {
-                    var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-                    var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-                    _drawables[i].SetPosition(positionX, positionY);
-                }
-
-                _portal.ClearDirty();
-            }
-
-            foreach (var drawable in _drawables)
-            {
-                target.Draw(drawable);
-            }
+            // if (_portal.Dirty)
+            // {
+            //     for (var i = 0; i < _portal.Cells.Count; i++)
+            //     {
+            //         var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
+            //         var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
+            //         _drawables[i].SetPosition(positionX, positionY);
+            //     }
+            //
+            //     _portal.ClearDirty();
+            // }
+            //
+            // foreach (var drawable in _drawables)
+            // {
+            //     target.Draw(drawable);
+            // }
         }
     }
 }
