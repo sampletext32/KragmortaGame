@@ -68,6 +68,7 @@ namespace KragmortaApp.Presenters
         private void Update()
         {
             _rectangle.Position = CalcRectanglePosition();
+            _text.Position = CalcRectanglePosition();
             if (_hero.IsCurrentHero)
             {
                 _rectangle.OutlineThickness = 5;
