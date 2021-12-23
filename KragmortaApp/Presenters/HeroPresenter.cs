@@ -41,6 +41,7 @@ namespace KragmortaApp.Presenters
         private void OnFieldOriginChanged(int x, int y)
         {
             _rectangle.Position += new Vector2f(x, y);
+            _text.Position += new Vector2f(x, y);
         }
 
         public override void Render(RenderTarget target)
