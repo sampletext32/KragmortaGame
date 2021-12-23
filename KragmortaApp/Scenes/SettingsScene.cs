@@ -1,5 +1,6 @@
 ﻿using System;
 using KragmortaApp.UI;
+using SFML.Audio;
 using SFML.Graphics;
 using SFML.Window;
 
@@ -22,6 +23,8 @@ namespace KragmortaApp.Scenes
         private int _currentResolution;
         private UIText _resolutionText;
         private bool _currentFullscreen;
+        private bool _enableSounds;
+        private int _currentVolume;
 
         public override void OnCreate()
         {
@@ -31,9 +34,17 @@ namespace KragmortaApp.Scenes
             Font font = Engine.Instance.FontCache.GetOrCache("arial");
             _layout.AddElement(new UIText(300, 50, "SETTINGS", font));
 
-            var soundsCheckBox = new UICheckBox(300, 30, "Enable Sounds", font, Engine.Instance.Settings.EnableSounds);
-            soundsCheckBox.CheckedChanged += SoundsCheckBoxOnCheckedChanged;
+            _enableSounds = Engine.Instance.Settings.EnableSounds;
+            var soundsCheckBox = new UICheckBox(300, 30, "Enable Sounds", font, _enableSounds);
+            soundsCheckBox.CheckedChanged += EnableSoundsCheckBoxOnCheckedChanged;
             _layout.AddElement(soundsCheckBox);
+
+            _layout.AddElement(new UIText(300, 16, "Volume", font));
+
+            _currentVolume = Engine.Instance.Settings.Volume;
+            var sliderVolume = new UISlider(300, 30, 101, _currentVolume);
+            sliderVolume.StepChanged += SliderVolumeOnStepChanged;
+            _layout.AddElement(sliderVolume);
 
             _currentFullscreen = Engine.Instance.Settings.FullScreen;
             var fullscreenCheckBox = new UICheckBox(300, 30, "Enable Fullscreen", font, _currentFullscreen);
@@ -49,7 +60,7 @@ namespace KragmortaApp.Scenes
             _currentResolution  = _resolutions.AsSpan().IndexOf($"{Engine.Instance.Settings.ResolutionWidth}x{Engine.Instance.Settings.ResolutionHeight}");
             _selectedResolution = _currentResolution;
             var sliderResolution = new UISlider(300, 30, _resolutions.Length, _currentResolution);
-            sliderResolution.StepChanged += SliderOnStepChanged;
+            sliderResolution.StepChanged += SliderResolutionOnStepChanged;
             _layout.AddElement(sliderResolution);
 
             var apply = new UIButton(300, 30, "Apply", font);
@@ -65,6 +76,11 @@ namespace KragmortaApp.Scenes
             _layout.AddElement(backButton);
 
             _layout.ApplyReflow();
+        }
+
+        private void SliderVolumeOnStepChanged(int step)
+        {
+            _currentVolume = step;
         }
 
         private void FullScreenCheckBoxOnCheckedChanged(bool state)
@@ -88,20 +104,43 @@ namespace KragmortaApp.Scenes
                 _currentResolution = _selectedResolution;
             }
 
+            if (_enableSounds != Engine.Instance.Settings.EnableSounds)
+            {
+                var music = Engine.Instance.MusicCache.GetOrCache("Kragmorta_Theme");
+                if (_enableSounds)
+                {
+                    music.Loop = true;
+                    music.Play();
+                }
+                else
+                {
+                    if (music.Status == SoundStatus.Playing)
+                    {
+                        music.Stop();
+                    }
+                }
+
+                Engine.Instance.Settings.EnableSounds = _enableSounds;
+            }
+
+            if (_currentVolume != Engine.Instance.Settings.Volume)
+            {
+                Engine.Instance.Settings.Volume = _currentVolume;
+                Engine.Instance.SoundCache.SetVolume(_currentVolume);
+                Engine.Instance.MusicCache.SetVolume(_currentVolume);
+            }
+
             if (Engine.Instance.Settings.FullScreen != _currentFullscreen)
             {
                 Engine.Instance.Settings.FullScreen = _currentFullscreen;
-                Engine.Instance.Settings.Save();
 
                 Engine.Instance.PushScene(new PleaseRestartScene());
             }
-            else
-            {
-                Engine.Instance.Settings.Save();
-            }
+
+            Engine.Instance.Settings.Save();
         }
 
-        private void SliderOnStepChanged(int step)
+        private void SliderResolutionOnStepChanged(int step)
         {
             if (step != _currentResolution)
             {
@@ -118,8 +157,9 @@ namespace KragmortaApp.Scenes
             }
         }
 
-        private void SoundsCheckBoxOnCheckedChanged(bool state)
+        private void EnableSoundsCheckBoxOnCheckedChanged(bool state)
         {
+            _enableSounds = state;
         }
 
         private void BackButtonOnClicked()

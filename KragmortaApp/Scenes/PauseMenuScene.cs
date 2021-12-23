@@ -10,7 +10,7 @@ namespace KragmortaApp.Scenes
         private RectangleShape _backgroundRectangle;
         private VerticalLayout _layout;
         private int _width = 300;
-        private int _height = 150;
+        private int _height = 250;
 
         public override void OnCreate()
         {
@@ -31,10 +31,19 @@ namespace KragmortaApp.Scenes
             var continueButton = new UIButton(300, 26, "Continue", font);
             continueButton.Clicked += ContinueButtonOnClicked;
             _layout.AddElement(continueButton);
+            
+            var settingsButton = new UIButton(300, 26, "Settings", font);
+            settingsButton.Clicked += SettingsButtonOnClicked;
+            _layout.AddElement(settingsButton);
 
             var endButton = new UIButton(300, 26, "Exit", font);
             endButton.Clicked += ExitButtonOnClicked;
             _layout.AddElement(endButton);
+        }
+
+        private void SettingsButtonOnClicked()
+        {
+            Engine.Instance.PushScene(new SettingsScene());
         }
 
         private void ExitButtonOnClicked()

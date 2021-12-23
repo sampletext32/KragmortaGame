@@ -40,9 +40,14 @@ namespace KragmortaApp.Handlers
 
             var victimPreviousX = _pushController.Victim.FieldX;
             var victimPreviousY = _pushController.Victim.FieldY;
-            
+
             // push victim to position
             _pushController.Victim.SetFieldPosition(pushCell.X, pushCell.Y);
+            if (Engine.Instance.Settings.EnableSounds)
+            {
+                Engine.Instance.SoundCache.GetOrCache("whoosh_push").Play();
+            }
+
             _pushController.ClearPush();
 
             Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({pushCell.X},{pushCell.Y})");
@@ -50,13 +55,13 @@ namespace KragmortaApp.Handlers
             // From this moment we have 2 situations
             // 1 - victim is now in another hero position
             // 2 - victim is now in empty cell
-            
+
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
             if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h => h != _pushController.Victim && h.FieldX == pushCell.X && h.FieldY == pushCell.Y)) is not null)
             {
                 // Case 1
-                
+
                 // use sameCellHero for further processing
                 Console.WriteLine($"Hero {_pushController.Victim.Nickname} pushes {victimSameCellHero.Nickname}");
 
@@ -69,19 +74,19 @@ namespace KragmortaApp.Handlers
 
                 _pushController.ClearVictim();
                 _pushController.SetVictim(victimSameCellHero);
-                
+
                 // Don't clear pusher, because at the end of a push chain we MUST return the turn back to original pusher
             }
             else
             {
                 // Case 2
-                
+
                 if (_pushController.ShouldReturnMoveToPusher)
                 {
                     var pusher = _pushController.Pusher;
                     _pathController.ClearPaths();
                     _gameFieldController.CollectNeighboringCells(pusher.FieldX, pusher.FieldY, _pathController.RawPath);
-                
+
                     // By this moment pusher MUST have an activated card
                     _pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard);
                     _pushController.ClearVictim();

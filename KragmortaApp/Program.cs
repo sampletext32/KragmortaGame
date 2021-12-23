@@ -86,6 +86,13 @@ namespace KragmortaApp
 
             window.SetFramerateLimit(60);
 
+            if (engine.Settings.EnableSounds)
+            {
+                var music = engine.MusicCache.GetOrCache("Kragmorta_Theme");
+                music.Loop = true;
+                music.Play();
+            }
+
             while (window.IsOpen)
             {
                 window.DispatchEvents();

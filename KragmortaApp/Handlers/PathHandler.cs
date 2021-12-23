@@ -55,6 +55,10 @@ namespace KragmortaApp.Handlers
                 var heroPreviousY = _shiftController.Hero.FieldY;
 
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                if (Engine.Instance.Settings.EnableSounds)
+                {
+                    Engine.Instance.SoundCache.GetOrCache("whoosh_move").Play();
+                }
 
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
@@ -100,6 +104,10 @@ namespace KragmortaApp.Handlers
                 var heroPreviousY = _shiftController.Hero.FieldY;
 
                 _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                if (Engine.Instance.Settings.EnableSounds)
+                {
+                    Engine.Instance.SoundCache.GetOrCache("whoosh_move").Play();
+                }
 
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();

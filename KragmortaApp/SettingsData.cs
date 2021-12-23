@@ -10,6 +10,8 @@ namespace KragmortaApp
 
         public bool FullScreen { get; set; }
         public bool EnableSounds { get; set; }
+        
+        public int Volume { get; set; }
 
         public void Save()
         {
@@ -22,7 +24,7 @@ namespace KragmortaApp
         {
             if (!File.Exists("settings.json"))
             {
-                new SettingsData(){ResolutionWidth = 1280, ResolutionHeight = 720}.Save();
+                new SettingsData(){ResolutionWidth = 1280, ResolutionHeight = 720, Volume = 100}.Save();
             }
             var json = File.ReadAllText("settings.json");
             return JsonSerializer.Deserialize<SettingsData>(json);
