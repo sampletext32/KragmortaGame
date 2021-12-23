@@ -8,6 +8,7 @@ namespace KragmortaApp.Presenters
     public class HeroPresenter : CellPresenterAbstract
     {
         private RectangleShape _rectangle;
+        private Text _text;
         private HeroModel _hero;
 
         // private readonly Font _font;
@@ -21,8 +22,10 @@ namespace KragmortaApp.Presenters
             _hero = hero;
 
             _rectangle = new RectangleShape();
+            _text      = new Text(_hero.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 4));
 
             _rectangle.Position = CalcRectanglePosition();
+            _text.Position = CalcRectanglePosition();
             _rectangle.Size     = new Vector2f(HeroSize, HeroSize);
 
             _rectangle.FillColor = new Color(
@@ -49,6 +52,7 @@ namespace KragmortaApp.Presenters
             }
 
             target.Draw(_rectangle);
+            target.Draw(_text);
         }
 
         public override bool IsMouseWithinBounds(int x, int y)
