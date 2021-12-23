@@ -35,27 +35,29 @@ namespace KragmortaApp.Handlers
         {
         }
 
-        public void OnPushCellClicked(int pushCellX, int pushCellY, KragMouseButton mouseButton)
+        public void OnPushCellClicked(int nextCellX, int nextCellY, KragMouseButton mouseButton)
         {
             if (mouseButton != KragMouseButton.Left) return;
 
-            _pushController.TryGetCell(pushCellX, pushCellY, out var pushCell);
+            _pushController.TryGetCell(nextCellX, nextCellY, out var nextCell);
 
             var victimPreviousX = _pushController.Victim.FieldX;
             var victimPreviousY = _pushController.Victim.FieldY;
 
-            if (_gameFieldController.GetCell(pushCellX, pushCellY).IsPortal)
+            var isPortal = _gameFieldController.GetCell(nextCellX, nextCellY).IsPortal;
+            if (isPortal)
             {
-                var randPortalCell = _portalController.RandomExcept(pushCellX, pushCellY);
-                
-                _pushController.Victim.SetFieldPosition(randPortalCell.X, randPortalCell.Y);
+                var randPortalCell = _portalController.RandomExcept(nextCellX, nextCellY);
+                nextCellX = randPortalCell.X;
+                nextCellY = randPortalCell.Y;
+                _pushController.Victim.SetFieldPosition(nextCellX, nextCellY);
             }
             else
             {
                 // push victim to position
-                _pushController.Victim.SetFieldPosition(pushCell.X, pushCell.Y);
+                _pushController.Victim.SetFieldPosition(nextCell.X, nextCell.Y);
 
-                Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({pushCell.X},{pushCell.Y})");
+                Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
             }
             if (Engine.Instance.Settings.EnableSounds)
             {
@@ -70,7 +72,7 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
             if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                h != _pushController.Victim && h.FieldX == pushCell.X && h.FieldY == pushCell.Y)) is not null)
+                h != _pushController.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
             {
                 // Case 1
 
@@ -79,7 +81,7 @@ namespace KragmortaApp.Handlers
 
                 // Highlight new paths of push
 
-                _gameFieldController.CollectNeighboringCells(pushCell.X, pushCell.Y, _pushController.RawPush);
+                _gameFieldController.CollectNeighboringCells(nextCell.X, nextCell.Y, _pushController.RawPush);
 
                 _pushController.Except(victimPreviousX, victimPreviousY);
                 _pushController.TrySetVisiblePush();
