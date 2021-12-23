@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KragmortaApp.Drawables;
@@ -14,7 +15,7 @@ namespace KragmortaApp.Presenters
         public PortalPresenter(Portal portal)
         {
             _portal    = portal;
-            // _drawables = InitPortalCellDrawables(portal.Cells.Count);
+            _drawables = InitPortalCellDrawables(portal.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
         }
@@ -25,18 +26,19 @@ namespace KragmortaApp.Presenters
 
             for (var i = 0; i < count; i++)
             {
-                // result.Add(new PortalCellDrawable(_portal.Cells[i], CellSize));
+                result.Add(new PortalCellDrawable(_portal.Cells[i], CellSize));
             }
 
             return result;
         }
+        
 
         private void OnFieldOriginChanged(int x, int y)
         {
-            // for (var i = 0; i < _drawables.Count; i++)
-            // {
-            //     _drawables[i].ShiftPosition(x, y);
-            // }
+            for (var i = 0; i < _drawables.Count; i++)
+            {
+                _drawables[i].ShiftPosition(x, y);
+            }
         }
 
         public override bool IsMouseWithinBounds(int x, int y)
@@ -62,22 +64,17 @@ namespace KragmortaApp.Presenters
 
         public override void Render(RenderTarget target)
         {
-            // if (_portal.Dirty)
-            // {
-            //     for (var i = 0; i < _portal.Cells.Count; i++)
-            //     {
-            //         var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-            //         var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-            //         _drawables[i].SetPosition(positionX, positionY);
-            //     }
-            //
-            //     _portal.ClearDirty();
-            // }
-            //
-            // foreach (var drawable in _drawables)
-            // {
-            //     target.Draw(drawable);
-            // }
+            if (_portal.Dirty)
+            {
+                _portal.ClearDirty();
+            }
+            
+            foreach (var drawable in _drawables)
+            {
+                target.Draw(drawable);
+            }
         }
+
+        
     }
 }

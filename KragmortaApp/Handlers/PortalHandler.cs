@@ -1,13 +1,34 @@
+using System;
+using System.Linq;
+using KragmortaApp.Controllers;
+using KragmortaApp.Entities;
+
 namespace KragmortaApp.Handlers
 {
     public class PortalHandler : AbstractHandler
     {
-        public void OnPortalCellClicked(int x, int y, KragMouseButton mouseButton)
+        private readonly PortalController _portalController;
+        private readonly ShiftController _shiftController;
+        private readonly MovementDecksController _movementDecksController;
+        private readonly GameFieldController _gameFieldController;
+        private readonly PushController _pushController;
+
+        public PortalHandler(PortalController portalController, ShiftController shiftController,
+            MovementDecksController movementDecksController, GameFieldController gameFieldController,
+            PushController pushController)
         {
-            // TODO:
+            _portalController        = portalController;
+            _shiftController         = shiftController;
+            _movementDecksController = movementDecksController;
+            _gameFieldController     = gameFieldController;
+            _pushController          = pushController;
+        }
+
+        public void OnPortalCellClicked(int pathCellX, int pathCellY, KragMouseButton mouseButton)
+        {
             // Step on the portal
             //      If there is another player, push him out of this cell
-            //      Do not keep the chain of pushing. Immediately jump into the portal
+            //      
             // Highlight other portals except the one where the player stands right now.
             // (*) Player clicks on any highlighted portal.
             // He teleports. (Set his coords to the coords of the portal)
@@ -15,9 +36,42 @@ namespace KragmortaApp.Handlers
             //      player pushes that player. Therefore, the chain of pushing starts.
             //          In case during the chain of pushing a player steps on a portal, look at the very first
             //          point again.
-            
-            
+
+
             // This method activates from (*) point of the plan above.
+
+
+            var heroPreviousX = _shiftController.Hero.FieldX;
+            var heroPreviousY = _shiftController.Hero.FieldY;
+
+            _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+
+            _portalController.SetInvisiblePortals();
+
+            // In the destination cell there are 2 heroes
+            HeroModel sameCellHero;
+            if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+            {
+                // use sameCellHero for further processing
+                Console.WriteLine(
+                    $"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+
+
+                // Highlight paths of push
+                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+                _pushController.Except(heroPreviousX, heroPreviousY);
+                _pushController.TrySetVisiblePush();
+
+                _pushController.SetVictim(sameCellHero);
+                // No return move to pusher in this case (second move)
+
+                return;
+            }
+
+            _shiftController.ActivateNextPlayer();
+            _movementDecksController.ActivateNextDeck();
         }
     }
 }

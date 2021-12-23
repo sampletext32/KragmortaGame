@@ -8,12 +8,13 @@ namespace KragmortaApp.Drawables
     {
         private readonly int _cellSize;
 
-        public PortalCellDrawable(AbstractCell cell, int cellSize) : base(cell, cellSize,
+        public PortalCellDrawable(PortalCell cell, int cellSize) : base(cell, cellSize,
             GameState.Instance.ColorsStorage.PortalCell)
         {
-            _cellSize = cellSize;
+            _cellSize  = cellSize;
+            LoadTexture();
         }
-        
+
         public void LoadTexture()
         {
             switch (_cell.Form)

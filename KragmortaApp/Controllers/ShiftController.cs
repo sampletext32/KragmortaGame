@@ -5,6 +5,9 @@ namespace KragmortaApp.Controllers
 {
     public class ShiftController : ControllerBase
     {
+        /// <summary>
+        /// Current hero.
+        /// </summary>
         public HeroModel Hero => _heroModels[_currentHeroIndex];
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
 

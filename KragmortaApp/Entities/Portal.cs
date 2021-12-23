@@ -43,7 +43,8 @@ namespace KragmortaApp.Entities
                     X = cell.X,
                     Y = cell.Y,
                     Corner = cell.Corner,
-                    Form = cell.Form
+                    Form = cell.Form,
+                    IsPortal = true
                 });
             }
         }

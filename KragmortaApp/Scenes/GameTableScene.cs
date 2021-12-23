@@ -2,6 +2,7 @@
 using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Controllers.ContextMenus;
+using KragmortaApp.Entities.Buttons;
 using KragmortaApp.Handlers;
 using KragmortaApp.Layers;
 using KragmortaApp.Presenters;
@@ -95,7 +96,7 @@ namespace KragmortaApp.Scenes
             _movementCardContextMenuPresenter =
                 new MovementCardContextMenuPresenter(GameState.Instance.MovementCardContextMenuModel);
 
-            _finishButtonPresenter = new FinishButtonPresenter();
+            _finishButtonPresenter = new FinishButtonPresenter(GameState.Instance.FinishButtonModel);
         }
 
         private void InitAllControllers()
@@ -118,7 +119,9 @@ namespace KragmortaApp.Scenes
                 new MovementDecksController(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList());
             _movementCardContextMenuController =
                 new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel);
-            _finishButtonController = new FinishButtonController();
+
+            //TODO: pass finishBtnModel
+            _finishButtonController = new FinishButtonController(GameState.Instance.FinishButtonModel);
         }
 
         private void InitAllHandlers()
@@ -131,11 +134,14 @@ namespace KragmortaApp.Scenes
             }
 
             _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController,
-                _shiftController);
+                _shiftController, _portalController);
             _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController,
                 _shiftController);
 
-            _portalHandler = new PortalHandler();
+
+            _portalHandler = new PortalHandler(_portalController, _shiftController, _movementDecksController,
+                _fieldController, _pushController);
+
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,
                 _fieldController, _movementCardContextMenuController);

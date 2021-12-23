@@ -47,6 +47,11 @@ namespace KragmortaApp.Drawables
 
             _effectSprite = new Sprite();
 
+            if (cell is PortalCell)
+            {
+                return;
+            }
+
             InitCellByForm(cell, cellSize);
         }
 

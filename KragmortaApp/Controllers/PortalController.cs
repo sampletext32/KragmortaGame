@@ -25,9 +25,18 @@ namespace KragmortaApp.Controllers
                 _portal.Cells[i].MarkDirty();
             }
 
-            _portal.Cells.Single(c => c.X == x && c.Y == y).Visible = false;
+            _portal.Cells.First(c => c.X == x && c.Y == y).Visible = false;
             
             _portal.MarkDirty();
+        }
+
+        public void SetInvisiblePortals()
+        {
+            for (var i = 0; i < _portal.Cells.Count; i++)
+            {
+                _portal.Cells[i].Visible = false;
+                _portal.Cells[i].MarkDirty();
+            }
         }
     }
 }

@@ -12,20 +12,21 @@ namespace KragmortaApp.Handlers
         private GameFieldController _gameFieldController;
         private MovementDecksController _movementDecksController;
         private ShiftController _shiftController;
+        private PortalController _portalController;
 
         public PathHandler(
             PathController pathController,
             PushController pushController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
-            ShiftController shiftController
-        )
+            ShiftController shiftController, PortalController portalController)
         {
             _pathController          = pathController;
             _pushController          = pushController;
             _gameFieldController     = gameFieldController;
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
+            _portalController   = portalController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -59,6 +60,16 @@ namespace KragmortaApp.Handlers
                 {
                     Engine.Instance.SoundCache.GetOrCache("whoosh_move").Play();
                 }
+
+
+                if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
+                {
+                    _movementDecksController.DismissActivatedCard();
+                    _movementDecksController.PullNewCard();
+                    _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                    _pathController.ClearPaths();
+                    return;
+                }                
 
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
@@ -111,6 +122,14 @@ namespace KragmortaApp.Handlers
 
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
+                
+                if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
+                {
+                    _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                    _pathController.ClearPaths();
+                    // TODO: Hide finishBtn
+                    return;
+                }
 
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
