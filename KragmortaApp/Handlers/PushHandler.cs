@@ -81,7 +81,7 @@ namespace KragmortaApp.Handlers
 
                 // Highlight new paths of push
 
-                _gameFieldController.CollectNeighboringCells(nextCell.X, nextCell.Y, _pushController.RawPush);
+                _gameFieldController.CollectNeighboringCells(nextCellX, nextCellY, _pushController.RawPush);
 
                 _pushController.Except(victimPreviousX, victimPreviousY);
                 _pushController.TrySetVisiblePush();
