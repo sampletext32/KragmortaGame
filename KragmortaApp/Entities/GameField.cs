@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using KragmortaApp.Enums;
+using SFML.Graphics;
+using SFML.System;
 
 namespace KragmortaApp.Entities
 {
@@ -427,6 +429,15 @@ namespace KragmortaApp.Entities
         public FieldCell GetCell(int cX, int cY)
         {
             return _cells[GetCellIndex(cX, cY)];
+        }
+        
+        /// <summary>
+        /// Retrieves field cell by it's field coordinates.
+        /// <remarks>Doesn't perform any checks for indices</remarks>
+        /// </summary>
+        public FieldCell GetCell(Vector2i coords)
+        {
+            return _cells[GetCellIndex(coords.X, coords.Y)];
         }
 
         /// <summary>

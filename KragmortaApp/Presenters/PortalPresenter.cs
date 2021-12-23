@@ -41,21 +41,21 @@ namespace KragmortaApp.Presenters
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
-            // for (var i = 0; i < _portal.Cells.Count; i++)
-            // {
-            //     var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-            //     var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
-            //
-            //     if (x >= positionX &&
-            //         x < positionX + (CellSize + CellMargin) &&
-            //         y >= positionY &&
-            //         y < positionY + (CellSize + CellMargin)
-            //         && _portal.Cells[i].Visible
-            //     )
-            //     {
-            //         return true;
-            //     }
-            // }
+            for (var i = 0; i < _portal.Cells.Count; i++)
+            {
+                var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
+                var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
+            
+                if (x >= positionX &&
+                    x < positionX + (CellSize + CellMargin) &&
+                    y >= positionY &&
+                    y < positionY + (CellSize + CellMargin)
+                    && _portal.Cells[i].Visible
+                )
+                {
+                    return true;
+                }
+            }
             
             return false;
         }
