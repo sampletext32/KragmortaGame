@@ -49,7 +49,7 @@ namespace KragmortaApp
 
             for (int i = 0; i < HeroCount; i++)
             {
-                _heroes.Add(new HeroModel($"Hero {i + 1}", (i) % Field.SizeX, (i) / Field.SizeX));
+                _heroes.Add(new HeroModel(i + 1, $"Hero {i + 1}", (i) % Field.SizeX, (i) / Field.SizeX));
             }
 
             MovementCardContextMenuModel = new MovementCardContextMenuModel();
