@@ -14,14 +14,14 @@ namespace KragmortaApp.Controllers
 
         public void Activate()
         {
-            _hero.IsCurrentHero = true;
+            _hero.Activated = true;
             _cardDeletionLeft   = 1;
             _hero.MarkDirty();
         }
 
         public void Deactivate()
         {
-            _hero.IsCurrentHero = false;
+            _hero.Activated = false;
             _hero.MarkDirty();
         }
 
