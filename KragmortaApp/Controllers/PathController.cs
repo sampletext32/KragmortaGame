@@ -42,6 +42,12 @@ namespace KragmortaApp.Controllers
             // highlight paths
             for (int i = 0; i < RawPath.Count; i++)
             {
+                if (RawPath[i].Type == CellType.Wall)
+                {
+                    _path.Cells[i].Visible = false;
+                    continue;
+                }
+                
                 if (!card.HasUsedFirstType && (RawPath[i].Type & card.FirstType) != CellType.Empty ||
                     !card.HasUsedSecondType && (RawPath[i].Type & card.SecondType) != CellType.Empty)
                 {

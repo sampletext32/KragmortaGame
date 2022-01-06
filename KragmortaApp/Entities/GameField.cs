@@ -14,16 +14,21 @@ namespace KragmortaApp.Entities
 
         private readonly List<FieldCell> _cells;
 
+        public FieldType FieldType;
+
         private readonly string ErrorMsg =
             "Ебать мой хуй поле у тебя кусок хуеты, с размерами которой я не ебу шо делать... поэтому лови исключение, уебан(ка)!";
 
         private static Random _random;
 
-        public GameField(int sizeX, int sizeY)
+        private int _playersCount;
+
+        public GameField(int sizeX, int sizeY, int playersCount)
         {
-            SizeX  = sizeX;
-            SizeY  = sizeY;
-            _cells = new List<FieldCell>(sizeX * sizeY);
+            SizeX         = sizeX;
+            SizeY         = sizeY;
+            _playersCount = playersCount;
+            _cells        = new List<FieldCell>(sizeX * sizeY);
 
             _random = new Random(DateTime.Now.Millisecond);
 
@@ -31,14 +36,109 @@ namespace KragmortaApp.Entities
             if (sizeX == 10 && sizeY == 7)
             {
                 InitField10X7();
+                AdjustField();
+                InitWalls();
             }
             else if (sizeX == 7 && sizeY == 10)
             {
                 InitField7X10();
+                AdjustField();
             }
             else
             {
                 throw new KragException(ErrorMsg);
+            }
+        }
+
+        private void AdjustField()
+        {
+            if (_playersCount <= 4)
+            {
+                FieldType = FieldType.Mini;
+                SetMiniField();
+            }
+            else if (_playersCount <= 6)
+            {
+                FieldType = FieldType.Medium;
+                SetMediumField();
+            }
+            else if (_playersCount <= 8)
+            {
+                FieldType = FieldType.Large;
+            }
+            else
+            {
+                throw new KragException($"Invalid number of player: {_playersCount}");
+            }
+        }
+
+        private void SetMediumField()
+        {
+            for (int i = 0; i < SizeX; i++)
+            {
+                _cells[i].Visible = false;
+            }
+
+            _cells[2 * SizeX - 1].Visible = false;
+            _cells[2 * SizeX - 2].Visible = false;
+        }
+
+        private void SetMiniField()
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < SizeX; j++)
+                {
+                    _cells[SizeX * i + j].Visible = false;
+                }
+            }
+        }
+
+        private void InitWalls()
+        {
+            // TODO: Show bookshelves on the field.
+            switch (FieldType)
+            {
+                case FieldType.Mini:
+                {
+                    for (int i = 0; i < SizeX; i++)
+                    {
+                        _cells[SizeX * 3 + i].Type    = CellType.Wall;
+                        _cells[SizeX * 3 + i].Visible = false;
+                    }
+
+                    for (int i = 0; i < 5; i++)
+                    {
+                        _cells[SizeX * (5 + i) - 1].Type    = CellType.Wall;
+                        _cells[SizeX * (5 + i) - 1].Visible = false;
+                    }
+
+                    break;
+                }
+
+                case FieldType.Medium:
+                {
+                    int i;
+                    for (i = 0; i < 4; i++)
+                    {
+                        _cells[SizeX + i].Type    = CellType.Wall;
+                        _cells[SizeX + i].Visible = false;
+                    }
+
+                    for (--i; i < SizeX; i++)
+                    {
+                        _cells[SizeX * 2 + i].Type    = CellType.Wall;
+                        _cells[SizeX * 2 + i].Visible = false;
+                    }
+
+                    _cells[SizeX * 4 + 2].Visible = false;
+                    _cells[SizeX * 5 + 2].Visible = false;
+
+                    _cells[SizeX * 4 + 4].Visible = false;
+                    _cells[SizeX * 5 + 4].Visible = false;
+
+                    break;
+                }
             }
         }
 
@@ -375,8 +475,8 @@ namespace KragmortaApp.Entities
             _cells.Add(InitSquare(x, y));
 
             #endregion
-            
-            
+
+
             GetCell(0, 0).IsPortal = true;
             GetCell(6, 0).IsPortal = true;
             GetCell(3, 2).IsPortal = true;
@@ -390,11 +490,12 @@ namespace KragmortaApp.Entities
         {
             return new FieldCell()
             {
-                X      = x,
-                Y      = y,
-                Type   = (CellType)(1 << _random.Next(4)),
-                Corner = corner,
-                Form   = CellForm.Big
+                X       = x,
+                Y       = y,
+                Type    = (CellType)(1 << _random.Next(4)),
+                Corner  = corner,
+                Form    = CellForm.Big,
+                Visible = true
             };
         }
 
@@ -402,11 +503,12 @@ namespace KragmortaApp.Entities
         {
             return new FieldCell()
             {
-                X      = x,
-                Y      = y,
-                Type   = (CellType)(1 << _random.Next(4)),
-                Corner = corner,
-                Form   = CellForm.Small
+                X       = x,
+                Y       = y,
+                Type    = (CellType)(1 << _random.Next(4)),
+                Corner  = corner,
+                Form    = CellForm.Small,
+                Visible = true
             };
         }
 
@@ -414,11 +516,12 @@ namespace KragmortaApp.Entities
         {
             return new FieldCell()
             {
-                X      = x,
-                Y      = y,
-                Type   = (CellType)(1 << _random.Next(4)),
-                Corner = Corner.None,
-                Form   = CellForm.Square
+                X       = x,
+                Y       = y,
+                Type    = (CellType)(1 << _random.Next(4)),
+                Corner  = Corner.None,
+                Form    = CellForm.Square,
+                Visible = true
             };
         }
 
@@ -430,7 +533,7 @@ namespace KragmortaApp.Entities
         {
             return _cells[GetCellIndex(cX, cY)];
         }
-        
+
         /// <summary>
         /// Retrieves field cell by it's field coordinates.
         /// <remarks>Doesn't perform any checks for indices</remarks>

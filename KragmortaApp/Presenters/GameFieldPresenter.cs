@@ -47,7 +47,7 @@ namespace KragmortaApp.Presenters
 
             foreach (var drawable in _drawables)
             {
-                target.Draw(drawable);
+                if (drawable.Cell.Visible) target.Draw(drawable);
             }
         }
 
