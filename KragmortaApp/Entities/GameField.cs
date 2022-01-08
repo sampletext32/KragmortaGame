@@ -43,6 +43,7 @@ namespace KragmortaApp.Entities
             {
                 InitField7X10();
                 AdjustField();
+                InitWalls();
             }
             else
             {
@@ -119,7 +120,7 @@ namespace KragmortaApp.Entities
                 case FieldType.Medium:
                 {
                     int i;
-                    for (i = 0; i < 4; i++)
+                    for (i = 0; i < 5; i++)
                     {
                         _cells[SizeX + i].Type    = CellType.Wall;
                         _cells[SizeX + i].Visible = false;
@@ -132,11 +133,47 @@ namespace KragmortaApp.Entities
                     }
 
                     _cells[SizeX * 4 + 2].Visible = false;
+                    _cells[SizeX * 4 + 2].Type    = CellType.Wall;
                     _cells[SizeX * 5 + 2].Visible = false;
+                    _cells[SizeX * 5 + 2].Type    = CellType.Wall;
 
                     _cells[SizeX * 4 + 4].Visible = false;
+                    _cells[SizeX * 4 + 4].Type    = CellType.Wall;
+                    _cells[SizeX * 5 + 4].Type    = CellType.Wall;
                     _cells[SizeX * 5 + 4].Visible = false;
 
+
+                    break;
+                }
+
+                case FieldType.Large:
+                {
+                    _cells[SizeX + 2].Type        = CellType.Wall;
+                    _cells[SizeX + 2].Visible     = false;
+                    _cells[SizeX * 2 + 2].Type    = CellType.Wall;
+                    _cells[SizeX * 2 + 2].Visible = false;
+                    
+                    _cells[SizeX + 4].Type        = CellType.Wall;
+                    _cells[SizeX + 4].Visible     = false;
+                    _cells[SizeX * 2 + 4].Type    = CellType.Wall;
+                    _cells[SizeX * 2 + 4].Visible = false;
+                    
+                    _cells[SizeX * 4 + 2].Type    = CellType.Wall;
+                    _cells[SizeX * 4 + 2].Visible = false;
+                    _cells[SizeX * 5 + 2].Type    = CellType.Wall;
+                    _cells[SizeX * 5 + 2].Visible = false;
+                    
+                    _cells[SizeX * 4 + 4].Type    = CellType.Wall;
+                    _cells[SizeX * 4 + 4].Visible = false;
+                    _cells[SizeX * 5 + 4].Type    = CellType.Wall;
+                    _cells[SizeX * 5 + 4].Visible = false;
+                    
+                    _cells[SizeX * 7 + 3].Type    = CellType.Wall;
+                    _cells[SizeX * 7 + 3].Visible = false;
+                    _cells[SizeX * 8 + 3].Type    = CellType.Wall;
+                    _cells[SizeX * 8 + 3].Visible = false;
+                    
+                    
                     break;
                 }
             }
