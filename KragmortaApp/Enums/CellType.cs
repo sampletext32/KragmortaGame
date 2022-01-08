@@ -9,6 +9,7 @@ namespace KragmortaApp.Enums
         Red = 1,
         Green = 2,
         Blue = 4,
-        Orange = 8
+        Orange = 8,
+        Wall = 16
     }
 }

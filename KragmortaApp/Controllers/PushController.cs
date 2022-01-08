@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KragmortaApp.Entities;
+using KragmortaApp.Enums;
 
 namespace KragmortaApp.Controllers
 {
@@ -46,6 +47,12 @@ namespace KragmortaApp.Controllers
             // highlight paths
             for (int i = 0; i < RawPush.Count; i++)
             {
+                if (RawPush[i].Type == CellType.Wall)
+                {
+                    _push.Cells[i].Visible = false;
+                    continue;
+                }
+                
                 _push.Cells[i].X       = RawPush[i].X;
                 _push.Cells[i].Y       = RawPush[i].Y;
                 _push.Cells[i].Type    = RawPush[i].Type;

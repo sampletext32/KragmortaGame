@@ -28,6 +28,7 @@ namespace KragmortaApp.Scenes
         private PortalPresenter _portalPresenter;
         private MovementCardContextMenuPresenter _movementCardContextMenuPresenter;
         private FinishButtonPresenter _finishButtonPresenter;
+        // private BookshelfPresenter _bookshelfPresenter;
 
         #endregion
 
@@ -55,6 +56,7 @@ namespace KragmortaApp.Scenes
         private List<HeroHandler> _heroHandlers;
         private MovementCardContextMenuHandler _movementCardContextMenuHandler;
         private FinishButtonHandler _finishButtonHandler;
+        // private BookshelfHandler _bookshelfHandler;
 
         #endregion
 
@@ -97,6 +99,8 @@ namespace KragmortaApp.Scenes
                 new MovementCardContextMenuPresenter(GameState.Instance.MovementCardContextMenuModel);
 
             _finishButtonPresenter = new FinishButtonPresenter(GameState.Instance.FinishButtonModel);
+
+            // _bookshelfPresenter = new BookshelfPresenter();
         }
 
         private void InitAllControllers()
@@ -148,11 +152,13 @@ namespace KragmortaApp.Scenes
             _movementCardContextMenuHandler = new MovementCardContextMenuHandler(_movementCardContextMenuController,
                 _movementDecksController, _shiftController, _pathController);
             _finishButtonHandler = new FinishButtonHandler(_movementDecksController, _shiftController, _pathController);
+
+            // _bookshelfHandler = new BookshelfHandler();
         }
 
         private void InitAllLayers()
         {
-            // Initiating LayersStack (7 is gamefield + path + push + portal + movement deck + context menu + finish button)
+            // Initiating LayersStack (8 is gamefield + path + push + portal + movement deck + context menu + finish button + bookshelf)
             _layersStack = new LayersStack(7 + GameState.Instance.HeroCount);
 
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
@@ -165,6 +171,7 @@ namespace KragmortaApp.Scenes
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
             _layersStack.AddLayer(new PushLayer(_pushPresenter, _pushHandler));
             _layersStack.AddLayer(new PortalLayer(_portalPresenter, _portalHandler));
+            // _layersStack.AddLayer(new BookshelfLayer(_bookshelfPresenter, _bookshelfHandler));
             _layersStack.AddLayer(new MovementDeckLayer(_movementDecksPresenter, _movementDeckHandler));
             _layersStack.AddLayer(new MovementCardContextMenuLayer(_movementCardContextMenuPresenter,
                 _movementCardContextMenuHandler));

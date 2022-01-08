@@ -7,11 +7,9 @@ namespace KragmortaApp.Presenters
 {
     public class HeroPresenter : CellPresenterAbstract
     {
-        private RectangleShape _rectangle;
+        private Sprite _rectangle;
         private Text _text;
         private HeroModel _hero;
-
-        // private readonly Font _font;
 
         public static readonly int HeroSize = 64;
 
@@ -21,21 +19,22 @@ namespace KragmortaApp.Presenters
         {
             _hero = hero;
 
-            _rectangle = new RectangleShape();
-            _text      = new Text(_hero.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 4));
+            _rectangle = new Sprite();
+            _text      = new Text(_hero.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 3.5));
 
+            _rectangle.Texture = InitTexture();
             _rectangle.Position = CalcRectanglePosition();
-            _text.Position = CalcRectanglePosition();
-            _rectangle.Size     = new Vector2f(HeroSize, HeroSize);
-
-            _rectangle.FillColor = new Color(
-                red: (byte)Rand.Next(100, 256),
-                green: (byte)Rand.Next(100, 256),
-                blue: (byte)Rand.Next(100, 256),
-                alpha: 150
-            );
+            var downscaleFactor = (float)HeroSize / _rectangle.Texture.Size.X;
+            _rectangle.Scale = new Vector2f(downscaleFactor, downscaleFactor);
+            _text.Position   = CalcRectanglePosition();
+            
             
             FieldOriginChanged += OnFieldOriginChanged;
+        }
+
+        private Texture InitTexture()
+        {
+            return Engine.Instance.TextureCache.GetOrCache($"goblins/Goblin{_hero.Id - 1}");
         }
 
         private void OnFieldOriginChanged(int x, int y)
@@ -69,17 +68,18 @@ namespace KragmortaApp.Presenters
         private void Update()
         {
             _rectangle.Position = CalcRectanglePosition();
-            _text.Position = CalcRectanglePosition();
-            if (_hero.IsCurrentHero)
-            {
-                _rectangle.OutlineThickness = 5;
-                _rectangle.OutlineColor     = Color.Red;
-            }
-            else
-            {
-                _rectangle.OutlineThickness = 0;
-                _rectangle.OutlineColor     = Color.Transparent;
-            }
+            _text.Position = CalcTextRectanglePosition();
+            // TODO: Wrap into a frame the current hero.
+            // if (_hero.IsCurrentHero)
+            // {
+            //     _rectangle.OutlineThickness = 5;
+            //     _rectangle.OutlineColor     = Color.Red;
+            // }
+            // else
+            // {
+            //     _rectangle.OutlineThickness = 0;
+            //     _rectangle.OutlineColor     = Color.Transparent;
+            // }
         }
 
         private Vector2f CalcRectanglePosition()
@@ -87,6 +87,14 @@ namespace KragmortaApp.Presenters
             return new Vector2f(
                 FieldOriginX + (CellSize / 2 - HeroSize / 2) + _hero.FieldX * (CellSize + CellMargin),
                 FieldOriginY + (CellSize / 2 - HeroSize / 2) + _hero.FieldY * (CellSize + CellMargin)
+            );
+        }
+
+        private Vector2f CalcTextRectanglePosition()
+        {
+            return new Vector2f(
+                FieldOriginX + (CellSize / 2 - HeroSize / 2) + _hero.FieldX * (CellSize + CellMargin) + 3,
+                FieldOriginY + (CellSize / 2 - HeroSize / 2) + _hero.FieldY * (CellSize + CellMargin) - 14
             );
         }
     }
