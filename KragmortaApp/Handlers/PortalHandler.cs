@@ -57,7 +57,7 @@ namespace KragmortaApp.Handlers
             {
                 // use sameCellHero for further processing
                 Console.WriteLine(
-                    $"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+                    $"Hero {sameCellHero.Profile.Nickname} is being pushed by {_shiftController.Hero.Profile.Nickname}");
 
 
                 // Highlight paths of push
