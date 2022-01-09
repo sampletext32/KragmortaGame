@@ -15,6 +15,9 @@ namespace KragmortaApp.Drawables
 
         private RectangleShape _backgroundRectangle;
 
+        private Sprite _backgroundSprite;
+        private RenderTexture _backgroundGoblinRenderTexture;
+
         private int _fontHeight = 24;
 
         private int _x;
@@ -40,6 +43,16 @@ namespace KragmortaApp.Drawables
             _secondText.CharacterSize = (uint)_fontHeight;
             _firstText.FillColor      = Color.Black;
             _secondText.FillColor     = Color.Black;
+
+
+            var goblinCard = Engine.Instance.TextureCache.GetOrCache("movement/goblin-move");
+            _backgroundSprite       = new Sprite(goblinCard);
+            _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
+                (float)Height / _backgroundSprite.Texture.Size.Y);
+            // _backgroundGoblinRenderTexture = new RenderTexture(goblinCard.Texture.Size.X, goblinCard.Texture.Size.Y);
+            // _backgroundGoblinRenderTexture.Draw(goblinCard);
+            // _backgroundGoblinRenderTexture.Draw();
+
         }
 
         public void SetCard(MovementCard card)
@@ -62,6 +75,7 @@ namespace KragmortaApp.Drawables
             _y = y;
 
             _backgroundRectangle.Position = new Vector2f(x, y);
+            _backgroundSprite.Position    = new Vector2f(x, y);
 
             _firstText.Position  = new Vector2f(x, y);
             _secondText.Position = new Vector2f(x, y + _fontHeight * 1.5f);
@@ -80,7 +94,8 @@ namespace KragmortaApp.Drawables
                 _movementCard.ClearDirty();
             }
 
-            target.Draw(_backgroundRectangle, states);
+            // target.Draw(_backgroundRectangle, states);
+            target.Draw(_backgroundSprite, states);
             target.Draw(_firstText, states);
             target.Draw(_secondText, states);
         }
