@@ -82,7 +82,7 @@ namespace KragmortaApp.Handlers
                 {
                     _finishButtonController.HideButton();
                     // use sameCellHero for further processing
-                    Console.WriteLine($"Hero {_shiftController.Hero.Nickname} pushes {sameCellHero.Nickname}");
+                    Console.WriteLine($"Hero {_shiftController.Hero.Profile.Nickname} pushes {sameCellHero.Profile.Nickname}");
 
                     _pathController.ClearPaths();
 
@@ -146,7 +146,7 @@ namespace KragmortaApp.Handlers
                     
                     // use sameCellHero for further processing
                     Console.WriteLine(
-                        $"Hero {sameCellHero.Nickname} is being pushed by {_shiftController.Hero.Nickname}");
+                        $"Hero {sameCellHero.Profile.Nickname} is being pushed by {_shiftController.Hero.Profile.Nickname}");
 
                     _pathController.ClearPaths();
 
