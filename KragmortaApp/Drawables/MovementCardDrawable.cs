@@ -17,6 +17,7 @@ namespace KragmortaApp.Drawables
 
         private Sprite _backgroundSprite;
         private RenderTexture _backgroundGoblinRenderTexture;
+        private RenderTexture _backgroundRigorRenderTexture;
 
         private int _fontHeight = 24;
 
@@ -45,14 +46,12 @@ namespace KragmortaApp.Drawables
             _secondText.FillColor     = Color.Black;
 
 
-            var goblinCard = Engine.Instance.TextureCache.GetOrCache("movement/goblin-move");
-            _backgroundSprite       = new Sprite(goblinCard);
-            _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
-                (float)Height / _backgroundSprite.Texture.Size.Y);
+            _backgroundSprite = new Sprite(new Sprite());
+            // _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
+            //     (float)Height / _backgroundSprite.Texture.Size.Y);
             // _backgroundGoblinRenderTexture = new RenderTexture(goblinCard.Texture.Size.X, goblinCard.Texture.Size.Y);
             // _backgroundGoblinRenderTexture.Draw(goblinCard);
             // _backgroundGoblinRenderTexture.Draw();
-
         }
 
         public void SetCard(MovementCard card)
@@ -63,6 +62,13 @@ namespace KragmortaApp.Drawables
             {
                 return;
             }
+
+            var texture = _movementCard.MovementCardType == MovementCardType.Goblin
+                ? Engine.Instance.TextureCache.GetOrCache("movement/goblin-move")
+                : Engine.Instance.TextureCache.GetOrCache("movement/mortis-move");
+            _backgroundSprite = new Sprite(texture);
+            _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
+                (float)Height / _backgroundSprite.Texture.Size.Y);
 
             _firstText.DisplayedString  = _movementCard.FirstType.ToString();
             _secondText.DisplayedString = _movementCard.SecondType.ToString();
@@ -127,11 +133,9 @@ namespace KragmortaApp.Drawables
                 card = null;
                 return false;
             }
-            else
-            {
-                card = _movementCard;
-                return true;
-            }
+
+            card = _movementCard;
+            return true;
         }
     }
 }

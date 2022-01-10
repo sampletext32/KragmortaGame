@@ -48,8 +48,7 @@ namespace KragmortaApp.Controllers
                     continue;
                 }
                 
-                if (!card.HasUsedFirstType && (RawPath[i].Type & card.FirstType) != CellType.Empty ||
-                    !card.HasUsedSecondType && (RawPath[i].Type & card.SecondType) != CellType.Empty)
+                if (IsValid(card, i))
                 {
                     _path.Cells[i].X       = RawPath[i].X;
                     _path.Cells[i].Y       = RawPath[i].Y;
@@ -78,6 +77,24 @@ namespace KragmortaApp.Controllers
             _path.MarkDirty();
 
             return hasSet;
+        }
+
+        private bool IsValid(MovementCard card, int i)
+        {
+            var result = false;
+            if (!card.HasUsedFirstType)
+            {
+                result = (RawPath[i].Type & card.FirstType) != CellType.Empty || card.FirstType == CellType.Common;
+            }
+
+            if (!card.HasUsedSecondType)
+            {
+                result |= (RawPath[i].Type & card.SecondType) != CellType.Empty || card.SecondType == CellType.Common;
+            }
+
+            return result;
+            // return !card.HasUsedFirstType && (RawPath[i].Type & card.FirstType) != CellType.Empty ||
+            //        !card.HasUsedSecondType && (RawPath[i].Type & card.SecondType) != CellType.Empty;
         }
 
         public void ClearPaths()

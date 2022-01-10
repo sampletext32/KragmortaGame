@@ -85,6 +85,7 @@ namespace KragmortaApp.Drawables
         private void Update()
         {
             _visible = _deck.Visible;
+            // TODO: Bind model to drawable from the beginning.
 
             // Add drawables, if there are not enough of them
             for (int i = _drawables.Count; i < _deck.MovementCards.Count; i++)
