@@ -57,7 +57,7 @@ namespace KragmortaApp.Handlers
                 // push victim to position
                 _pushController.Victim.SetFieldPosition(nextCell.X, nextCell.Y);
 
-                Console.WriteLine($"{_pushController.Victim.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
+                Console.WriteLine($"{_pushController.Victim.Profile.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
             }
             if (Engine.Instance.Settings.EnableSounds)
             {
@@ -77,7 +77,7 @@ namespace KragmortaApp.Handlers
                 // Case 1
 
                 // use sameCellHero for further processing
-                Console.WriteLine($"Hero {_pushController.Victim.Nickname} pushes {victimSameCellHero.Nickname}");
+                Console.WriteLine($"Hero {_pushController.Victim.Profile.Nickname} pushes {victimSameCellHero.Profile.Nickname}");
 
                 // Highlight new paths of push
 

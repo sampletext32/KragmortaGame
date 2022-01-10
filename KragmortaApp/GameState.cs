@@ -49,19 +49,14 @@ namespace KragmortaApp
             _rigor = new RigorModel();
             
             _heroes = new List<HeroModel>(HeroCount);
+
             for (int i = 0; i < HeroCount; i++)
             {
-                _heroes.Add(new HeroModel(i + 1, $"Hero {i + 1}", (i) % Field.SizeX, (i) / Field.SizeX));
+                _heroes.Add(new HeroModel(i + 1, new Profile($"Hero {i + 1}"), (i) % Field.SizeX, (i) / Field.SizeX));
             }
 
             SetHeroesPositions();
             
-            Profile = new Profile()
-            {
-                Nickname = "Igrovogo personaja"
-            };
-           
-
             MovementCardContextMenuModel = new MovementCardContextMenuModel();
 
             Path      = new Path();

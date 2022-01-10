@@ -20,7 +20,7 @@ namespace KragmortaApp.Presenters
             _hero = hero;
 
             _rectangle = new Sprite();
-            _text      = new Text(_hero.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 3.5));
+            _text      = new Text(_hero.Profile.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 3.5));
 
             _rectangle.Texture = InitTexture();
             _rectangle.Position = CalcRectanglePosition();

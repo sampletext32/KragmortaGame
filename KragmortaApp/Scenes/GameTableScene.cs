@@ -2,7 +2,6 @@
 using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Controllers.ContextMenus;
-using KragmortaApp.Entities.Buttons;
 using KragmortaApp.Handlers;
 using KragmortaApp.Layers;
 using KragmortaApp.Presenters;
@@ -19,7 +18,7 @@ namespace KragmortaApp.Scenes
     {
         #region Presenters
 
-        private ProfilePresenter _profilePresenter;
+        private ProfilesPresenter _profilesPresenter;
         private GameFieldPresenter _fieldPresenter;
         private MovementDecksPresenter _movementDecksPresenter;
         
@@ -64,6 +63,7 @@ namespace KragmortaApp.Scenes
         private MovementCardContextMenuHandler _movementCardContextMenuHandler;
         private FinishButtonHandler _finishButtonHandler;
         // private BookshelfHandler _bookshelfHandler;
+        private ProfilesHandler _profilesHandler;
 
         #endregion
 
@@ -79,7 +79,6 @@ namespace KragmortaApp.Scenes
             InitAllControllers();
 
             InitAllHandlers();
-
 
             InitAllLayers();
         }
@@ -108,6 +107,8 @@ namespace KragmortaApp.Scenes
                 new MovementCardContextMenuPresenter(GameState.Instance.MovementCardContextMenuModel);
 
             _finishButtonPresenter = new FinishButtonPresenter(GameState.Instance.FinishButtonModel);
+
+            _profilesPresenter = new ProfilesPresenter(GameState.Instance.Heroes.Select(h => h.Profile).ToList());
 
             // _bookshelfPresenter = new BookshelfPresenter();
         }
@@ -164,12 +165,15 @@ namespace KragmortaApp.Scenes
                 _movementDecksController, _shiftController, _pathController);
             _finishButtonHandler = new FinishButtonHandler(_movementDecksController, _shiftController, _pathController);
 
+            _profilesHandler = new ProfilesHandler();
+
             // _bookshelfHandler = new BookshelfHandler();
         }
 
         private void InitAllLayers()
         {
             InitLayersStack();
+
 
             _layersStack.AddLayer(new GameFieldLayer(_fieldPresenter, _gameFieldHandler, "Game Field Layer"));
             
@@ -178,7 +182,7 @@ namespace KragmortaApp.Scenes
             for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
                 _layersStack.AddLayer(new HeroLayer(_heroPresenters[i], _heroHandlers[i],
-                    $"\"{GameState.Instance.Heroes[i].Nickname}\" Hero Layer"));
+                    $"\"{GameState.Instance.Heroes[i].Profile.Nickname}\" Hero Layer"));
             }
 
             _layersStack.AddLayer(new PathLayer(_pathPresenter, _pathHandler));
@@ -193,16 +197,17 @@ namespace KragmortaApp.Scenes
                 _movementCardContextMenuHandler));
             
             _layersStack.AddLayer(new FinishButtonLayer(_finishButtonPresenter, _finishButtonHandler));
+            _layersStack.AddLayer(new ProfilesLayer(_profilesPresenter, _profilesHandler));
         }
 
         /// <summary>
         /// Initiating LayersStack
         /// </summary>
         /// <remarks>
-        /// 8 are gamefield + rigor + path + push + portal + movement deck + context menu + finish button
+        /// 10 is gamefield + rigor + path + push + portal + movement deck + context menu + finish button + profiles + bookshelf
         /// </remarks>
         /// <param name="layersNumber">Number of the initiating layers.</param>
-        private void InitLayersStack(int layersNumber = 8)
+        private void InitLayersStack(int layersNumber = 10)
         {
             _layersStack = new LayersStack(layersNumber + GameState.Instance.HeroCount);
         }

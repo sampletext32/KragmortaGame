@@ -3,22 +3,22 @@ namespace KragmortaApp.Entities
     public class HeroModel : VisualEntity
     {
         public long Id { get; }
-        public string Nickname { get; private set; }
+        public Profile Profile { get; }
 
         public int FieldX { get; private set; }
 
         public int FieldY { get; private set; }
 
-        public bool IsCurrentHero { get; set; }
+        public bool Activated { get; set; }
 
         public readonly MovementDeck MovementDeck;
 
-        public HeroModel(long id, string nickname, int fieldX, int fieldY)
+        public HeroModel(long id, Profile profile, int fieldX, int fieldY)
         {
-            Nickname = nickname;
-            FieldX   = fieldX;
-            FieldY   = fieldY;
-            Id  = id;
+            Id      = id;
+            Profile = profile;
+            FieldX  = fieldX;
+            FieldY  = fieldY;
 
             MovementDeck = new MovementDeck();
 
