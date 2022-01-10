@@ -16,6 +16,8 @@ namespace KragmortaApp
 
         public IReadOnlyList<HeroModel> Heroes => _heroes;
         private readonly List<HeroModel> _heroes;
+        public RigorModel Rigor => _rigor;
+        private RigorModel _rigor;
 
         public IReadOnlyList<MovementDeck> Decks => _decks;
         private readonly List<MovementDeck> _decks;
@@ -43,6 +45,8 @@ namespace KragmortaApp
             HeroCount = count;
             
             Field = new GameField(7, 10, HeroCount);
+
+            _rigor = new RigorModel();
             
             _heroes = new List<HeroModel>(HeroCount);
 
