@@ -170,7 +170,6 @@ namespace KragmortaApp.Entities
 
         private void InitWalls()
         {
-            // TODO: Show bookshelves on the field.
             switch (FieldType)
             {
                 case FieldType.Mini:

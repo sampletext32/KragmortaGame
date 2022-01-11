@@ -16,8 +16,6 @@ namespace KragmortaApp.Scenes
 {
     public class GameTableScene : Scene
     {
-        // TODO: Redo Profiles.    
-    
         #region Presenters
 
         private GameFieldPresenter _fieldPresenter;
