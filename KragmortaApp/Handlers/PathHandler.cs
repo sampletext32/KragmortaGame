@@ -14,14 +14,18 @@ namespace KragmortaApp.Handlers
         private readonly ShiftController _shiftController;
         private readonly PortalController _portalController;
         private readonly FinishButtonController _finishButtonController;
+        private readonly ProfilesController _profilesController;
 
         public PathHandler(
             PathController pathController,
             PushController pushController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
-            ShiftController shiftController, PortalController portalController,
-            FinishButtonController finishButtonController)
+            ShiftController shiftController,
+            PortalController portalController,
+            FinishButtonController finishButtonController,
+            ProfilesController profilesController
+        )
         {
             _pathController          = pathController;
             _pushController          = pushController;
@@ -30,6 +34,7 @@ namespace KragmortaApp.Handlers
             _shiftController         = shiftController;
             _portalController        = portalController;
             _finishButtonController  = finishButtonController;
+            _profilesController = profilesController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -78,11 +83,11 @@ namespace KragmortaApp.Handlers
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                        h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
                 {
                     _finishButtonController.HideButton();
                     // use sameCellHero for further processing
-                    Console.WriteLine($"Hero {_shiftController.Hero.Profile.Nickname} pushes {sameCellHero.Profile.Nickname}");
+                    // Console.WriteLine($"Hero {_shiftController.Hero.Profile.Nickname} pushes {sameCellHero.Profile.Nickname}");
 
                     _pathController.ClearPaths();
 
@@ -109,6 +114,7 @@ namespace KragmortaApp.Handlers
                     _movementDecksController.DismissActivatedCard();
                     _movementDecksController.PullNewCard();
                     _shiftController.ActivateNextPlayer();
+                    _profilesController.ActivateNextPlayer();
                     _movementDecksController.ActivateNextDeck();
                 }
             }
@@ -140,13 +146,12 @@ namespace KragmortaApp.Handlers
                 // In the destination cell there are 2 heroes
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                        h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
                 {
                     _finishButtonController.HideButton();
-                    
+
                     // use sameCellHero for further processing
-                    Console.WriteLine(
-                        $"Hero {sameCellHero.Profile.Nickname} is being pushed by {_shiftController.Hero.Profile.Nickname}");
+                    // Console.WriteLine($"Hero {sameCellHero.Profile.Nickname} is being pushed by {_shiftController.Hero.Profile.Nickname}");
 
                     _pathController.ClearPaths();
 
@@ -167,6 +172,7 @@ namespace KragmortaApp.Handlers
                 _pathController.ClearPaths();
 
                 _shiftController.ActivateNextPlayer();
+                _profilesController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();
             }
             else

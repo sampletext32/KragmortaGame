@@ -13,6 +13,7 @@ namespace KragmortaApp.Handlers
         private readonly MovementDecksController _movementDecksController;
         private readonly ShiftController _shiftController;
         private readonly PortalController _portalController;
+        private readonly ProfilesController _profilesController;
         private readonly FinishButtonController _finishButtonController;
 
         public PushHandler(
@@ -20,7 +21,11 @@ namespace KragmortaApp.Handlers
             PathController pathController,
             GameFieldController gameFieldController,
             MovementDecksController movementDecksController,
-            ShiftController shiftController, FinishButtonController finishButtonController, PortalController portalController)
+            ShiftController shiftController,
+            FinishButtonController finishButtonController,
+            PortalController portalController,
+            ProfilesController profilesController
+        )
         {
             _pushController          = pushController;
             _pathController          = pathController;
@@ -28,7 +33,8 @@ namespace KragmortaApp.Handlers
             _movementDecksController = movementDecksController;
             _shiftController         = shiftController;
             _finishButtonController  = finishButtonController;
-            _portalController   = portalController;
+            _portalController        = portalController;
+            _profilesController = profilesController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -57,12 +63,14 @@ namespace KragmortaApp.Handlers
                 // push victim to position
                 _pushController.Victim.SetFieldPosition(nextCell.X, nextCell.Y);
 
-                Console.WriteLine($"{_pushController.Victim.Profile.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
+                // Console.WriteLine($"{_pushController.Victim.Profile.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
             }
+
             if (Engine.Instance.Settings.EnableSounds)
             {
                 Engine.Instance.SoundCache.GetOrCache("whoosh_push").Play();
             }
+
             _pushController.ClearPush();
 
             // From this moment we have 2 situations
@@ -72,12 +80,12 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
             if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                h != _pushController.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
+                    h != _pushController.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
             {
                 // Case 1
 
                 // use sameCellHero for further processing
-                Console.WriteLine($"Hero {_pushController.Victim.Profile.Nickname} pushes {victimSameCellHero.Profile.Nickname}");
+                // Console.WriteLine($"Hero {_pushController.Victim.Profile.Nickname} pushes {victimSameCellHero.Profile.Nickname}");
 
                 // Highlight new paths of push
 
@@ -110,6 +118,7 @@ namespace KragmortaApp.Handlers
                 {
                     // Activate next player for further turns
                     _shiftController.ActivateNextPlayer();
+                    _profilesController.ActivateNextPlayer();
                     _movementDecksController.ActivateNextDeck();
                 }
 
