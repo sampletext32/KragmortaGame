@@ -13,6 +13,8 @@ namespace KragmortaApp.Drawables
         {
             _cellSize  = cellSize;
             LoadTexture();
+            
+            InitCellByForm(cell, cellSize);
         }
 
         public void LoadTexture()

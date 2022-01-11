@@ -24,6 +24,10 @@ namespace KragmortaApp.Controllers
             {
                 _heroControllers[0].Activate();
             }
+            else
+            {
+                _currentHeroIndex = GameState.Instance.CurrentPlayerIndex;
+            }
         }
 
         public void ActivateNextPlayer()

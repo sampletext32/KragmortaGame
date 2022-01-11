@@ -5,7 +5,6 @@ namespace KragmortaApp.Controllers
     public class HeroController : ControllerBase
     {
         private HeroModel _hero;
-        private int _cardDeletionLeft = 1;
 
         public HeroController(HeroModel hero, bool initStates)
         {
@@ -15,7 +14,7 @@ namespace KragmortaApp.Controllers
         public void Activate()
         {
             _hero.Activated = true;
-            _cardDeletionLeft   = 1;
+            _hero.CardDeletionLeft   = 1;
             _hero.MarkDirty();
         }
 
@@ -27,12 +26,12 @@ namespace KragmortaApp.Controllers
 
         public void NoticeCardDeletion()
         {
-            _cardDeletionLeft--;
+            _hero.CardDeletionLeft--;
         }
 
         public bool HasAnyCardDeletionsLeft()
         {
-            return _cardDeletionLeft > 0;
+            return _hero.CardDeletionLeft > 0;
         }
     }
 }

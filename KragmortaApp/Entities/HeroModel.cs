@@ -14,6 +14,8 @@ namespace KragmortaApp.Entities
 
         public readonly MovementDeck MovementDeck;
 
+        public int CardDeletionLeft { get; set; } = 1;
+
         public HeroModel(HeroFileData fileData)
         {
             Id     = fileData.Id;

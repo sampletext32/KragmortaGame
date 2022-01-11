@@ -14,6 +14,8 @@ namespace KragmortaApp
 
         public int HeroCount { get; private set; }
 
+        public int CurrentPlayerIndex { get; set; }
+
         public GameField Field;
 
         public IReadOnlyList<HeroModel> Heroes => _heroes;
@@ -47,18 +49,19 @@ namespace KragmortaApp
             Instance = new()
             {
                 HeroCount                    = fileData.HeroCount,
+                CurrentPlayerIndex           = fileData.CurrentPlayerIndex,
                 _heroes                      = fileData.Heroes.Select(f => new HeroModel(f)).ToList(),
                 _rigor                       = new RigorModel(fileData.Rigor),
                 _profiles                    = fileData.Profiles.Select(f => new Profile(f)).ToList(),
                 Field                        = new GameField(fileData.Field),
                 MovementCardContextMenuModel = new MovementCardContextMenuModel(),
-                Path                         = new Path(),
+                Path                         = new Path(fileData.Path),
                 Push                         = new Push(),
                 FinishButtonModel            = new FinishButtonModel(),
                 ColorsStorage                = new ColorsStorage(),
             };
 
-            Instance.Portals    = new Portals(Instance.Field);
+            Instance.Portals   = new Portals(Instance.Field);
             Instance.Bookshelf = new Bookshelf(Instance.Field);
         }
 
@@ -66,11 +69,13 @@ namespace KragmortaApp
         {
             return new GameFileData()
             {
-                HeroCount = HeroCount,
-                Field = Field.ToFileData(),
-                Heroes    = _heroes.Select(h => h.ToFileData()).ToList(),
-                Rigor     = _rigor.ToFileData(),
-                Profiles  = _profiles.Select(p => p.ToFileData()).ToList()
+                HeroCount          = HeroCount,
+                CurrentPlayerIndex = CurrentPlayerIndex,
+                Path               = Path.ToFileData(),
+                Field              = Field.ToFileData(),
+                Heroes             = _heroes.Select(h => h.ToFileData()).ToList(),
+                Rigor              = _rigor.ToFileData(),
+                Profiles           = _profiles.Select(p => p.ToFileData()).ToList()
             };
         }
 
@@ -101,7 +106,7 @@ namespace KragmortaApp
 
             Path      = new Path();
             Push      = new Push();
-            Portals    = new Portals(Field);
+            Portals   = new Portals(Field);
             Bookshelf = new Bookshelf(Field);
 
             FinishButtonModel = new FinishButtonModel();

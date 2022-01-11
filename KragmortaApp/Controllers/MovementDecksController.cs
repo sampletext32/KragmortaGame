@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Entities;
 using KragmortaApp.Enums;
 
@@ -30,6 +31,12 @@ namespace KragmortaApp.Controllers
             {
                 CurrentDeck.Visible = true;
                 CurrentDeck.MarkDirty();
+            }
+            else
+            {
+                _currentDeckIndex         = GameState.Instance.CurrentPlayerIndex;
+                _lastSelectedMovementCard = CurrentDeck.MovementCards.FirstOrDefault(c => c.Selected);
+                _activatedMovementCard = CurrentDeck.MovementCards.FirstOrDefault(c => c.Activated);
             }
         }
 

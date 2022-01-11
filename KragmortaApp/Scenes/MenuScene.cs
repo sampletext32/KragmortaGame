@@ -48,13 +48,9 @@ namespace KragmortaApp.Scenes
 
         private void LoadButtonOnClicked()
         {
-            var gameSaver = new GameSaver();
-            
-            gameSaver.Load();
-            
-            Engine.Instance.PushScene(new GameTableScene()
+            Engine.Instance.PushScene(new GameStartScene()
             {
-                InitStates = false
+                FromSave = true
             });
         }
 

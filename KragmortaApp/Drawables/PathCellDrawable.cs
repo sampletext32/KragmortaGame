@@ -11,6 +11,10 @@ namespace KragmortaApp.Drawables
             GameState.Instance.ColorsStorage.PathCell)
         {
             _cellSize = cellSize;
+            
+            LoadTexture();
+            
+            InitCellByForm(pathCell, cellSize);
         }
 
         public void LoadTexture()

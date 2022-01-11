@@ -7,12 +7,15 @@ namespace KragmortaApp.FileDatas
     {
         public int HeroCount { get; set; }
 
+        public int CurrentPlayerIndex { get; set; }
+
         public List<HeroFileData> Heroes { get; set; }
 
         public RigorFileData Rigor { get; set; }
 
         public List<ProfileFileData> Profiles { get; set; }
-        
+
         public GameFieldFileData Field { get; set; }
+        public PathFileData Path { get; set; }
     }
 }
