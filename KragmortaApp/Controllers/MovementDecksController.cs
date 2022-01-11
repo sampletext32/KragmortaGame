@@ -25,7 +25,7 @@ namespace KragmortaApp.Controllers
 
         public MovementDecksController(List<MovementDeck> decks, bool initStates)
         {
-            _decks              = decks;
+            _decks = decks;
 
             if (initStates)
             {
@@ -36,7 +36,7 @@ namespace KragmortaApp.Controllers
             {
                 _currentDeckIndex         = GameState.Instance.CurrentPlayerIndex;
                 _lastSelectedMovementCard = CurrentDeck.MovementCards.FirstOrDefault(c => c.Selected);
-                _activatedMovementCard = CurrentDeck.MovementCards.FirstOrDefault(c => c.Activated);
+                _activatedMovementCard    = CurrentDeck.MovementCards.FirstOrDefault(c => c.Activated);
             }
         }
 

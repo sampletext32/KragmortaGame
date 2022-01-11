@@ -9,6 +9,7 @@ namespace KragmortaApp.Controllers
         /// Current hero.
         /// </summary>
         public HeroModel Hero => _heroModels[_currentHeroIndex];
+
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
 
         private IReadOnlyList<HeroModel> _heroModels;
@@ -33,7 +34,8 @@ namespace KragmortaApp.Controllers
         public void ActivateNextPlayer()
         {
             HeroController.Deactivate();
-            _currentHeroIndex  = (_currentHeroIndex + 1) % _heroModels.Count;
+            _currentHeroIndex                     = (_currentHeroIndex + 1) % _heroModels.Count;
+            GameState.Instance.CurrentPlayerIndex = _currentHeroIndex;
             HeroController.Activate();
         }
 
