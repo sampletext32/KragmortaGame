@@ -46,12 +46,7 @@ namespace KragmortaApp.Drawables
             _secondText.FillColor     = Color.Black;
 
 
-            _backgroundSprite = new Sprite(new Sprite());
-            // _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
-            //     (float)Height / _backgroundSprite.Texture.Size.Y);
-            // _backgroundGoblinRenderTexture = new RenderTexture(goblinCard.Texture.Size.X, goblinCard.Texture.Size.Y);
-            // _backgroundGoblinRenderTexture.Draw(goblinCard);
-            // _backgroundGoblinRenderTexture.Draw();
+            _backgroundSprite = new Sprite();
         }
 
         public void SetCard(MovementCard card)
@@ -66,7 +61,7 @@ namespace KragmortaApp.Drawables
             var texture = _movementCard.MovementCardType == MovementCardType.Goblin
                 ? Engine.Instance.TextureCache.GetOrCache("movement/goblin-move")
                 : Engine.Instance.TextureCache.GetOrCache("movement/mortis-move");
-            _backgroundSprite = new Sprite(texture);
+            _backgroundSprite.Texture = texture;
             _backgroundSprite.Scale = new Vector2f((float)Width / _backgroundSprite.Texture.Size.X,
                 (float)Height / _backgroundSprite.Texture.Size.Y);
 

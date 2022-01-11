@@ -96,7 +96,8 @@ namespace KragmortaApp
             Field = new GameField(7, 10, HeroCount);
 
             _rigor = new RigorModel();
-
+            _rigor.SetFieldPosition(3, 9);
+            
             _heroes   = new List<HeroModel>(HeroCount);
             _profiles = new List<Profile>(HeroCount);
 

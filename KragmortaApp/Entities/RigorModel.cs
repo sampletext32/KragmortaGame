@@ -25,8 +25,6 @@ namespace KragmortaApp.Entities
 
         public RigorModel()
         {
-            FieldX = 3;
-            FieldY = 9;
         }
 
         public void SetFieldPosition(int x, int y)
