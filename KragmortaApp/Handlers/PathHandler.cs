@@ -107,7 +107,7 @@ namespace KragmortaApp.Handlers
 
             if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
             {
-                _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                _portalController.SetAllVisibleExcept(pathCellX, pathCellY);
                 _shiftController.WhoEnteredPortal = movingHero;
                 _pathController.ClearPaths();
                 _finishButtonController.HideButton();
@@ -186,7 +186,7 @@ namespace KragmortaApp.Handlers
                 _finishButtonController.HideButton();
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
-                _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                _portalController.SetAllVisibleExcept(pathCellX, pathCellY);
                 _shiftController.WhoEnteredPortal = movingHero;
                 _pathController.ClearPaths();
                 return;

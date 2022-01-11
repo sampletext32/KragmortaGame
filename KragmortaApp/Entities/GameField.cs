@@ -34,6 +34,10 @@ namespace KragmortaApp.Entities
             FieldType     = fileData.FieldType;
             _cells        = fileData.Cells.Select(c => new FieldCell(c)).ToList();
             _playersCount = fileData.PlayersCount;
+
+            AdjustField();
+            InitWalls();
+            LoadSpawnCells();
         }
 
         public GameFieldFileData ToFileData()

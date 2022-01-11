@@ -4,22 +4,22 @@
   "Heroes": [
     {
       "Id": 1,
-      "FieldX": 5,
-      "FieldY": 5,
+      "FieldX": 4,
+      "FieldY": 9,
       "Activated": false,
       "MovementDeck": {
         "MovementCards": [
           {
-            "FirstType": 1,
-            "SecondType": 4,
+            "FirstType": 8,
+            "SecondType": 16,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
             "Activated": false
           },
           {
-            "FirstType": 2,
-            "SecondType": 1,
+            "FirstType": 16,
+            "SecondType": 16,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
@@ -27,7 +27,7 @@
           },
           {
             "FirstType": 4,
-            "SecondType": 8,
+            "SecondType": 1,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
@@ -39,22 +39,14 @@
     },
     {
       "Id": 2,
-      "FieldX": 5,
-      "FieldY": 5,
+      "FieldX": 4,
+      "FieldY": 9,
       "Activated": true,
       "MovementDeck": {
         "MovementCards": [
           {
-            "FirstType": 1,
-            "SecondType": 2,
-            "Selected": false,
-            "HasUsedFirstType": true,
-            "HasUsedSecondType": false,
-            "Activated": true
-          },
-          {
-            "FirstType": 1,
-            "SecondType": 4,
+            "FirstType": 4,
+            "SecondType": 16,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
@@ -62,7 +54,15 @@
           },
           {
             "FirstType": 2,
-            "SecondType": 1,
+            "SecondType": 8,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          },
+          {
+            "FirstType": 16,
+            "SecondType": 8,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
@@ -732,9 +732,9 @@
   "Path": {
     "Cells": [
       {
-        "X": 1,
-        "Y": 4,
-        "Type": 4,
+        "X": 6,
+        "Y": 9,
+        "Type": 1,
         "Form": 4,
         "Corner": 0,
         "Visible": false,
@@ -742,28 +742,28 @@
       },
       {
         "X": 4,
-        "Y": 5,
-        "Type": 4,
-        "Form": 4,
-        "Corner": 0,
-        "Visible": false,
-        "IsPortal": false
-      },
-      {
-        "X": 5,
-        "Y": 4,
-        "Type": 4,
-        "Form": 4,
-        "Corner": 0,
-        "Visible": false,
-        "IsPortal": false
-      },
-      {
-        "X": 5,
-        "Y": 5,
+        "Y": 9,
         "Type": 1,
-        "Form": 4,
-        "Corner": 0,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 8,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 7,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 3,
         "Visible": false,
         "IsPortal": false
       }
@@ -772,20 +772,20 @@
   "Push": {
     "Cells": [
       {
-        "X": 0,
-        "Y": 0,
-        "Type": 0,
-        "Form": 0,
+        "X": 3,
+        "Y": 9,
+        "Type": 8,
+        "Form": 4,
         "Corner": 0,
-        "Visible": false,
+        "Visible": true,
         "IsPortal": false
       },
       {
         "X": 4,
-        "Y": 5,
-        "Type": 4,
-        "Form": 4,
-        "Corner": 0,
+        "Y": 8,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 1,
         "Visible": true,
         "IsPortal": false
       },
@@ -795,7 +795,7 @@
         "Type": 1,
         "Form": 2,
         "Corner": 1,
-        "Visible": true,
+        "Visible": false,
         "IsPortal": false
       },
       {
@@ -811,8 +811,8 @@
   },
   "PushedState": null,
   "PushedStateModel": {
-    "Pusher": 2,
+    "Pusher": null,
     "Victim": 1,
-    "ShouldReturnMoveToPusher": true
+    "ShouldReturnMoveToPusher": false
   }
 }
