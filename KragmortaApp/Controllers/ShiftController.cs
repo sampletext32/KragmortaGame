@@ -11,6 +11,7 @@ namespace KragmortaApp.Controllers
         public HeroModel Hero => _heroModels[_currentHeroIndex];
 
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
+        public IHero WhoEnteredPortal;
 
         private IReadOnlyList<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;

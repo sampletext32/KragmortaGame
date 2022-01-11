@@ -54,7 +54,7 @@ namespace KragmortaApp.Handlers
             var heroPreviousX = _shiftController.Hero.FieldX;
             var heroPreviousY = _shiftController.Hero.FieldY;
 
-            _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+            _shiftController.WhoEnteredPortal.SetFieldPosition(pathCellX, pathCellY);
 
             _portalController.SetInvisiblePortals();
 

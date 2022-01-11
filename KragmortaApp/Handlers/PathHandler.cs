@@ -78,20 +78,23 @@ namespace KragmortaApp.Handlers
 
             // var heroPreviousX = _shiftController.Hero.FieldX;
             // var heroPreviousY = _shiftController.Hero.FieldY;
-            int heroPreviousX, heroPreviousY;
+            int   heroPreviousX, heroPreviousY;
+            IHero movingHero;
             if (_movementDecksController.ActivatedMovementCard.MovementCardType == MovementCardType.Goblin)
             {
                 heroPreviousX = _shiftController.Hero.FieldX;
                 heroPreviousY = _shiftController.Hero.FieldY;
 
-                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                movingHero = _shiftController.Hero;
+                movingHero.SetFieldPosition(pathCellX, pathCellY);
             }
             else
             {
                 heroPreviousX = _rigorController.Model.FieldX;
                 heroPreviousY = _rigorController.Model.FieldY;
 
-                _rigorController.Model.SetFieldPosition(pathCellX, pathCellY);
+                movingHero = _rigorController.Model;
+                movingHero.SetFieldPosition(pathCellX, pathCellY);
             }
 
             if (Engine.Instance.Settings.EnableSounds)
@@ -105,6 +108,7 @@ namespace KragmortaApp.Handlers
             if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
             {
                 _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                _shiftController.WhoEnteredPortal = movingHero;
                 _pathController.ClearPaths();
                 _finishButtonController.HideButton();
                 return;
@@ -114,9 +118,9 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are Rigor and Goblin
             if (CheckRigorAndGoblinOnSameCell(out var victimHero))
             {
-                _profilesController.CurrentController.TakeDamage();
                 var teleportingCell = _gameFieldController.GetSpawnCell();
                 victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+                _profilesController.DealDamageToHero(victimHero);
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
@@ -152,20 +156,23 @@ namespace KragmortaApp.Handlers
 
             // var heroPreviousX = _shiftController.Hero.FieldX;
             // var heroPreviousY = _shiftController.Hero.FieldY;
-            int heroPreviousX, heroPreviousY;
+            int   heroPreviousX, heroPreviousY;
+            IHero movingHero;
             if (_movementDecksController.ActivatedMovementCard.MovementCardType == MovementCardType.Goblin)
             {
                 heroPreviousX = _shiftController.Hero.FieldX;
                 heroPreviousY = _shiftController.Hero.FieldY;
 
-                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                movingHero = _shiftController.Hero;
+                movingHero.SetFieldPosition(pathCellX, pathCellY);
             }
             else
             {
                 heroPreviousX = _rigorController.Model.FieldX;
                 heroPreviousY = _rigorController.Model.FieldY;
 
-                _rigorController.Model.SetFieldPosition(pathCellX, pathCellY);
+                movingHero = _rigorController.Model;
+                movingHero.SetFieldPosition(pathCellX, pathCellY);
             }
 
 
@@ -175,12 +182,14 @@ namespace KragmortaApp.Handlers
             }
 
 
+            // If portal is selected
             if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
             {
                 _finishButtonController.HideButton();
                 _movementDecksController.DismissActivatedCard();
                 _movementDecksController.PullNewCard();
                 _portalController.SetVisiblePortals(pathCellX, pathCellY);
+                _shiftController.WhoEnteredPortal = movingHero;
                 _pathController.ClearPaths();
                 return;
             }
@@ -188,9 +197,9 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are Rigor and Goblin
             if (CheckRigorAndGoblinOnSameCell(out var victimHero))
             {
-                _profilesController.CurrentController.TakeDamage();
                 var teleportingCell = _gameFieldController.GetSpawnCell();
                 victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+                _profilesController.DealDamageToHero(victimHero);
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>

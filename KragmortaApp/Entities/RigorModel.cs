@@ -2,7 +2,7 @@ using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
-    public class RigorModel : VisualEntity
+    public class RigorModel : VisualEntity, IHero
     {
         public int FieldX { get; private set; }
 

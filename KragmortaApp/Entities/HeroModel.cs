@@ -2,7 +2,7 @@ using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
-    public class HeroModel : VisualEntity
+    public class HeroModel : VisualEntity, IHero
     {
         public long Id { get; private set; }
 
