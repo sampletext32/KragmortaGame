@@ -99,6 +99,21 @@ namespace KragmortaApp.Handlers
 
                 // Don't clear pusher, because at the end of a push chain we MUST return the turn back to original pusher
             }
+            else if (CheckRigorAndGoblinOnSameCell(out var victimHero))
+            {
+                // TODO: Fuck goblin after his pushing.
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+                _profilesController.DealDamageToHero(victimHero);
+
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
+                {
+                    ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
+                        _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
+                }
+            }
             else
             {
                 // Case 2

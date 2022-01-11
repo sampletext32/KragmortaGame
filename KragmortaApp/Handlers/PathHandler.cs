@@ -124,7 +124,7 @@ namespace KragmortaApp.Handlers
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != victimHero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
                         _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
@@ -154,8 +154,6 @@ namespace KragmortaApp.Handlers
 
             _movementDecksController.SpendType(pathCell.Type);
 
-            // var heroPreviousX = _shiftController.Hero.FieldX;
-            // var heroPreviousY = _shiftController.Hero.FieldY;
             int   heroPreviousX, heroPreviousY;
             IHero movingHero;
             if (_movementDecksController.ActivatedMovementCard.MovementCardType == MovementCardType.Goblin)
@@ -203,7 +201,7 @@ namespace KragmortaApp.Handlers
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != victimHero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
                         _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);

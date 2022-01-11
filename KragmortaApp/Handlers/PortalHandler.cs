@@ -14,6 +14,7 @@ namespace KragmortaApp.Handlers
         private readonly PushController _pushController;
         private readonly FinishButtonController _finishButtonController;
         private readonly ProfilesController _profilesController;
+        private readonly RigorController _rigorController;
 
         public PortalHandler(
             PortalController portalController,
@@ -22,8 +23,7 @@ namespace KragmortaApp.Handlers
             GameFieldController gameFieldController,
             PushController pushController,
             FinishButtonController finishButtonController,
-            ProfilesController profilesController
-        )
+            ProfilesController profilesController, RigorController rigorController)
         {
             _portalController        = portalController;
             _shiftController         = shiftController;
@@ -31,7 +31,8 @@ namespace KragmortaApp.Handlers
             _gameFieldController     = gameFieldController;
             _pushController          = pushController;
             _finishButtonController  = finishButtonController;
-            _profilesController = profilesController;
+            _profilesController      = profilesController;
+            _rigorController    = rigorController;
         }
 
         public void OnPortalCellClicked(int pathCellX, int pathCellY, KragMouseButton mouseButton)
@@ -58,31 +59,74 @@ namespace KragmortaApp.Handlers
 
             _portalController.SetInvisiblePortals();
 
-            // In the destination cell there are 2 heroes
-            HeroModel sameCellHero;
-            if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+            // // In the destination cell there are 2 heroes
+            // HeroModel sameCellHero;
+            // if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+            //         h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
+            // {
+            //     // Highlight paths of push
+            //     _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+            //
+            //     _pushController.Except(heroPreviousX, heroPreviousY);
+            //     _pushController.TrySetVisiblePush();
+            //
+            //     _pushController.SetVictim(sameCellHero);
+            //     // No return move to pusher in this case (second move)
+            //
+            //     return;
+            // }
+            
+            // In the destination cell there are Rigor and Goblin
+            if (CheckRigorAndGoblinOnSameCell(out var victimHero))
             {
-                // use sameCellHero for further processing
-                // Console.WriteLine($"Hero {sameCellHero.Profile.Nickname} is being pushed by {_shiftController.Hero.Profile.Nickname}");
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+                _profilesController.DealDamageToHero(victimHero);
 
-
-                // Highlight paths of push
-                _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
-
-                _pushController.Except(heroPreviousX, heroPreviousY);
-                _pushController.TrySetVisiblePush();
-
-                _pushController.SetVictim(sameCellHero);
-                // No return move to pusher in this case (second move)
-
-                return;
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
+                {
+                    ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
+                        _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
+                }
+            }
+            // In the destination cell there are 2 heroes
+            else if (CheckCellOverflow(pathCellX, pathCellY, out var sameCellHero))
+            {
+                ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
+                    _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
             }
 
             _shiftController.ActivateNextPlayer();
             _profilesController.ActivateNextPlayer();
             _movementDecksController.ActivateNextDeck();
             _finishButtonController.ShowButton();
+        }
+        
+        private bool CheckCellOverflow(int pathCellX, int pathCellY, out HeroModel sameCellHero)
+        {
+            return (sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null;
+        }
+
+        private bool CheckRigorAndGoblinOnSameCell(out HeroModel victimHero)
+        {
+            return (victimHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h.FieldX == _rigorController.Model.FieldX && h.FieldY == _rigorController.Model.FieldY)) is not null;
+        }
+        
+        private void ProcessCellOverflow(int pathCellX, int pathCellY, int heroPreviousX, int heroPreviousY,
+            HeroModel sameCellHero)
+        {
+            // Highlight paths of push
+            _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+            _pushController.Except(heroPreviousX, heroPreviousY);
+            _pushController.TrySetVisiblePush();
+
+            _pushController.SetVictim(sameCellHero);
+            // No return move to pusher in this case (second move)
         }
     }
 }

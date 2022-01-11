@@ -170,7 +170,7 @@ namespace KragmortaApp.Scenes
 
 
             _portalHandler = new PortalHandler(_portalController, _shiftController, _movementDecksController,
-                _fieldController, _pushController, _finishButtonController, _profilesController);
+                _fieldController, _pushController, _finishButtonController, _profilesController, _rigorController);
 
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,

@@ -107,7 +107,13 @@ namespace KragmortaApp.Controllers
 
         public FieldCell GetSpawnCell()
         {
-            return _field.SpawnCells[_random.Next(0, _field.SpawnCells.Count)];
+            FieldCell result;
+            do
+            {
+                result = _field.SpawnCells[_random.Next(0, _field.SpawnCells.Count)];
+            } while (result.X == GameState.Instance.Rigor.FieldX && result.Y == GameState.Instance.Rigor.FieldY);
+
+            return result;
         }
     }
 }
