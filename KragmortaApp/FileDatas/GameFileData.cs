@@ -16,6 +16,13 @@ namespace KragmortaApp.FileDatas
         public List<ProfileFileData> Profiles { get; set; }
 
         public GameFieldFileData Field { get; set; }
+
         public PathFileData Path { get; set; }
+
+        public PushFileData Push { get; set; }
+
+        public PushedStateFileData PushedState { get; set; }
+
+        public PushedStateFileData PushedStateModel { get; set; }
     }
 }

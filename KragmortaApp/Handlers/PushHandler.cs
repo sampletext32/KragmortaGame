@@ -47,8 +47,8 @@ namespace KragmortaApp.Handlers
 
             _pushController.TryGetCell(nextCellX, nextCellY, out var nextCell);
 
-            var victimPreviousX = _pushController.Victim.FieldX;
-            var victimPreviousY = _pushController.Victim.FieldY;
+            var victimPreviousX = _pushController.PushedStateModel.Victim.FieldX;
+            var victimPreviousY = _pushController.PushedStateModel.Victim.FieldY;
 
             var isPortal = _gameFieldController.GetCell(nextCellX, nextCellY).IsPortal;
             if (isPortal)
@@ -56,12 +56,12 @@ namespace KragmortaApp.Handlers
                 var randPortalCell = _portalController.RandomExcept(nextCellX, nextCellY);
                 nextCellX = randPortalCell.X;
                 nextCellY = randPortalCell.Y;
-                _pushController.Victim.SetFieldPosition(nextCellX, nextCellY);
+                _pushController.PushedStateModel.Victim.SetFieldPosition(nextCellX, nextCellY);
             }
             else
             {
                 // push victim to position
-                _pushController.Victim.SetFieldPosition(nextCell.X, nextCell.Y);
+                _pushController.PushedStateModel.Victim.SetFieldPosition(nextCell.X, nextCell.Y);
 
                 // Console.WriteLine($"{_pushController.Victim.Profile.Nickname} was pushed to ({nextCell.X},{nextCell.Y})");
             }
@@ -80,7 +80,7 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
             if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _pushController.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
+                    h != _pushController.PushedStateModel.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
             {
                 // Case 1
 
@@ -103,9 +103,9 @@ namespace KragmortaApp.Handlers
             {
                 // Case 2
 
-                if (_pushController.ShouldReturnMoveToPusher)
+                if (_pushController.PushedStateModel.ShouldReturnMoveToPusher)
                 {
-                    var pusher = _pushController.Pusher;
+                    var pusher = _pushController.PushedStateModel.Pusher;
                     _pathController.ClearPaths();
                     _gameFieldController.CollectNeighboringCells(pusher.FieldX, pusher.FieldY, _pathController.RawPath);
 

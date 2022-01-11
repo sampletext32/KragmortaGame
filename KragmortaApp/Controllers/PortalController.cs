@@ -18,9 +18,7 @@ namespace KragmortaApp.Controllers
         /// <summary>
         /// Sets all highlighted portals visible except the one where the current player stands right now.
         /// </summary>
-        /// <param name="x">The abscissa of the cell where the current player stands</param>
-        /// <param name="y">The ordinate of the cell where the current player stands</param>
-        public void SetVisiblePortals(int x, int y)
+        public void SetAllVisibleExcept(int x, int y)
         {
             for (var i = 0; i < _portals.Cells.Count; i++)
             {

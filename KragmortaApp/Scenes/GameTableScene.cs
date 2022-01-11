@@ -140,7 +140,7 @@ namespace KragmortaApp.Scenes
             _shiftController = new ShiftController(GameState.Instance.Heroes, _heroControllers, InitStates);
 
             _pathController   = new PathController(GameState.Instance.Path, InitStates);
-            _pushController   = new PushController(GameState.Instance.Push, InitStates);
+            _pushController   = new PushController(GameState.Instance.Push, GameState.Instance.PushedStateModel, InitStates);
             _portalController = new PortalController(GameState.Instance.Portals, InitStates);
 
             _movementDecksController =

@@ -28,6 +28,8 @@ namespace KragmortaApp
 
                 var gameFileData = JsonSerializer.Deserialize<GameFileData>(jsonString);
                 
+                // TODO (Not important): Validate loaded save file and try-catch all file logic
+                
                 GameState.InitFromFileData(gameFileData);
             }
             else

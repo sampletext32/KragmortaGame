@@ -27,6 +27,7 @@ namespace KragmortaApp
         private List<Profile> _profiles;
 
         public IReadOnlyList<MovementDeck> Decks => _heroes.Select(h => h.MovementDeck).ToList();
+        public PushedStateModel PushedStateModel { get; set; }
 
         public Path Path;
         public Push Push;
@@ -46,23 +47,26 @@ namespace KragmortaApp
 
         public static void InitFromFileData(GameFileData fileData)
         {
-            Instance = new()
-            {
-                HeroCount                    = fileData.HeroCount,
-                CurrentPlayerIndex           = fileData.CurrentPlayerIndex,
-                _heroes                      = fileData.Heroes.Select(f => new HeroModel(f)).ToList(),
-                _rigor                       = new RigorModel(fileData.Rigor),
-                _profiles                    = fileData.Profiles.Select(f => new Profile(f)).ToList(),
-                Field                        = new GameField(fileData.Field),
-                MovementCardContextMenuModel = new MovementCardContextMenuModel(),
-                Path                         = new Path(fileData.Path),
-                Push                         = new Push(),
-                FinishButtonModel            = new FinishButtonModel(),
-                ColorsStorage                = new ColorsStorage(),
-            };
+            Instance = new(fileData);
+        }
 
-            Instance.Portals   = new Portals(Instance.Field);
-            Instance.Bookshelf = new Bookshelf(Instance.Field);
+        public GameState(GameFileData fileData)
+        {
+            HeroCount                    = fileData.HeroCount;
+            CurrentPlayerIndex           = fileData.CurrentPlayerIndex;
+            _heroes                      = fileData.Heroes.Select(f => new HeroModel(f)).ToList();
+            _rigor                       = new RigorModel(fileData.Rigor);
+            _profiles                    = fileData.Profiles.Select(f => new Profile(f)).ToList();
+            Field                        = new GameField(fileData.Field);
+            MovementCardContextMenuModel = new MovementCardContextMenuModel();
+            Path                         = new Path(fileData.Path);
+            Push                         = new Push(fileData.Push);
+            PushedStateModel             = new PushedStateModel(fileData.PushedStateModel, _heroes);
+            FinishButtonModel            = new FinishButtonModel();
+            ColorsStorage                = new ColorsStorage();
+
+            Portals   = new Portals(Field);
+            Bookshelf = new Bookshelf(Field);
         }
 
         public GameFileData ToFileData()
@@ -72,6 +76,8 @@ namespace KragmortaApp
                 HeroCount          = HeroCount,
                 CurrentPlayerIndex = CurrentPlayerIndex,
                 Path               = Path.ToFileData(),
+                Push               = Push.ToFileData(),
+                PushedStateModel   = PushedStateModel.ToFileData(),
                 Field              = Field.ToFileData(),
                 Heroes             = _heroes.Select(h => h.ToFileData()).ToList(),
                 Rigor              = _rigor.ToFileData(),
@@ -108,6 +114,8 @@ namespace KragmortaApp
             Push      = new Push();
             Portals   = new Portals(Field);
             Bookshelf = new Bookshelf(Field);
+
+            PushedStateModel = new PushedStateModel();
 
             FinishButtonModel = new FinishButtonModel();
 

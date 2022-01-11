@@ -10,14 +10,12 @@ namespace KragmortaApp.Controllers
 
         private Push _push;
 
-        public HeroModel Pusher { get; private set; }
-        public bool ShouldReturnMoveToPusher { get; private set; }
+        public PushedStateModel PushedStateModel { get; private set; }
 
-        public HeroModel Victim { get; private set; }
-
-        public PushController(Push push, bool initStates)
+        public PushController(Push push, PushedStateModel pushedStateModel, bool initStates)
         {
-            _push = push;
+            _push            = push;
+            PushedStateModel = pushedStateModel;
         }
 
         public bool TryGetCell(int selectedCellX, int selectedCellY, out PushCell pushCell)
@@ -52,7 +50,7 @@ namespace KragmortaApp.Controllers
                     _push.Cells[i].Visible = false;
                     continue;
                 }
-                
+
                 _push.Cells[i].X       = RawPush[i].X;
                 _push.Cells[i].Y       = RawPush[i].Y;
                 _push.Cells[i].Type    = RawPush[i].Type;
@@ -102,24 +100,24 @@ namespace KragmortaApp.Controllers
 
         public void SetVictim(HeroModel victim)
         {
-            Victim = victim;
+            PushedStateModel.Victim = victim;
         }
 
         public void ClearVictim()
         {
-            Victim = null;
+            PushedStateModel.Victim = null;
         }
 
         public void SetReturnMoveToPusher(HeroModel pusher)
         {
-            Pusher                   = pusher;
-            ShouldReturnMoveToPusher = true;
+            PushedStateModel.Pusher                   = pusher;
+            PushedStateModel.ShouldReturnMoveToPusher = true;
         }
 
         public void ClearReturnMoveToPusher()
         {
-            Pusher                   = null;
-            ShouldReturnMoveToPusher = false;
+            PushedStateModel.Pusher                   = null;
+            PushedStateModel.ShouldReturnMoveToPusher = false;
         }
     }
 }
