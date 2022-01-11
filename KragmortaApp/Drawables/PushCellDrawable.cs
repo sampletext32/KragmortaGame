@@ -11,6 +11,10 @@ namespace KragmortaApp.Drawables
             GameState.Instance.ColorsStorage.PushCell)
         {
             _cellSize = cellSize;
+            
+            LoadTexture();
+            
+            InitCellByForm(pushCell, cellSize);
         }
         
         public void LoadTexture()

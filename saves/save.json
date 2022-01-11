@@ -1,0 +1,818 @@
+{
+  "HeroCount": 2,
+  "CurrentPlayerIndex": 1,
+  "Heroes": [
+    {
+      "Id": 1,
+      "FieldX": 5,
+      "FieldY": 5,
+      "Activated": false,
+      "MovementDeck": {
+        "MovementCards": [
+          {
+            "FirstType": 1,
+            "SecondType": 4,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          },
+          {
+            "FirstType": 2,
+            "SecondType": 1,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          },
+          {
+            "FirstType": 4,
+            "SecondType": 8,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          }
+        ],
+        "Visible": false
+      }
+    },
+    {
+      "Id": 2,
+      "FieldX": 5,
+      "FieldY": 5,
+      "Activated": true,
+      "MovementDeck": {
+        "MovementCards": [
+          {
+            "FirstType": 1,
+            "SecondType": 2,
+            "Selected": false,
+            "HasUsedFirstType": true,
+            "HasUsedSecondType": false,
+            "Activated": true
+          },
+          {
+            "FirstType": 1,
+            "SecondType": 4,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          },
+          {
+            "FirstType": 2,
+            "SecondType": 1,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false
+          }
+        ],
+        "Visible": true
+      }
+    }
+  ],
+  "Rigor": {
+    "FieldX": 3,
+    "FieldY": 9
+  },
+  "Profiles": [
+    {
+      "Nickname": "Hero 1",
+      "Activated": false,
+      "Lives": 3,
+      "MagicBooks": []
+    },
+    {
+      "Nickname": "Hero 2",
+      "Activated": true,
+      "Lives": 3,
+      "MagicBooks": []
+    }
+  ],
+  "Field": {
+    "SizeX": 7,
+    "SizeY": 10,
+    "Cells": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": true
+      },
+      {
+        "X": 1,
+        "Y": 0,
+        "Type": 4,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 0,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 0,
+        "Type": 8,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 0,
+        "Type": 4,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 0,
+        "Type": 2,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 0,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": true
+      },
+      {
+        "X": 0,
+        "Y": 1,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 1,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 1,
+        "Type": 8,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 1,
+        "Type": 4,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 1,
+        "Type": 2,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 1,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 1,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 2,
+        "Type": 2,
+        "Form": 1,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 2,
+        "Type": 4,
+        "Form": 2,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 2,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 2,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": true
+      },
+      {
+        "X": 4,
+        "Y": 2,
+        "Type": 4,
+        "Form": 2,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 2,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 1,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 2,
+        "Type": 8,
+        "Form": 2,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 3,
+        "Type": 16,
+        "Form": 2,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 3,
+        "Type": 16,
+        "Form": 1,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 3,
+        "Type": 16,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 3,
+        "Type": 16,
+        "Form": 2,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 3,
+        "Type": 16,
+        "Form": 1,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 3,
+        "Type": 16,
+        "Form": 2,
+        "Corner": 3,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 3,
+        "Type": 16,
+        "Form": 1,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": true
+      },
+      {
+        "X": 2,
+        "Y": 4,
+        "Type": 8,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 4,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": true
+      },
+      {
+        "X": 6,
+        "Y": 4,
+        "Type": 16,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 5,
+        "Type": 2,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 5,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 5,
+        "Type": 8,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 5,
+        "Type": 2,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 5,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 5,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 5,
+        "Type": 16,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 6,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 6,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 6,
+        "Type": 2,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 6,
+        "Type": 2,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 6,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": true,
+        "IsPortal": true
+      },
+      {
+        "X": 5,
+        "Y": 6,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 6,
+        "Type": 16,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 7,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 7,
+        "Type": 4,
+        "Form": 1,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 7,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 2,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 7,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 7,
+        "Type": 8,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 7,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 7,
+        "Type": 16,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 8,
+        "Type": 8,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 8,
+        "Type": 2,
+        "Form": 2,
+        "Corner": 3,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 8,
+        "Type": 8,
+        "Form": 1,
+        "Corner": 4,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 8,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 8,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 8,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 2,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 8,
+        "Type": 16,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 0,
+        "Y": 9,
+        "Type": 2,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 1,
+        "Y": 9,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 2,
+        "Y": 9,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 3,
+        "Y": 9,
+        "Type": 8,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 9,
+        "Type": 1,
+        "Form": 1,
+        "Corner": 3,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 9,
+        "Type": 8,
+        "Form": 2,
+        "Corner": 4,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 6,
+        "Y": 9,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": true
+      }
+    ],
+    "FieldType": 0,
+    "PlayersCount": 2
+  },
+  "Path": {
+    "Cells": [
+      {
+        "X": 1,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 5,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 4,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 5,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      }
+    ]
+  },
+  "Push": {
+    "Cells": [
+      {
+        "X": 0,
+        "Y": 0,
+        "Type": 0,
+        "Form": 0,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      },
+      {
+        "X": 4,
+        "Y": 5,
+        "Type": 4,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 6,
+        "Type": 1,
+        "Form": 2,
+        "Corner": 1,
+        "Visible": true,
+        "IsPortal": false
+      },
+      {
+        "X": 5,
+        "Y": 5,
+        "Type": 1,
+        "Form": 4,
+        "Corner": 0,
+        "Visible": false,
+        "IsPortal": false
+      }
+    ]
+  },
+  "PushedState": null,
+  "PushedStateModel": {
+    "Pusher": 2,
+    "Victim": 1,
+    "ShouldReturnMoveToPusher": true
+  }
+}

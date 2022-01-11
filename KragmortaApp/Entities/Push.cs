@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
@@ -10,10 +12,23 @@ namespace KragmortaApp.Entities
         public Push()
         {
             _cells = new List<PushCell>(4);
-            _cells.Add(new PushCell() { Visible = false });
-            _cells.Add(new PushCell() { Visible = false });
-            _cells.Add(new PushCell() { Visible = false });
-            _cells.Add(new PushCell() { Visible = false });
+            _cells.Add(new PushCell { Visible = false });
+            _cells.Add(new PushCell { Visible = false });
+            _cells.Add(new PushCell { Visible = false });
+            _cells.Add(new PushCell { Visible = false });
+        }
+
+        public Push(PushFileData fileData)
+        {
+            _cells = fileData.Cells.Select(f => new PushCell(f)).ToList();
+        }
+
+        public PushFileData ToFileData()
+        {
+            return new PushFileData()
+            {
+                Cells = _cells.Select(c => c.ToFileData()).ToList()
+            };
         }
     }
 }

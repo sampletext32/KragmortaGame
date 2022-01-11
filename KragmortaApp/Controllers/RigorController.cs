@@ -7,7 +7,7 @@ namespace KragmortaApp.Controllers
         public RigorModel Model => _rigor;
         private RigorModel _rigor;
 
-        public RigorController(RigorModel rigor)
+        public RigorController(RigorModel rigor, bool initStates)
         {
             _rigor = rigor;
         }

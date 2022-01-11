@@ -46,13 +46,6 @@ namespace KragmortaApp.Drawables
             _random           = new Random(DateTime.Now.Millisecond);
 
             _effectSprite = new Sprite();
-
-            if (cell is PortalCell)
-            {
-                return;
-            }
-
-            InitCellByForm(cell, cellSize);
         }
 
         protected void InitCellByForm(AbstractCell cell, int cellSize)

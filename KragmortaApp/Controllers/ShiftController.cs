@@ -9,23 +9,33 @@ namespace KragmortaApp.Controllers
         /// Current hero.
         /// </summary>
         public HeroModel Hero => _heroModels[_currentHeroIndex];
+
         public HeroController HeroController => _heroControllers[_currentHeroIndex];
 
         private IReadOnlyList<HeroModel> _heroModels;
         private List<HeroController> _heroControllers;
         private int _currentHeroIndex = 0;
 
-        public ShiftController(IReadOnlyList<HeroModel> heroes, List<HeroController> controllers)
+        public ShiftController(IReadOnlyList<HeroModel> heroes, List<HeroController> controllers, bool initStates)
         {
             _heroModels      = heroes;
             _heroControllers = controllers;
-            _heroControllers[0].Activate();
+
+            if (initStates)
+            {
+                _heroControllers[0].Activate();
+            }
+            else
+            {
+                _currentHeroIndex = GameState.Instance.CurrentPlayerIndex;
+            }
         }
 
         public void ActivateNextPlayer()
         {
             HeroController.Deactivate();
-            _currentHeroIndex  = (_currentHeroIndex + 1) % _heroModels.Count;
+            _currentHeroIndex                     = (_currentHeroIndex + 1) % _heroModels.Count;
+            GameState.Instance.CurrentPlayerIndex = _currentHeroIndex;
             HeroController.Activate();
         }
 

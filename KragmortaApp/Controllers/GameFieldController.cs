@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Entities;
 
 namespace KragmortaApp.Controllers
@@ -8,12 +9,21 @@ namespace KragmortaApp.Controllers
         private FieldCell _lastHoveredCell = null;
 
         private FieldCell _lastPressedCell = null;
-        
+
         private readonly GameField _field;
 
-        public GameFieldController(GameField field)
+        public GameFieldController(GameField field, bool initStates)
         {
             _field = field;
+
+            if (initStates)
+            {
+            }
+            else
+            {
+                _lastHoveredCell = field.Cells.FirstOrDefault(c => c.Hovered);
+                _lastPressedCell = field.Cells.FirstOrDefault(c => c.Clicked);
+            }
         }
 
         public void ClearLastHoveredCell()

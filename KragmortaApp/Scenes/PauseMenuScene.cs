@@ -32,6 +32,10 @@ namespace KragmortaApp.Scenes
             continueButton.Clicked += ContinueButtonOnClicked;
             _layout.AddElement(continueButton);
             
+            var saveButton = new UIButton(300, 26, "Save Game", font);
+            saveButton.Clicked += SaveButtonOnClicked;
+            _layout.AddElement(saveButton);
+            
             var settingsButton = new UIButton(300, 26, "Settings", font);
             settingsButton.Clicked += SettingsButtonOnClicked;
             _layout.AddElement(settingsButton);
@@ -39,6 +43,13 @@ namespace KragmortaApp.Scenes
             var endButton = new UIButton(300, 26, "Exit", font);
             endButton.Clicked += ExitButtonOnClicked;
             _layout.AddElement(endButton);
+        }
+
+        private void SaveButtonOnClicked()
+        {
+            GameSaver saver = new GameSaver();
+            
+            saver.Save(GameState.Instance);
         }
 
         private void SettingsButtonOnClicked()

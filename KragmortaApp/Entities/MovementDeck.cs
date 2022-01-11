@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
@@ -13,6 +15,21 @@ namespace KragmortaApp.Entities
         public MovementDeck()
         {
             _movementCards = new List<MovementCard>();
+        }
+
+        public MovementDeck(MovementDeckFileData fileData)
+        {
+            _movementCards = fileData.MovementCards.Select(f => new MovementCard(f)).ToList();
+            Visible        = fileData.Visible;
+        }
+
+        public MovementDeckFileData ToFileData()
+        {
+            return new MovementDeckFileData()
+            {
+                Visible       = Visible,
+                MovementCards = MovementCards.Select(c => c.ToFileData()).ToList()
+            };
         }
 
         public void AddCard(MovementCard card)

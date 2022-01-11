@@ -1,4 +1,6 @@
-﻿namespace KragmortaApp.Entities
+﻿using KragmortaApp.FileDatas;
+
+namespace KragmortaApp.Entities
 {
     public class FieldCell : AbstractCell
     {
@@ -11,9 +13,34 @@
         /// Indicates, whether current cell is being under click phase
         /// </summary>
         public bool Clicked { get; set; }
-        
+
         public FieldCell()
         {
+        }
+
+        public FieldCell(FieldCellFileData fileData)
+        {
+            X        = fileData.X;
+            Y        = fileData.Y;
+            IsPortal = fileData.IsPortal;
+            Corner   = fileData.Corner;
+            Form     = fileData.Form;
+            Type     = fileData.Type;
+            Visible  = fileData.Visible;
+        }
+
+        public FieldCellFileData ToFileData()
+        {
+            return new FieldCellFileData()
+            {
+                X        = X,
+                Y        = Y,
+                IsPortal = IsPortal,
+                Corner   = Corner,
+                Form     = Form,
+                Type     = Type,
+                Visible  = Visible
+            };
         }
     }
 }

@@ -8,7 +8,7 @@ namespace KragmortaApp.Controllers.ContextMenus
         public MovementCardContextMenuModel MovementCardContextMenuModel => _movementCardContextMenuModel;
         private MovementCardContextMenuModel _movementCardContextMenuModel;
 
-        public MovementCardContextMenuController(MovementCardContextMenuModel movementCardContextMenuModel)
+        public MovementCardContextMenuController(MovementCardContextMenuModel movementCardContextMenuModel, bool initStates)
         {
             _movementCardContextMenuModel = movementCardContextMenuModel;
         }

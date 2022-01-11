@@ -6,7 +6,7 @@ namespace KragmortaApp.Controllers
     {
         private Profile _profile;
 
-        public ProfileController(Profile profile)
+        public ProfileController(Profile profile, bool initStates)
         {
             _profile = profile;
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Entities;
 using KragmortaApp.Enums;
 
@@ -22,11 +23,21 @@ namespace KragmortaApp.Controllers
 
         private MovementCard _activatedMovementCard = null;
 
-        public MovementDecksController(List<MovementDeck> decks)
+        public MovementDecksController(List<MovementDeck> decks, bool initStates)
         {
-            _decks              = decks;
-            CurrentDeck.Visible = true;
-            CurrentDeck.MarkDirty();
+            _decks = decks;
+
+            if (initStates)
+            {
+                CurrentDeck.Visible = true;
+                CurrentDeck.MarkDirty();
+            }
+            else
+            {
+                _currentDeckIndex         = GameState.Instance.CurrentPlayerIndex;
+                _lastSelectedMovementCard = CurrentDeck.MovementCards.FirstOrDefault(c => c.Selected);
+                _activatedMovementCard    = CurrentDeck.MovementCards.FirstOrDefault(c => c.Activated);
+            }
         }
 
         public bool HasSelectedCard()

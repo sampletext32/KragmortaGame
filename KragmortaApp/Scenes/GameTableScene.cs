@@ -76,6 +76,7 @@ namespace KragmortaApp.Scenes
 
         private LayersStack _layersStack;
 
+        public bool InitStates = true;
 
         public override void OnCreate()
         {
@@ -96,7 +97,7 @@ namespace KragmortaApp.Scenes
 
             _pathPresenter   = new PathPresenter(GameState.Instance.Path);
             _pushPresenter   = new PushPresenter(GameState.Instance.Push);
-            _portalPresenter = new PortalPresenter(GameState.Instance.Portal);
+            _portalPresenter = new PortalPresenter(GameState.Instance.Portals);
 
             _movementDecksPresenter =
                 new MovementDecksPresenter(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList(),
@@ -123,31 +124,31 @@ namespace KragmortaApp.Scenes
 
         private void InitAllControllers()
         {
-            _fieldController = new GameFieldController(GameState.Instance.Field);
+            _fieldController = new GameFieldController(GameState.Instance.Field, InitStates);
 
-            _rigorController    = new RigorController(GameState.Instance.Rigor);
+            _rigorController    = new RigorController(GameState.Instance.Rigor, InitStates);
             _heroControllers    = new List<HeroController>(GameState.Instance.HeroCount);
             _profileControllers = new List<ProfileController>(GameState.Instance.HeroCount);
             for (var i = 0; i < GameState.Instance.HeroCount; i++)
             {
-                _heroControllers.Add(new HeroController(GameState.Instance.Heroes[i]));
-                _profileControllers.Add(new ProfileController(GameState.Instance.Profiles[i]));
+                _heroControllers.Add(new HeroController(GameState.Instance.Heroes[i], InitStates));
+                _profileControllers.Add(new ProfileController(GameState.Instance.Profiles[i], InitStates));
             }
 
-            _profilesController = new ProfilesController(GameState.Instance.Profiles, _profileControllers);
+            _profilesController = new ProfilesController(GameState.Instance.Profiles, _profileControllers, InitStates);
 
-            _shiftController = new ShiftController(GameState.Instance.Heroes, _heroControllers);
+            _shiftController = new ShiftController(GameState.Instance.Heroes, _heroControllers, InitStates);
 
-            _pathController   = new PathController(GameState.Instance.Path);
-            _pushController   = new PushController(GameState.Instance.Push);
-            _portalController = new PortalController(GameState.Instance.Portal);
+            _pathController   = new PathController(GameState.Instance.Path, InitStates);
+            _pushController   = new PushController(GameState.Instance.Push, GameState.Instance.PushedStateModel, InitStates);
+            _portalController = new PortalController(GameState.Instance.Portals, InitStates);
 
             _movementDecksController =
-                new MovementDecksController(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList());
+                new MovementDecksController(GameState.Instance.Heroes.Select(h => h.MovementDeck).ToList(), InitStates);
             _movementCardContextMenuController =
-                new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel);
+                new MovementCardContextMenuController(GameState.Instance.MovementCardContextMenuModel, InitStates);
 
-            _finishButtonController = new FinishButtonController(GameState.Instance.FinishButtonModel);
+            _finishButtonController = new FinishButtonController(GameState.Instance.FinishButtonModel, InitStates);
         }
 
         private void InitAllHandlers()
