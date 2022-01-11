@@ -13,8 +13,16 @@ namespace KragmortaApp.Entities
 
         public PushedStateModel(PushedStateFileData fileData, List<HeroModel> heroes)
         {
-            Pusher                   = heroes.First(h => h.Id == fileData.Pusher);
-            Victim                   = heroes.First(h => h.Id == fileData.Victim);
+            if (fileData.Pusher is not null)
+            {
+                Pusher = heroes.First(h => h.Id == fileData.Pusher.Value);
+            }
+
+            if (fileData.Victim is not null)
+            {
+                Victim = heroes.First(h => h.Id == fileData.Victim.Value);
+            }
+
             ShouldReturnMoveToPusher = fileData.ShouldReturnMoveToPusher;
         }
 
@@ -33,8 +41,8 @@ namespace KragmortaApp.Entities
         {
             return new PushedStateFileData()
             {
-                Pusher                   = Pusher.Id,
-                Victim                   = Victim.Id,
+                Pusher                   = Pusher?.Id,
+                Victim                   = Victim?.Id,
                 ShouldReturnMoveToPusher = ShouldReturnMoveToPusher
             };
         }
