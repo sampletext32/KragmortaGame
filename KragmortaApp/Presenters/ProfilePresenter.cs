@@ -8,31 +8,24 @@ using SFML.System;
 
 namespace KragmortaApp.Presenters
 {
-    public class ProfilesPresenter : Presenter
+    public class ProfilePresenter : Presenter
     {
-        private List<Profile> _profiles;
+        private Profile _profile;
 
-        private List<ProfileDrawable> _drawables;
+        private ProfileDrawable _drawable;
 
         private Corner AlignCorner = Corner.TopRight;
 
-        public ProfilesPresenter(List<Profile> profiles)
+        public ProfilePresenter(Profile profile)
         {
-            _drawables = new List<ProfileDrawable>(profiles.Count);
-            for (var i = 0; i < profiles.Count; i++)
-            {
-                _drawables.Add(new ProfileDrawable(profiles[i]));
-            }
+            _drawable = new ProfileDrawable(profile);
 
             Reshape(Engine.Instance.WindowWidth, Engine.Instance.WindowHeight);
         }
 
         public override void Render(RenderTarget target)
         {
-            for (var i = 0; i < _drawables.Count; i++)
-            {
-                target.Draw(_drawables[i]);
-            }
+            target.Draw(_drawable);
         }
 
         public override void OnWindowResized(int width, int height)
@@ -49,17 +42,11 @@ namespace KragmortaApp.Presenters
         {
             if (AlignCorner == Corner.TopLeft)
             {
-                for (var i = 0; i < _drawables.Count; i++)
-                {
-                    _drawables[i].SetPosition(0, i * (ProfileDrawable.BackgroundHeight + 10));
-                }
+                _drawable.SetPosition(0, 0);
             }
             else if (AlignCorner == Corner.TopRight)
             {
-                for (var i = 0; i < _drawables.Count; i++)
-                {
-                    _drawables[i].SetPosition(width - ProfileDrawable.BackgroundWidth, i * (ProfileDrawable.BackgroundHeight + 10));
-                }
+                _drawable.SetPosition(width - ProfileDrawable.BackgroundWidth, 0);
             }
             else
             {

@@ -18,6 +18,7 @@ namespace KragmortaApp.Drawables
         private Profile _profile;
 
         private readonly Font _font;
+        private bool _visible;
 
         public ProfileDrawable(Profile profile)
         {
@@ -56,6 +57,11 @@ namespace KragmortaApp.Drawables
                 _profile.ClearDirty();
             }
 
+            if (!_visible)
+            {
+                return;
+            }
+
             target.Draw(_rectangle);
             target.Draw(_nicknameText);
             target.Draw(_booksText);
@@ -72,6 +78,7 @@ namespace KragmortaApp.Drawables
 
         private void Update()
         {
+            _visible                      = _profile.Activated;
             _nicknameText.DisplayedString = _profile.Nickname;
             _booksText.DisplayedString    = $"Books - {_profile.MagicBooks.Count}:{_profile.MagicBooks.Sum(b => b.Power)}";
             _livesText.DisplayedString    = $"Lives - {_profile.Lives}";

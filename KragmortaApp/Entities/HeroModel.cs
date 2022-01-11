@@ -3,7 +3,6 @@ namespace KragmortaApp.Entities
     public class HeroModel : VisualEntity
     {
         public long Id { get; }
-        public Profile Profile { get; }
 
         public int FieldX { get; private set; }
 
@@ -13,12 +12,11 @@ namespace KragmortaApp.Entities
 
         public readonly MovementDeck MovementDeck;
 
-        public HeroModel(long id, Profile profile, int fieldX, int fieldY)
+        public HeroModel(long id, int fieldX, int fieldY)
         {
-            Id      = id;
-            Profile = profile;
-            FieldX  = fieldX;
-            FieldY  = fieldY;
+            Id     = id;
+            FieldX = fieldX;
+            FieldY = fieldY;
 
             MovementDeck = new MovementDeck();
 

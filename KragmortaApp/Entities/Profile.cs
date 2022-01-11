@@ -6,6 +6,8 @@ namespace KragmortaApp.Entities
     {
         public string Nickname { get; set; }
 
+        public bool Activated { get; set; }
+
         public int Lives { get; set; } = 3;
 
         public List<MagicBook> MagicBooks { get; set; }

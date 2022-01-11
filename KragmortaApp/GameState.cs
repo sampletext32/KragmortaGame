@@ -19,15 +19,17 @@ namespace KragmortaApp
         public RigorModel Rigor => _rigor;
         private RigorModel _rigor;
 
+        public IReadOnlyList<Profile> Profiles => _profiles;
+        private List<Profile> _profiles;
+
         public IReadOnlyList<MovementDeck> Decks => _decks;
+
         private readonly List<MovementDeck> _decks;
 
         public readonly Path Path;
         public readonly Push Push;
         public readonly Portal Portal;
         public readonly Bookshelf Bookshelf;
-
-        public readonly Profile Profile;
 
         public MovementCardContextMenuModel MovementCardContextMenuModel;
 
@@ -43,20 +45,22 @@ namespace KragmortaApp
         private GameState(int count)
         {
             HeroCount = count;
-            
+
             Field = new GameField(7, 10, HeroCount);
 
             _rigor = new RigorModel();
-            
-            _heroes = new List<HeroModel>(HeroCount);
+
+            _heroes   = new List<HeroModel>(HeroCount);
+            _profiles = new List<Profile>(HeroCount);
 
             for (int i = 0; i < HeroCount; i++)
             {
-                _heroes.Add(new HeroModel(i + 1, new Profile($"Hero {i + 1}"), (i) % Field.SizeX, (i) / Field.SizeX));
+                _heroes.Add(new HeroModel(i + 1, (i) % Field.SizeX, (i) / Field.SizeX));
+                _profiles.Add(new Profile($"Hero {i + 1}"));
             }
 
             SetHeroesPositions();
-            
+
             MovementCardContextMenuModel = new MovementCardContextMenuModel();
 
             Path      = new Path();
@@ -75,7 +79,7 @@ namespace KragmortaApp
             {
                 foreach (var hero in _heroes)
                 {
-                    hero.SetFieldPosition((int)hero.Id - 1,4);
+                    hero.SetFieldPosition((int)hero.Id - 1, 4);
                 }
 
                 return;

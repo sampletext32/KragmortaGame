@@ -10,17 +10,19 @@ namespace KragmortaApp.Presenters
         private Sprite _rectangle;
         private Text _text;
         private HeroModel _hero;
+        private Profile _profile;
 
         public static readonly int HeroSize = 64;
 
         private static readonly Random Rand = new Random(DateTime.Now.Millisecond);
 
-        public HeroPresenter(HeroModel hero)
+        public HeroPresenter(HeroModel hero, Profile profile)
         {
-            _hero = hero;
+            _hero    = hero;
+            _profile = profile;
 
             _rectangle = new Sprite();
-            _text      = new Text(_hero.Profile.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 3.5));
+            _text      = new Text(_profile.Nickname, Engine.Instance.FontCache.GetOrCache("arial"), (uint)(HeroSize / 3.5));
 
             _rectangle.Texture = InitTexture();
             _rectangle.Position = CalcRectanglePosition();
