@@ -9,15 +9,21 @@ namespace KragmortaApp.Controllers
         private FieldCell _lastHoveredCell = null;
 
         private FieldCell _lastPressedCell = null;
-        
+
         private readonly GameField _field;
 
         public GameFieldController(GameField field, bool initStates)
         {
             _field = field;
 
-            _lastHoveredCell = field.Cells.FirstOrDefault(c => c.Hovered);
-            _lastPressedCell = field.Cells.FirstOrDefault(c => c.Clicked);
+            if (initStates)
+            {
+            }
+            else
+            {
+                _lastHoveredCell = field.Cells.FirstOrDefault(c => c.Hovered);
+                _lastPressedCell = field.Cells.FirstOrDefault(c => c.Clicked);
+            }
         }
 
         public void ClearLastHoveredCell()
