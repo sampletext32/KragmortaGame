@@ -9,13 +9,13 @@ namespace KragmortaApp.Presenters
 {
     public class PortalPresenter : CellPresenterAbstract
     {
-        private readonly Portal _portal;
+        private readonly Portals _portals;
         private List<PortalCellDrawable> _drawables;
 
-        public PortalPresenter(Portal portal)
+        public PortalPresenter(Portals portals)
         {
-            _portal    = portal;
-            _drawables = InitPortalCellDrawables(portal.Cells.Count);
+            _portals    = portals;
+            _drawables = InitPortalCellDrawables(portals.Cells.Count);
 
             FieldOriginChanged += OnFieldOriginChanged;
         }
@@ -26,7 +26,7 @@ namespace KragmortaApp.Presenters
 
             for (var i = 0; i < count; i++)
             {
-                result.Add(new PortalCellDrawable(_portal.Cells[i], CellSize));
+                result.Add(new PortalCellDrawable(_portals.Cells[i], CellSize));
             }
 
             return result;
@@ -43,16 +43,16 @@ namespace KragmortaApp.Presenters
 
         public override bool IsMouseWithinBounds(int x, int y)
         {
-            for (var i = 0; i < _portal.Cells.Count; i++)
+            for (var i = 0; i < _portals.Cells.Count; i++)
             {
-                var positionX = FieldOriginX + (CellSize + CellMargin) * _portal.Cells[i].X;
-                var positionY = FieldOriginY + (CellSize + CellMargin) * _portal.Cells[i].Y;
+                var positionX = FieldOriginX + (CellSize + CellMargin) * _portals.Cells[i].X;
+                var positionY = FieldOriginY + (CellSize + CellMargin) * _portals.Cells[i].Y;
             
                 if (x >= positionX &&
                     x < positionX + (CellSize + CellMargin) &&
                     y >= positionY &&
                     y < positionY + (CellSize + CellMargin)
-                    && _portal.Cells[i].Visible
+                    && _portals.Cells[i].Visible
                 )
                 {
                     return true;
@@ -64,9 +64,9 @@ namespace KragmortaApp.Presenters
 
         public override void Render(RenderTarget target)
         {
-            if (_portal.Dirty)
+            if (_portals.Dirty)
             {
-                _portal.ClearDirty();
+                _portals.ClearDirty();
             }
             
             foreach (var drawable in _drawables)

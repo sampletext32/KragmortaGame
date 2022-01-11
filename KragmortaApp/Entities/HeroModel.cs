@@ -1,8 +1,10 @@
+using KragmortaApp.FileDatas;
+
 namespace KragmortaApp.Entities
 {
     public class HeroModel : VisualEntity
     {
-        public long Id { get; }
+        public long Id { get; private set; }
 
         public int FieldX { get; private set; }
 
@@ -11,6 +13,27 @@ namespace KragmortaApp.Entities
         public bool Activated { get; set; }
 
         public readonly MovementDeck MovementDeck;
+
+        public HeroModel(HeroFileData fileData)
+        {
+            Id     = fileData.Id;
+            FieldX = fileData.FieldX;
+            FieldY = fileData.FieldY;
+
+            MovementDeck = new MovementDeck(fileData.MovementDeck);
+        }
+
+        public HeroFileData ToFileData()
+        {
+            return new HeroFileData()
+            {
+                Id = Id,
+                FieldX = FieldX,
+                FieldY = FieldY,
+                Activated    = Activated,
+                MovementDeck = MovementDeck.ToFileData()
+            };
+        }
 
         public HeroModel(long id, int fieldX, int fieldY)
         {

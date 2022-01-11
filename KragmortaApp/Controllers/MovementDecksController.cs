@@ -22,11 +22,15 @@ namespace KragmortaApp.Controllers
 
         private MovementCard _activatedMovementCard = null;
 
-        public MovementDecksController(List<MovementDeck> decks)
+        public MovementDecksController(List<MovementDeck> decks, bool initStates)
         {
             _decks              = decks;
-            CurrentDeck.Visible = true;
-            CurrentDeck.MarkDirty();
+
+            if (initStates)
+            {
+                CurrentDeck.Visible = true;
+                CurrentDeck.MarkDirty();
+            }
         }
 
         public bool HasSelectedCard()

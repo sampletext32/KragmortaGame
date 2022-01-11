@@ -7,12 +7,12 @@ namespace KragmortaApp.Controllers
 {
     public class PortalController : ControllerBase
     {
-        private Portal _portal;
+        private Portals _portals;
         Random _rand = new Random(DateTime.Now.Millisecond);
 
-        public PortalController(Portal portal)
+        public PortalController(Portals portals, bool initStates)
         {
-            _portal = portal;
+            _portals = portals;
         }
 
         /// <summary>
@@ -22,23 +22,23 @@ namespace KragmortaApp.Controllers
         /// <param name="y">The ordinate of the cell where the current player stands</param>
         public void SetVisiblePortals(int x, int y)
         {
-            for (var i = 0; i < _portal.Cells.Count; i++)
+            for (var i = 0; i < _portals.Cells.Count; i++)
             {
-                _portal.Cells[i].Visible = true;
-                _portal.Cells[i].MarkDirty();
+                _portals.Cells[i].Visible = true;
+                _portals.Cells[i].MarkDirty();
             }
 
-            _portal.Cells.First(c => c.X == x && c.Y == y).Visible = false;
+            _portals.Cells.First(c => c.X == x && c.Y == y).Visible = false;
 
-            _portal.MarkDirty();
+            _portals.MarkDirty();
         }
 
         public void SetInvisiblePortals()
         {
-            for (var i = 0; i < _portal.Cells.Count; i++)
+            for (var i = 0; i < _portals.Cells.Count; i++)
             {
-                _portal.Cells[i].Visible = false;
-                _portal.Cells[i].MarkDirty();
+                _portals.Cells[i].Visible = false;
+                _portals.Cells[i].MarkDirty();
             }
         }
 
@@ -48,7 +48,7 @@ namespace KragmortaApp.Controllers
             
             do
             {
-                result = _portal.Cells[_rand.Next(_portal.Cells.Count)];
+                result = _portals.Cells[_rand.Next(_portals.Cells.Count)];
             } while (result.X == cellX && result.Y == cellY);
 
             return result;

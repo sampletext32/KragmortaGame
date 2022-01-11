@@ -15,11 +15,15 @@ namespace KragmortaApp.Controllers
         private List<HeroController> _heroControllers;
         private int _currentHeroIndex = 0;
 
-        public ShiftController(IReadOnlyList<HeroModel> heroes, List<HeroController> controllers)
+        public ShiftController(IReadOnlyList<HeroModel> heroes, List<HeroController> controllers, bool initStates)
         {
             _heroModels      = heroes;
             _heroControllers = controllers;
-            _heroControllers[0].Activate();
+
+            if (initStates)
+            {
+                _heroControllers[0].Activate();
+            }
         }
 
         public void ActivateNextPlayer()

@@ -20,6 +20,12 @@ namespace KragmortaApp.Scenes
             startButton.TextColor =  Color.Black;
             startButton.TextSize  =  32;
             _layout.AddElement(startButton);
+            
+            var loadButton = new UIButton(300, 100, "LOAD", font);
+            loadButton.Clicked   += LoadButtonOnClicked;
+            loadButton.TextColor =  Color.Black;
+            loadButton.TextSize  =  32;
+            _layout.AddElement(loadButton);
 
             var rulesButton = new UIButton(300, 100, "RULES", font);
             rulesButton.Clicked   += RulesButtonOnClicked;
@@ -38,6 +44,18 @@ namespace KragmortaApp.Scenes
             exitButton.TextColor =  Color.Black;
             exitButton.TextSize  =  32;
             _layout.AddElement(exitButton);
+        }
+
+        private void LoadButtonOnClicked()
+        {
+            var gameSaver = new GameSaver();
+            
+            gameSaver.Load();
+            
+            Engine.Instance.PushScene(new GameTableScene()
+            {
+                InitStates = false
+            });
         }
 
         private void ExitButtonOnClicked()

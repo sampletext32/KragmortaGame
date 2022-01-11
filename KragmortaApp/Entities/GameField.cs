@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Enums;
+using KragmortaApp.FileDatas;
 using SFML.Graphics;
 using SFML.System;
 
@@ -22,6 +24,27 @@ namespace KragmortaApp.Entities
         private static Random _random;
 
         private int _playersCount;
+
+        public GameField(GameFieldFileData fileData)
+        {
+            SizeX         = fileData.SizeX;
+            SizeY         = fileData.SizeY;
+            FieldType     = fileData.FieldType;
+            _cells        = fileData.Cells.Select(c => new FieldCell(c)).ToList();
+            _playersCount = fileData.PlayersCount;
+        }
+
+        public GameFieldFileData ToFileData()
+        {
+            return new GameFieldFileData()
+            {
+                FieldType    = FieldType,
+                SizeX        = SizeX,
+                SizeY        = SizeY,
+                PlayersCount = _playersCount,
+                Cells        = _cells.Select(c => c.ToFileData()).ToList()
+            };
+        }
 
         public GameField(int sizeX, int sizeY, int playersCount)
         {

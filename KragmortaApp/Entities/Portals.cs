@@ -4,13 +4,13 @@ using SFML.System;
 
 namespace KragmortaApp.Entities
 {
-    public class Portal : VisualEntity
+    public class Portals : VisualEntity
     {
         private readonly GameField _field;
         public IReadOnlyList<PortalCell> Cells => _cells;
         private List<PortalCell> _cells;
 
-        public Portal(GameField field)
+        public Portals(GameField field)
         {
             _field = field;
             _cells = new List<PortalCell>(7);

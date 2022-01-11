@@ -12,11 +12,15 @@ namespace KragmortaApp.Controllers
         private IReadOnlyList<Profile> _profiles;
         private int _currentHeroIndex = 0;
 
-        public ProfilesController(IReadOnlyList<Profile> profiles, List<ProfileController> controllers)
+        public ProfilesController(IReadOnlyList<Profile> profiles, List<ProfileController> controllers, bool initStates)
         {
             _profiles              = profiles;
             _controllers           = controllers;
-            CurrentController.Activate();
+
+            if (initStates)
+            {
+                CurrentController.Activate();
+            }
         }
         
         public void ActivateNextPlayer()

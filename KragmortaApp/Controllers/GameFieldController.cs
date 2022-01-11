@@ -11,7 +11,7 @@ namespace KragmortaApp.Controllers
         
         private readonly GameField _field;
 
-        public GameFieldController(GameField field)
+        public GameFieldController(GameField field, bool initStates)
         {
             _field = field;
         }

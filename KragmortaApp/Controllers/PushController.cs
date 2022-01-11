@@ -15,7 +15,7 @@ namespace KragmortaApp.Controllers
 
         public HeroModel Victim { get; private set; }
 
-        public PushController(Push push)
+        public PushController(Push push, bool initStates)
         {
             _push = push;
         }

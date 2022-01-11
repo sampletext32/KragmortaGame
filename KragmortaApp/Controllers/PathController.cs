@@ -10,7 +10,7 @@ namespace KragmortaApp.Controllers
         
         private Path _path;
 
-        public PathController(Path path)
+        public PathController(Path path, bool initStates)
         {
             _path = path;
         }

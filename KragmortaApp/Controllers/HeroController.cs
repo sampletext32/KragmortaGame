@@ -7,7 +7,7 @@ namespace KragmortaApp.Controllers
         private HeroModel _hero;
         private int _cardDeletionLeft = 1;
 
-        public HeroController(HeroModel hero)
+        public HeroController(HeroModel hero, bool initStates)
         {
             _hero = hero;
         }

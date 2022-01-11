@@ -1,5 +1,6 @@
 ﻿using System;
 using KragmortaApp.Enums;
+using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
@@ -21,6 +22,29 @@ namespace KragmortaApp.Entities
 
         private static Random _random = new Random(DateTime.Now.Millisecond);
 
+        public MovementCard(MovementCardFileData fileData)
+        {
+            _firstType        = fileData.FirstType;
+            _secondType       = fileData.SecondType;
+            Selected          = fileData.Selected;
+            HasUsedFirstType  = fileData.HasUsedFirstType;
+            HasUsedSecondType = fileData.HasUsedSecondType;
+            Activated         = fileData.Activated;
+        }
+
+        public MovementCardFileData ToFileData()
+        {
+            return new MovementCardFileData()
+            {
+                FirstType         = FirstType,
+                SecondType        = SecondType,
+                Selected          = Selected,
+                HasUsedFirstType  = HasUsedFirstType,
+                HasUsedSecondType = HasUsedSecondType,
+                Activated         = Activated,
+            };
+        }
+        
         public MovementCard(CellType firstType, CellType secondType)
         {
             _firstType  = firstType;

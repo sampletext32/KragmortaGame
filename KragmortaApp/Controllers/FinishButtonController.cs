@@ -7,7 +7,7 @@ namespace KragmortaApp.Controllers
     {
         private readonly FinishButtonModel _finishButtonModel;
 
-        public FinishButtonController(FinishButtonModel finishButtonModel)
+        public FinishButtonController(FinishButtonModel finishButtonModel, bool initStates)
         {
             _finishButtonModel = finishButtonModel;
         }
