@@ -11,6 +11,7 @@ namespace KragmortaApp.Entities
         Goblin,
         Rigor
     }
+
     public class MovementCard : VisualEntity
     {
         public CellType FirstType => _firstType;
@@ -33,6 +34,7 @@ namespace KragmortaApp.Entities
         {
             _firstType        = fileData.FirstType;
             _secondType       = fileData.SecondType;
+            _movementCardType = fileData.MovementCardType;
             Selected          = fileData.Selected;
             HasUsedFirstType  = fileData.HasUsedFirstType;
             HasUsedSecondType = fileData.HasUsedSecondType;
@@ -45,23 +47,24 @@ namespace KragmortaApp.Entities
             {
                 FirstType         = FirstType,
                 SecondType        = SecondType,
+                MovementCardType = _movementCardType,
                 Selected          = Selected,
                 HasUsedFirstType  = HasUsedFirstType,
                 HasUsedSecondType = HasUsedSecondType,
                 Activated         = Activated,
             };
         }
-        
+
         public MovementCard(CellType firstType, CellType secondType, MovementCardType movementCardType)
         {
-            _firstType             = firstType;
-            _secondType            = secondType;
+            _firstType        = firstType;
+            _secondType       = secondType;
             _movementCardType = movementCardType;
         }
 
         public static MovementCard Generate()
         {
-            int first = _random.Next(0, 5);
+            int first  = _random.Next(0, 5);
             int second = _random.Next(0, 5);
 
             if (_random.Next(0, 100) < 30)

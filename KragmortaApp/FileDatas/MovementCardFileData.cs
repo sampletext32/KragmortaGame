@@ -1,4 +1,5 @@
-﻿using KragmortaApp.Enums;
+﻿using KragmortaApp.Entities;
+using KragmortaApp.Enums;
 
 namespace KragmortaApp.FileDatas
 {
@@ -12,5 +13,6 @@ namespace KragmortaApp.FileDatas
         public bool HasUsedFirstType { get; set; }
         public bool HasUsedSecondType { get; set; }
         public bool Activated { get; set; }
+        public MovementCardType MovementCardType { get; set; }
     }
 }
