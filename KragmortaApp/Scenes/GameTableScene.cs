@@ -174,7 +174,7 @@ namespace KragmortaApp.Scenes
 
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,
-                _fieldController, _movementCardContextMenuController);
+                _fieldController, _movementCardContextMenuController, _rigorController);
 
             _movementCardContextMenuHandler = new MovementCardContextMenuHandler(_movementCardContextMenuController,
                 _movementDecksController, _shiftController, _pathController);
