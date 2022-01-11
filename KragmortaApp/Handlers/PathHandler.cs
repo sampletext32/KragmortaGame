@@ -14,6 +14,7 @@ namespace KragmortaApp.Handlers
         private readonly ShiftController _shiftController;
         private readonly PortalController _portalController;
         private readonly FinishButtonController _finishButtonController;
+        private readonly RigorController _rigorController;
         private readonly ProfilesController _profilesController;
 
         public PathHandler(
@@ -24,8 +25,8 @@ namespace KragmortaApp.Handlers
             ShiftController shiftController,
             PortalController portalController,
             FinishButtonController finishButtonController,
-            ProfilesController profilesController
-        )
+            ProfilesController profilesController,
+            RigorController rigorController)
         {
             _pathController          = pathController;
             _pushController          = pushController;
@@ -35,6 +36,7 @@ namespace KragmortaApp.Handlers
             _portalController        = portalController;
             _finishButtonController  = finishButtonController;
             _profilesController = profilesController;
+            _rigorController    = rigorController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -60,10 +62,25 @@ namespace KragmortaApp.Handlers
 
                 _movementDecksController.SpendType(pathCell.Type);
 
-                var heroPreviousX = _shiftController.Hero.FieldX;
-                var heroPreviousY = _shiftController.Hero.FieldY;
+                // var heroPreviousX = _shiftController.Hero.FieldX;
+                // var heroPreviousY = _shiftController.Hero.FieldY;
+                int heroPreviousX, heroPreviousY;
+                if (_movementDecksController.LastSelectedMovementCard.MovementCardType == MovementCardType.Goblin)
+                {
+                    heroPreviousX = _shiftController.Hero.FieldX;
+                    heroPreviousY = _shiftController.Hero.FieldY;
+                    
+                    _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                }
+                else
+                {
+                    heroPreviousX = _rigorController.Model.FieldX;
+                    heroPreviousY = _rigorController.Model.FieldY;
+                    
+                    _rigorController.Model.SetFieldPosition(pathCellX, pathCellY);
+                }
 
-                _shiftController.Hero.SetFieldPosition(pathCellX, pathCellY);
+                
                 if (Engine.Instance.Settings.EnableSounds)
                 {
                     Engine.Instance.SoundCache.GetOrCache("whoosh_move").Play();
@@ -104,6 +121,13 @@ namespace KragmortaApp.Handlers
                     return;
                 }
 
+                // In the destination cell there are Rigor and Goblin
+                if (_shiftController.Hero.FieldX == _rigorController.Model.FieldX &&
+                    _shiftController.Hero.FieldY == _rigorController.Model.FieldY)
+                {
+                    _profilesController.CurrentController.TakeDamage();
+                }
+                
                 // regenerate visible path
                 _pathController.RawPath.Clear();
                 _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pathController.RawPath);
