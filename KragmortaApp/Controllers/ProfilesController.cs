@@ -12,6 +12,8 @@ namespace KragmortaApp.Controllers
         private IReadOnlyList<Profile> _profiles;
         private int _currentHeroIndex = 0;
 
+        private int _booksNumber = 0;
+
         public ProfilesController(IReadOnlyList<Profile> profiles, List<ProfileController> controllers, bool initStates)
         {
             _profiles              = profiles;
@@ -37,6 +39,17 @@ namespace KragmortaApp.Controllers
         public void DealDamageToHero(HeroModel victimHero)
         {
             _controllers[(int)victimHero.Id - 1].TakeDamage();
+        }
+
+        public void GiveBookToActive()
+        {
+            ++_booksNumber;
+            CurrentController.GiveBook();
+            
+            if (_booksNumber == GameState.Instance.BookLimit)
+            {
+                // TODO: Finish game.
+            }
         }
     }
 }

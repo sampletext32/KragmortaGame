@@ -1,5 +1,6 @@
 using System;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 using KragmortaApp.Presenters;
 using SFML.Graphics;

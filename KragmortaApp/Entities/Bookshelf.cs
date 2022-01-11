@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 
 namespace KragmortaApp.Entities

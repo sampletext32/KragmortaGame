@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities

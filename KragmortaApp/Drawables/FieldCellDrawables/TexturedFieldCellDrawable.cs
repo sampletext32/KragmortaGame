@@ -1,5 +1,6 @@
 ﻿using System;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 using KragmortaApp.Presenters;
 using SFML.Graphics;
@@ -45,6 +46,11 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         /// </summary>
         // protected RectangleShape _orange;
         protected Sprite _orange;
+        
+        /// <summary>
+        /// Common sub-rect
+        /// </summary>
+        protected Sprite _common;
 
 
         // Visibility flags
@@ -53,6 +59,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
         protected bool _isGreenVisible;
         protected bool _isBlueVisible;
         protected bool _isOrangeVisible;
+        protected bool _isCommonVisible;
         protected bool _isHoveredVisible;
 
         protected static readonly Color DefaultBackgroundColor = new Color(255, 255, 255, 255);
@@ -188,8 +195,16 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             InitGreenIcon();
             InitBlueIcon();
             InitOrangeIcon();
+            InitCommonIcon();
 
             SetPosition(positionX, positionY);
+        }
+
+        private void InitCommonIcon()
+        {
+            _common          = new Sprite(Engine.Instance.TextureCache.GetOrCache("Common"));
+            _common.Scale    = new Vector2f(0.6f, 0.6f);
+            // _orange.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }
 
         private void InitOrangeIcon()
@@ -292,6 +307,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             InitGreenIcon();
             InitBlueIcon();
             InitOrangeIcon();
+            InitCommonIcon();
 
             var positionX =
                 CellPresenterAbstract.FieldOriginX +
@@ -323,6 +339,8 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             InitGreenIcon();
             InitBlueIcon();
             InitOrangeIcon();
+            InitCommonIcon();
+
 
             var positionX =
                 CellPresenterAbstract.FieldOriginX +
@@ -342,6 +360,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _green.Position                  = new Vector2f(x + 15, y + 15);
             _blue.Position                   = new Vector2f(x + 50, y + 10);
             _orange.Position                 = new Vector2f(x + 70, y + 10);
+            _common.Position                 = new Vector2f(x + 10, y + 10);
         }
 
         public void ShiftPosition(int x, int y)
@@ -353,6 +372,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _green.Position                  += shiftVector;
             _blue.Position                   += shiftVector;
             _orange.Position                 += shiftVector;
+            _common.Position                 += shiftVector;
         }
 
         public void Draw(RenderTarget target, RenderStates states)
@@ -368,6 +388,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             if (_isGreenVisible) target.Draw(_green);
             if (_isBlueVisible) target.Draw(_blue);
             if (_isOrangeVisible) target.Draw(_orange);
+            if (_isCommonVisible) target.Draw(_common);
             if (_isHoveredVisible) target.Draw(_hoveredEffectRectangle);
         }
 
@@ -389,6 +410,7 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
             _isGreenVisible  = (type & CellType.Green) == CellType.Green;
             _isBlueVisible   = (type & CellType.Blue) == CellType.Blue;
             _isOrangeVisible = (type & CellType.Orange) == CellType.Orange;
+            _isCommonVisible = (type & CellType.Common) == CellType.Common;
         }
 
 

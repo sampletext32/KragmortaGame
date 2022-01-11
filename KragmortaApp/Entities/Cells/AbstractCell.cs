@@ -1,6 +1,6 @@
 ﻿using KragmortaApp.Enums;
 
-namespace KragmortaApp.Entities
+namespace KragmortaApp.Entities.Cells
 {
     public class AbstractCell : VisualEntity
     {
@@ -26,5 +26,7 @@ namespace KragmortaApp.Entities
         public bool Visible { get; set; }
         
         public bool IsPortal { get; set; }
+        
+        public bool IsWorkbench { get; set; }
     }
 }

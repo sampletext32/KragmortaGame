@@ -28,6 +28,7 @@ namespace KragmortaApp
 
         public IReadOnlyList<MovementDeck> Decks => _heroes.Select(h => h.MovementDeck).ToList();
         public PushedStateModel PushedStateModel { get; set; }
+        public readonly int BookLimit;
 
         public Path Path;
         public Push Push;
@@ -67,6 +68,7 @@ namespace KragmortaApp
 
             Portals   = new Portals(Field);
             Bookshelf = new Bookshelf(Field);
+            BookLimit = 15;
         }
 
         public GameFileData ToFileData()
@@ -115,6 +117,7 @@ namespace KragmortaApp
             Push      = new Push();
             Portals   = new Portals(Field);
             Bookshelf = new Bookshelf(Field);
+            BookLimit = 15;
 
             PushedStateModel = new PushedStateModel();
 

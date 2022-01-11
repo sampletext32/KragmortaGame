@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
+using KragmortaApp.Caches;
 using KragmortaApp.Scenes;
 using SFML.Graphics;
 using SFML.System;

@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using KragmortaApp.Controllers;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 
 namespace KragmortaApp.Handlers
 {
@@ -76,8 +77,6 @@ namespace KragmortaApp.Handlers
         {
             _movementDecksController.SpendType(pathCell.Type);
 
-            // var heroPreviousX = _shiftController.Hero.FieldX;
-            // var heroPreviousY = _shiftController.Hero.FieldY;
             int   heroPreviousX, heroPreviousY;
             IHero movingHero;
             if (_movementDecksController.ActivatedMovementCard.MovementCardType == MovementCardType.Goblin)
@@ -105,6 +104,7 @@ namespace KragmortaApp.Handlers
             _movementDecksController.DismissActivatedCard();
             _movementDecksController.PullNewCard();
 
+            // If portal is selected.
             if (_gameFieldController.GetCell(pathCellX, pathCellY).IsPortal)
             {
                 _portalController.SetAllVisibleExcept(pathCellX, pathCellY);
@@ -114,6 +114,31 @@ namespace KragmortaApp.Handlers
                 return;
             }
 
+            // If workbench is selected
+            if (_gameFieldController.GetCell(pathCellX, pathCellY).IsWorkbench)
+            {
+                _profilesController.CurrentController.GiveBook();
+                
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                _shiftController.Hero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
+                    h.FieldY == _shiftController.Hero.FieldY)) is not null)
+                {
+                    ProcessCellOverflow(_shiftController.Hero.FieldX, _shiftController.Hero.FieldY,
+                        pathCellX, pathCellY, sameCellHero);
+                }
+
+                _pathController.ClearPaths();
+                
+                _shiftController.ActivateNextPlayer();
+                _profilesController.ActivateNextPlayer();
+                _movementDecksController.ActivateNextDeck();
+                
+                return;
+            }
 
             // In the destination cell there are Rigor and Goblin
             if (CheckRigorAndGoblinOnSameCell(out var victimHero))
@@ -192,6 +217,35 @@ namespace KragmortaApp.Handlers
                 return;
             }
 
+            // If workbench is selected
+            if (_gameFieldController.GetCell(pathCellX, pathCellY).IsWorkbench)
+            {
+                _movementDecksController.DismissActivatedCard();
+                _movementDecksController.PullNewCard();
+
+                _profilesController.CurrentController.GiveBook();
+
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                _shiftController.Hero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
+                    h.FieldY == _shiftController.Hero.FieldY)) is not null)
+                {
+                    ProcessCellOverflow(_shiftController.Hero.FieldX, _shiftController.Hero.FieldY,
+                        pathCellX, pathCellY, sameCellHero);
+                }
+
+                _pathController.ClearPaths();
+                
+                _shiftController.ActivateNextPlayer();
+                _profilesController.ActivateNextPlayer();
+                _movementDecksController.ActivateNextDeck();
+                
+                return;
+            }
+
             // In the destination cell there are Rigor and Goblin
             if (CheckRigorAndGoblinOnSameCell(out var victimHero))
             {
@@ -232,7 +286,7 @@ namespace KragmortaApp.Handlers
             }
         }
 
-        private bool CheckRigorAndGoblinOnSameCell( out HeroModel victim)
+        private bool CheckRigorAndGoblinOnSameCell(out HeroModel victim)
         {
             return (victim = GameState.Instance.Heroes.FirstOrDefault(h =>
                 h.FieldX == _rigorController.Model.FieldX && h.FieldY == _rigorController.Model.FieldY)) is not null;

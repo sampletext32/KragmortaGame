@@ -58,23 +58,7 @@ namespace KragmortaApp.Handlers
             _shiftController.WhoEnteredPortal.SetFieldPosition(pathCellX, pathCellY);
 
             _portalController.SetInvisiblePortals();
-
-            // // In the destination cell there are 2 heroes
-            // HeroModel sameCellHero;
-            // if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-            //         h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null)
-            // {
-            //     // Highlight paths of push
-            //     _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
-            //
-            //     _pushController.Except(heroPreviousX, heroPreviousY);
-            //     _pushController.TrySetVisiblePush();
-            //
-            //     _pushController.SetVictim(sameCellHero);
-            //     // No return move to pusher in this case (second move)
-            //
-            //     return;
-            // }
+            
             
             // In the destination cell there are Rigor and Goblin
             if (CheckRigorAndGoblinOnSameCell(out var victimHero))

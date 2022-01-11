@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using SFML.Graphics;
 
-namespace KragmortaApp
+namespace KragmortaApp.Caches
 {
     public class TextureCache
     {
