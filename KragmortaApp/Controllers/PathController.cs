@@ -93,8 +93,6 @@ namespace KragmortaApp.Controllers
             }
 
             return result;
-            // return !card.HasUsedFirstType && (RawPath[i].Type & card.FirstType) != CellType.Empty ||
-            //        !card.HasUsedSecondType && (RawPath[i].Type & card.SecondType) != CellType.Empty;
         }
 
         public void ClearPaths()

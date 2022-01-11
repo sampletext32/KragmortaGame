@@ -65,14 +65,32 @@ namespace KragmortaApp.Controllers
         public void SpendType(CellType cellType)
         {
             if (!_activatedMovementCard.HasUsedFirstType &&
-                (_activatedMovementCard.FirstType & cellType) != CellType.Empty)
+                ((_activatedMovementCard.FirstType & cellType) != CellType.Empty ||
+                 _activatedMovementCard.FirstType == CellType.Common))
             {
-                _activatedMovementCard.HasUsedFirstType = true;
+                if (!_activatedMovementCard.HasUsedSecondType &&
+                    (_activatedMovementCard.SecondType & cellType) != CellType.Empty)
+                {
+                    _activatedMovementCard.HasUsedSecondType = true;
+                }
+                else
+                {
+                    _activatedMovementCard.HasUsedFirstType = true;
+                }
             }
             else if (!_activatedMovementCard.HasUsedSecondType &&
-                     (_activatedMovementCard.SecondType & cellType) != CellType.Empty)
+                     ((_activatedMovementCard.SecondType & cellType) != CellType.Empty ||
+                      _activatedMovementCard.SecondType == CellType.Common))
             {
-                _activatedMovementCard.HasUsedSecondType = true;
+                if (!_activatedMovementCard.HasUsedFirstType &&
+                    (_activatedMovementCard.FirstType & cellType) != CellType.Empty)
+                {
+                    _activatedMovementCard.HasUsedFirstType = true;
+                }
+                else
+                {
+                    _activatedMovementCard.HasUsedSecondType = true;
+                }
             }
         }
 
