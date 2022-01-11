@@ -15,6 +15,7 @@ namespace KragmortaApp.Handlers
         private readonly PortalController _portalController;
         private readonly ProfilesController _profilesController;
         private readonly FinishButtonController _finishButtonController;
+        private readonly RigorController _rigorController;
 
         public PushHandler(
             PushController pushController,
@@ -24,8 +25,7 @@ namespace KragmortaApp.Handlers
             ShiftController shiftController,
             FinishButtonController finishButtonController,
             PortalController portalController,
-            ProfilesController profilesController
-        )
+            ProfilesController profilesController, RigorController rigorController)
         {
             _pushController          = pushController;
             _pathController          = pathController;
@@ -34,7 +34,8 @@ namespace KragmortaApp.Handlers
             _shiftController         = shiftController;
             _finishButtonController  = finishButtonController;
             _portalController        = portalController;
-            _profilesController = profilesController;
+            _profilesController      = profilesController;
+            _rigorController    = rigorController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -99,6 +100,21 @@ namespace KragmortaApp.Handlers
 
                 // Don't clear pusher, because at the end of a push chain we MUST return the turn back to original pusher
             }
+            else if (CheckRigorAndGoblinOnSameCell(out var victimHero))
+            {
+                // TODO: Fuck goblin after his pushing.
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
+                _profilesController.DealDamageToHero(victimHero);
+
+                HeroModel sameCellHero;
+                if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
+                {
+                    ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
+                        _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
+                }
+            }
             else
             {
                 // Case 2
@@ -133,6 +149,34 @@ namespace KragmortaApp.Handlers
 
                 _finishButtonController.ShowButton();
             }
+        }
+        private bool CheckRigorAndGoblinOnSameCell( out HeroModel victim)
+        {
+            return (victim = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h.FieldX == _rigorController.Model.FieldX && h.FieldY == _rigorController.Model.FieldY)) is not null;
+        }
+
+        private void ProcessCellOverflow(int pathCellX, int pathCellY, int heroPreviousX, int heroPreviousY,
+            HeroModel sameCellHero)
+        {
+            _finishButtonController.HideButton();
+
+            _pathController.ClearPaths();
+
+            // Highlight paths of push
+
+            _gameFieldController.CollectNeighboringCells(pathCellX, pathCellY, _pushController.RawPush);
+
+            _pushController.Except(heroPreviousX, heroPreviousY);
+            _pushController.TrySetVisiblePush();
+
+            _pushController.SetVictim(sameCellHero);
+        }
+
+        private bool CheckCellOverflow(int pathCellX, int pathCellY, out HeroModel sameCellHero)
+        {
+            return (sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
+                h != _shiftController.Hero && h.FieldX == pathCellX && h.FieldY == pathCellY)) is not null;
         }
     }
 }

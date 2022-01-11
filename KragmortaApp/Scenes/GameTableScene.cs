@@ -16,6 +16,8 @@ namespace KragmortaApp.Scenes
 {
     public class GameTableScene : Scene
     {
+        // TODO: Redo Profiles.    
+    
         #region Presenters
 
         private GameFieldPresenter _fieldPresenter;
@@ -162,17 +164,17 @@ namespace KragmortaApp.Scenes
             }
 
             _pathHandler = new PathHandler(_pathController, _pushController, _fieldController, _movementDecksController,
-                _shiftController, _portalController, _finishButtonController, _profilesController);
+                _shiftController, _portalController, _finishButtonController, _profilesController, _rigorController);
             _pushHandler = new PushHandler(_pushController, _pathController, _fieldController, _movementDecksController,
-                _shiftController, _finishButtonController, _portalController, _profilesController);
+                _shiftController, _finishButtonController, _portalController, _profilesController, _rigorController);
 
 
             _portalHandler = new PortalHandler(_portalController, _shiftController, _movementDecksController,
-                _fieldController, _pushController, _finishButtonController, _profilesController);
+                _fieldController, _pushController, _finishButtonController, _profilesController, _rigorController);
 
 
             _movementDeckHandler = new MovementDeckHandler(_movementDecksController, _pathController, _shiftController,
-                _fieldController, _movementCardContextMenuController);
+                _fieldController, _movementCardContextMenuController, _rigorController);
 
             _movementCardContextMenuHandler = new MovementCardContextMenuHandler(_movementCardContextMenuController,
                 _movementDecksController, _shiftController, _pathController);

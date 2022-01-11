@@ -33,5 +33,10 @@ namespace KragmortaApp.Controllers
             _currentHeroIndex = (_currentHeroIndex + 1) % _profiles.Count;
             CurrentController.Activate();
         }
+
+        public void DealDamageToHero(HeroModel victimHero)
+        {
+            _controllers[(int)victimHero.Id - 1].TakeDamage();
+        }
     }
 }

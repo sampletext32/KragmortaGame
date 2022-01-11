@@ -2,7 +2,7 @@ using KragmortaApp.FileDatas;
 
 namespace KragmortaApp.Entities
 {
-    public class RigorModel : VisualEntity
+    public class RigorModel : VisualEntity, IHero
     {
         public int FieldX { get; private set; }
 
@@ -25,8 +25,6 @@ namespace KragmortaApp.Entities
 
         public RigorModel()
         {
-            FieldX = 3;
-            FieldY = 9;
         }
 
         public void SetFieldPosition(int x, int y)

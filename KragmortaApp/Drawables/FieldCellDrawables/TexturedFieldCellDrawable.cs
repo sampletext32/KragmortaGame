@@ -194,28 +194,28 @@ namespace KragmortaApp.Drawables.FieldCellDrawables
 
         private void InitOrangeIcon()
         {
-            _orange          = new Sprite(Engine.Instance.TextureCache.GetOrCache("scrolls"));
+            _orange          = new Sprite(Engine.Instance.TextureCache.GetOrCache("Orange"));
             _orange.Scale    = new Vector2f(0.6f, 0.6f);
             _orange.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }
 
         private void InitBlueIcon()
         {
-            _blue          = new Sprite(Engine.Instance.TextureCache.GetOrCache("stones"));
+            _blue          = new Sprite(Engine.Instance.TextureCache.GetOrCache("Blue"));
             _blue.Scale    = new Vector2f(0.65f, 0.65f);
             _blue.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }
 
         private void InitGreenIcon()
         {
-            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("bottle"));
+            _green          = new Sprite(Engine.Instance.TextureCache.GetOrCache("Green"));
             _green.Scale    = new Vector2f(0.6f, 0.6f);
             _green.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }
 
         private void InitRedIcon()
         {
-            _red          = new Sprite(Engine.Instance.TextureCache.GetOrCache("book"));
+            _red          = new Sprite(Engine.Instance.TextureCache.GetOrCache("Red"));
             _red.Scale    = new Vector2f(0.5f, 0.5f);
             _red.Rotation = random.Next(2) % 2 == 0 ? -15f : 15f;
         }

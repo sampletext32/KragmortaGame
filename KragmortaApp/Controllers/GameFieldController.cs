@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using KragmortaApp.Entities;
@@ -12,8 +13,12 @@ namespace KragmortaApp.Controllers
 
         private readonly GameField _field;
 
+        private readonly Random _random;
+
         public GameFieldController(GameField field, bool initStates)
         {
+            _field  = field;
+            _random = new Random(DateTime.Now.Millisecond);
             _field = field;
 
             if (initStates)
@@ -98,6 +103,17 @@ namespace KragmortaApp.Controllers
             {
                 rawPaths.Add(GetCell(centerCellX, centerCellY + 1));
             }
+        }
+
+        public FieldCell GetSpawnCell()
+        {
+            FieldCell result;
+            do
+            {
+                result = _field.SpawnCells[_random.Next(0, _field.SpawnCells.Count)];
+            } while (result.X == GameState.Instance.Rigor.FieldX && result.Y == GameState.Instance.Rigor.FieldY);
+
+            return result;
         }
     }
 }

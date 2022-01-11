@@ -21,12 +21,14 @@ namespace KragmortaApp
         public FontCache FontCache => _fontCache;
         public SoundCache SoundCache => _soundCache;
         public MusicCache MusicCache => _musicCache;
+        public IconsSpritesCache IconsSpritesCache => _iconsSpritesCache;
 
         private TextureCache _textureCache;
         private ImageCache _imageCache;
         private FontCache _fontCache;
         private SoundCache _soundCache;
         private MusicCache _musicCache;
+        private IconsSpritesCache _iconsSpritesCache;
 
         private int _windowWidth;
         private int _windowHeight;
@@ -48,24 +50,26 @@ namespace KragmortaApp
                 throw new KragException("You can't create more than one game in the app!");
             }
 
-            _instance     = this;
-            _textureCache = new TextureCache();
-            _imageCache   = new ImageCache();
-            _fontCache    = new FontCache();
-            _soundCache   = new SoundCache();
-            _musicCache   = new MusicCache();
-            
-            _scenesStack  = new Stack<Scene>();
+            _instance          = this;
+            _textureCache      = new TextureCache();
+            _imageCache        = new ImageCache();
+            _fontCache         = new FontCache();
+            _soundCache        = new SoundCache();
+            _musicCache        = new MusicCache();
+            _iconsSpritesCache = new IconsSpritesCache();
+
+            _scenesStack = new Stack<Scene>();
 
             Settings = SettingsData.Load();
         }
 
         public void SetWindowSize(int width, int height)
         {
-            _windowWidth    = width;
-            _windowHeight   = height;
-            Window.Size     = new Vector2u((uint)_windowWidth, (uint)_windowHeight);
-            Window.Position = new Vector2i((int)(VideoMode.DesktopMode.Width / 2 - width / 2), (int)(VideoMode.DesktopMode.Height / 2 - height / 2));
+            _windowWidth  = width;
+            _windowHeight = height;
+            Window.Size   = new Vector2u((uint)_windowWidth, (uint)_windowHeight);
+            Window.Position = new Vector2i((int)(VideoMode.DesktopMode.Width / 2 - width / 2),
+                (int)(VideoMode.DesktopMode.Height / 2 - height / 2));
             Window.SetView(new View(new FloatRect(0, 0, width, height)));
             OnWindowResized(width, height);
         }

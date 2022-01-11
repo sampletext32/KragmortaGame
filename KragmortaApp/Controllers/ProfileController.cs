@@ -22,5 +22,11 @@ namespace KragmortaApp.Controllers
             _profile.Activated   = false;
             _profile.MarkDirty();
         }
+
+        public void TakeDamage()
+        {
+            _profile.Lives--;
+            _profile.MarkDirty();
+        }
     }
 }

@@ -12,17 +12,20 @@ namespace KragmortaApp.Handlers
         private MovementDecksController _movementDecksController;
         private GameFieldController _fieldController;
         private MovementCardContextMenuController _movementCardContextMenuController;
+        private RigorController _rigorController;
 
         public MovementDeckHandler(
             MovementDecksController movementDecksController,
             PathController pathController,
             ShiftController shiftController,
             GameFieldController fieldController,
-            MovementCardContextMenuController movementCardContextMenuController)
+            MovementCardContextMenuController movementCardContextMenuController,
+            RigorController rigorController)
         {
             _shiftController                   = shiftController;
             _fieldController                   = fieldController;
             _movementCardContextMenuController = movementCardContextMenuController;
+            _rigorController                   = rigorController;
             _pathController                    = pathController;
             _movementDecksController           = movementDecksController;
         }
@@ -49,8 +52,18 @@ namespace KragmortaApp.Handlers
                     _movementDecksController.UnselectCard();
                     _movementDecksController.SelectCard(card);
 
-                    var heroX = _shiftController.Hero.FieldX;
-                    var heroY = _shiftController.Hero.FieldY;
+
+                    int heroX, heroY;
+                    if (_movementDecksController.LastSelectedMovementCard.MovementCardType == MovementCardType.Goblin)
+                    {
+                        heroX = _shiftController.Hero.FieldX;
+                        heroY = _shiftController.Hero.FieldY;
+                    }
+                    else
+                    {
+                        heroX = _rigorController.Model.FieldX;
+                        heroY = _rigorController.Model.FieldY;
+                    }
 
                     _pathController.RawPath.Clear();
                     _fieldController.CollectNeighboringCells(heroX, heroY, _pathController.RawPath);
@@ -72,8 +85,17 @@ namespace KragmortaApp.Handlers
             {
                 _movementDecksController.SelectCard(card);
 
-                var heroX = _shiftController.Hero.FieldX;
-                var heroY = _shiftController.Hero.FieldY;
+                int heroX, heroY;
+                if (_movementDecksController.LastSelectedMovementCard.MovementCardType == MovementCardType.Goblin)
+                {
+                    heroX = _shiftController.Hero.FieldX;
+                    heroY = _shiftController.Hero.FieldY;
+                }
+                else
+                {
+                    heroX = _rigorController.Model.FieldX;
+                    heroY = _rigorController.Model.FieldY;
+                }
 
                 _pathController.RawPath.Clear();
                 _fieldController.CollectNeighboringCells(heroX, heroY, _pathController.RawPath);

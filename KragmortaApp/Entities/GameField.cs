@@ -13,8 +13,10 @@ namespace KragmortaApp.Entities
         public readonly int SizeX;
         public readonly int SizeY;
         public IReadOnlyList<FieldCell> Cells => _cells;
+        public IReadOnlyList<FieldCell> SpawnCells => _spawnCells;
 
         private readonly List<FieldCell> _cells;
+        private List<FieldCell> _spawnCells;
 
         public FieldType FieldType;
 
@@ -32,6 +34,10 @@ namespace KragmortaApp.Entities
             FieldType     = fileData.FieldType;
             _cells        = fileData.Cells.Select(c => new FieldCell(c)).ToList();
             _playersCount = fileData.PlayersCount;
+
+            AdjustField();
+            InitWalls();
+            LoadSpawnCells();
         }
 
         public GameFieldFileData ToFileData()
@@ -59,18 +65,62 @@ namespace KragmortaApp.Entities
             if (sizeX == 10 && sizeY == 7)
             {
                 InitField10X7();
-                AdjustField();
-                InitWalls();
             }
             else if (sizeX == 7 && sizeY == 10)
             {
                 InitField7X10();
-                AdjustField();
-                InitWalls();
             }
             else
             {
                 throw new KragException(ErrorMsg);
+            }
+
+            AdjustField();
+            InitWalls();
+            LoadSpawnCells();
+        }
+
+        private void LoadSpawnCells()
+        {
+            switch (FieldType)
+            {
+                case FieldType.Mini:
+                {
+                    _spawnCells = new List<FieldCell>(6);
+                    for (int i = 0; i < 6; i++)
+                    {
+                        _spawnCells.Add(GetCell(i, 4));
+                    }
+
+                    break;
+                }
+                case FieldType.Medium:
+                {
+                    _spawnCells = new List<FieldCell>(7);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        _spawnCells.Add(GetCell(i, 2));
+                    }
+
+                    for (int i = 4; i < SizeX; i++)
+                    {
+                        _spawnCells.Add(GetCell(i, 3));
+                    }
+
+                    break;
+                }
+                case FieldType.Large:
+                {
+                    _spawnCells = new List<FieldCell>(8);
+                    for (int i = 0; i < SizeX; i++)
+                    {
+                        _spawnCells.Add(GetCell(i, 0));
+                    }
+
+                    _spawnCells.Add(GetCell(0, 1));
+
+                    break;
+                }
             }
         }
 
@@ -175,28 +225,28 @@ namespace KragmortaApp.Entities
                     _cells[SizeX + 2].Visible     = false;
                     _cells[SizeX * 2 + 2].Type    = CellType.Wall;
                     _cells[SizeX * 2 + 2].Visible = false;
-                    
+
                     _cells[SizeX + 4].Type        = CellType.Wall;
                     _cells[SizeX + 4].Visible     = false;
                     _cells[SizeX * 2 + 4].Type    = CellType.Wall;
                     _cells[SizeX * 2 + 4].Visible = false;
-                    
+
                     _cells[SizeX * 4 + 2].Type    = CellType.Wall;
                     _cells[SizeX * 4 + 2].Visible = false;
                     _cells[SizeX * 5 + 2].Type    = CellType.Wall;
                     _cells[SizeX * 5 + 2].Visible = false;
-                    
+
                     _cells[SizeX * 4 + 4].Type    = CellType.Wall;
                     _cells[SizeX * 4 + 4].Visible = false;
                     _cells[SizeX * 5 + 4].Type    = CellType.Wall;
                     _cells[SizeX * 5 + 4].Visible = false;
-                    
+
                     _cells[SizeX * 7 + 3].Type    = CellType.Wall;
                     _cells[SizeX * 7 + 3].Visible = false;
                     _cells[SizeX * 8 + 3].Type    = CellType.Wall;
                     _cells[SizeX * 8 + 3].Visible = false;
-                    
-                    
+
+
                     break;
                 }
             }
