@@ -110,7 +110,16 @@ namespace KragmortaApp.Handlers
                     _gameFieldController.CollectNeighboringCells(pusher.FieldX, pusher.FieldY, _pathController.RawPath);
 
                     // By this moment pusher MUST have an activated card
-                    _pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard);
+                    if (!_pathController.TrySetVisiblePath(_movementDecksController.ActivatedMovementCard))
+                    {
+                        Console.WriteLine("No moves with selected card");
+                        _movementDecksController.DismissActivatedCard();
+                        _movementDecksController.PullNewCard();
+                        _shiftController.ActivateNextPlayer();
+                        _profilesController.ActivateNextPlayer();
+                        _movementDecksController.ActivateNextDeck();
+                    }
+                    
                     _pushController.ClearVictim();
                     _pushController.ClearReturnMoveToPusher();
                 }
