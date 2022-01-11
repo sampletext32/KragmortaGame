@@ -51,5 +51,16 @@ namespace KragmortaApp.Controllers
                 // TODO: Finish game.
             }
         }
+
+        public void GiveBookToHero(HeroModel victim)
+        {
+            ++_booksNumber;
+            _controllers[(int)victim.Id - 1].GiveBook();
+            
+            if (_booksNumber == GameState.Instance.BookLimit)
+            {
+                // TODO: Finish game.
+            }
+        }
     }
 }

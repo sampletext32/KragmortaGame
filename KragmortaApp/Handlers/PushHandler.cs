@@ -51,13 +51,19 @@ namespace KragmortaApp.Handlers
             var victimPreviousX = _pushController.PushedStateModel.Victim.FieldX;
             var victimPreviousY = _pushController.PushedStateModel.Victim.FieldY;
 
-            var isPortal = _gameFieldController.GetCell(nextCellX, nextCellY).IsPortal;
-            if (isPortal)
+            if (_gameFieldController.GetCell(nextCellX, nextCellY).IsPortal)
             {
                 var randPortalCell = _portalController.RandomExcept(nextCellX, nextCellY);
                 nextCellX = randPortalCell.X;
                 nextCellY = randPortalCell.Y;
                 _pushController.PushedStateModel.Victim.SetFieldPosition(nextCellX, nextCellY);
+            }
+            else if (_gameFieldController.GetCell(nextCellX, nextCellY).IsWorkbench)
+            {
+                _profilesController.GiveBookToHero(_pushController.PushedStateModel.Victim);
+                
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                _pushController.PushedStateModel.Victim.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
             }
             else
             {
