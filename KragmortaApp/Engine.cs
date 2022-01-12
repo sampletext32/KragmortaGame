@@ -22,14 +22,14 @@ namespace KragmortaApp
         public FontCache FontCache => _fontCache;
         public SoundCache SoundCache => _soundCache;
         public MusicCache MusicCache => _musicCache;
-        public IconsSpritesCache IconsSpritesCache => _iconsSpritesCache;
+        public IconsTexturesCache IconsTexturesCache => _iconsTexturesCache;
 
         private TextureCache _textureCache;
         private ImageCache _imageCache;
         private FontCache _fontCache;
         private SoundCache _soundCache;
         private MusicCache _musicCache;
-        private IconsSpritesCache _iconsSpritesCache;
+        private IconsTexturesCache _iconsTexturesCache;
 
         private int _windowWidth;
         private int _windowHeight;
@@ -57,7 +57,7 @@ namespace KragmortaApp
             _fontCache         = new FontCache();
             _soundCache        = new SoundCache();
             _musicCache        = new MusicCache();
-            _iconsSpritesCache = new IconsSpritesCache();
+            _iconsTexturesCache = new IconsTexturesCache();
 
             _scenesStack = new Stack<Scene>();
 
