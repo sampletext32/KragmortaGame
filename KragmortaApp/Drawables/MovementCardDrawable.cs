@@ -52,9 +52,10 @@ namespace KragmortaApp.Drawables
 
         public MovementCardDrawable()
         {
-            _backgroundRectangle           = new RectangleShape();
-            _backgroundRectangle.Size      = new Vector2f(Width, Height);
-            _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
+            _backgroundRectangle                  = new RectangleShape();
+            _backgroundRectangle.Size             = new Vector2f(Width + 4, Height + 4);
+            _backgroundRectangle.OutlineThickness = 2;
+            _backgroundRectangle.FillColor        = new Color(255, 255, 255, 100);
 
             _font = Engine.Instance.FontCache.GetOrCache("arial");
 
@@ -191,7 +192,7 @@ namespace KragmortaApp.Drawables
             _x = x;
             _y = y;
 
-            _backgroundRectangle.Position = new Vector2f(x, y);
+            _backgroundRectangle.Position = new Vector2f(x - 2, y - 2);
             _backgroundSprite.Position    = new Vector2f(x, y);
 
             _firstText.Position  = new Vector2f(x, y);
@@ -306,7 +307,7 @@ namespace KragmortaApp.Drawables
                 _movementCard.ClearDirty();
             }
 
-            // target.Draw(_backgroundRectangle, states);
+            target.Draw(_backgroundRectangle, states);
             target.Draw(_backgroundSprite, states);
             
             target.Draw(_iconLT);
@@ -322,15 +323,15 @@ namespace KragmortaApp.Drawables
         {
             if (_movementCard.Activated)
             {
-                _backgroundRectangle.FillColor = new Color(255, 0, 0);
+                _backgroundRectangle.OutlineColor = _backgroundRectangle.FillColor = new Color(255, 0, 0);
             }
             else if (_movementCard.Selected)
             {
-                _backgroundRectangle.FillColor = new Color(255, 0, 0, 100);
+                _backgroundRectangle.OutlineColor = _backgroundRectangle.FillColor = new Color(255, 0, 0, 100);
             }
             else
             {
-                _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
+                _backgroundRectangle.OutlineColor = _backgroundRectangle.FillColor = new Color(255, 255, 255, 100);
             }
         }
 
