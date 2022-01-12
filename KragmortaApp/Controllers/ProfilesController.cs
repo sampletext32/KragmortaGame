@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using KragmortaApp.Entities;
+using KragmortaApp.Scenes;
 
 namespace KragmortaApp.Controllers
 {
@@ -39,6 +41,11 @@ namespace KragmortaApp.Controllers
         public void DealDamageToHero(HeroModel victimHero)
         {
             _controllers[(int)victimHero.Id - 1].TakeDamage();
+
+            if (_profiles.Any(p => p.Lives == 0))
+            {
+                Engine.Instance.PushScene(new GameOverScene());
+            }
         }
 
         public void GiveBookToActive()
@@ -48,7 +55,7 @@ namespace KragmortaApp.Controllers
             
             if (_booksNumber == GameState.Instance.BookLimit)
             {
-                // TODO: Finish game.
+                Engine.Instance.PushScene(new GameOverScene());
             }
         }
 
@@ -59,7 +66,7 @@ namespace KragmortaApp.Controllers
             
             if (_booksNumber == GameState.Instance.BookLimit)
             {
-                // TODO: Finish game.
+                Engine.Instance.PushScene(new GameOverScene());
             }
         }
     }

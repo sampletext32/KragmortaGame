@@ -87,13 +87,13 @@
     {
       "Nickname": "Hero 1",
       "Activated": false,
-      "Lives": 3,
+      "Lives": 2,
       "MagicBooks": []
     },
     {
       "Nickname": "Hero 2",
       "Activated": true,
-      "Lives": 3,
+      "Lives": 2,
       "MagicBooks": []
     }
   ],

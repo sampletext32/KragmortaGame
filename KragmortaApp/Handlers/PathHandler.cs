@@ -118,25 +118,25 @@ namespace KragmortaApp.Handlers
             if (_gameFieldController.GetCell(pathCellX, pathCellY).IsWorkbench)
             {
                 _profilesController.CurrentController.GiveBook();
-                
+
                 var teleportingCell = _gameFieldController.GetSpawnCell();
                 _shiftController.Hero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
-                    h.FieldY == _shiftController.Hero.FieldY)) is not null)
+                        h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
+                        h.FieldY == _shiftController.Hero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(_shiftController.Hero.FieldX, _shiftController.Hero.FieldY,
                         pathCellX, pathCellY, sameCellHero);
                 }
 
                 _pathController.ClearPaths();
-                
+
                 _shiftController.ActivateNextPlayer();
                 _profilesController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();
-                
+
                 return;
             }
 
@@ -149,7 +149,7 @@ namespace KragmortaApp.Handlers
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
+                        h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
                         _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
@@ -230,19 +230,19 @@ namespace KragmortaApp.Handlers
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
-                    h.FieldY == _shiftController.Hero.FieldY)) is not null)
+                        h != _shiftController.Hero && h.FieldX == _shiftController.Hero.FieldX &&
+                        h.FieldY == _shiftController.Hero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(_shiftController.Hero.FieldX, _shiftController.Hero.FieldY,
                         pathCellX, pathCellY, sameCellHero);
                 }
 
                 _pathController.ClearPaths();
-                
+
                 _shiftController.ActivateNextPlayer();
                 _profilesController.ActivateNextPlayer();
                 _movementDecksController.ActivateNextDeck();
-                
+
                 return;
             }
 
@@ -252,14 +252,24 @@ namespace KragmortaApp.Handlers
                 var teleportingCell = _gameFieldController.GetSpawnCell();
                 victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
                 _profilesController.DealDamageToHero(victimHero);
+                _pathController.ClearPaths();
+
+                _movementDecksController.DismissActivatedCard();
+                _movementDecksController.PullNewCard();
+
+                _shiftController.ActivateNextPlayer();
+                _profilesController.ActivateNextPlayer();
+                _movementDecksController.ActivateNextDeck();
 
                 HeroModel sameCellHero;
                 if ((sameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
+                        h != victimHero && h.FieldX == victimHero.FieldX && h.FieldY == victimHero.FieldY)) is not null)
                 {
                     ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
                         _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
                 }
+
+                return;
             }
             // In the destination cell there are 2 heroes
             else if (CheckCellOverflow(pathCellX, pathCellY, out var sameCellHero))

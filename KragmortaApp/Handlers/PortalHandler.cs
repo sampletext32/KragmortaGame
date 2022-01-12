@@ -78,7 +78,7 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are 2 heroes
             else if (CheckCellOverflow(pathCellX, pathCellY, out var sameCellHero))
             {
-                ProcessCellOverflow(victimHero.FieldX, victimHero.FieldY,
+                ProcessCellOverflow(sameCellHero.FieldX, sameCellHero.FieldY,
                     _rigorController.Model.FieldX, _rigorController.Model.FieldY, sameCellHero);
             }
 
