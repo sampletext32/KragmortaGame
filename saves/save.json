@@ -1,64 +1,17 @@
 {
   "HeroCount": 2,
-  "CurrentPlayerIndex": 0,
+  "CurrentPlayerIndex": 1,
   "Heroes": [
     {
       "Id": 1,
       "FieldX": 2,
       "FieldY": 8,
-      "Activated": true,
+      "Activated": false,
       "MovementDeck": {
         "MovementCards": [
           {
             "FirstType": 2,
             "SecondType": 16,
-            "Selected": false,
-            "HasUsedFirstType": false,
-            "HasUsedSecondType": false,
-            "Activated": false,
-            "MovementCardType": 0
-          },
-          {
-            "FirstType": 1,
-            "SecondType": 1,
-            "Selected": true,
-            "HasUsedFirstType": false,
-            "HasUsedSecondType": false,
-            "Activated": false,
-            "MovementCardType": 0
-          },
-          {
-            "FirstType": 4,
-            "SecondType": 2,
-            "Selected": false,
-            "HasUsedFirstType": false,
-            "HasUsedSecondType": false,
-            "Activated": false,
-            "MovementCardType": 0
-          }
-        ],
-        "Visible": true
-      }
-    },
-    {
-      "Id": 2,
-      "FieldX": 1,
-      "FieldY": 4,
-      "Activated": false,
-      "MovementDeck": {
-        "MovementCards": [
-          {
-            "FirstType": 16,
-            "SecondType": 4,
-            "Selected": false,
-            "HasUsedFirstType": false,
-            "HasUsedSecondType": false,
-            "Activated": false,
-            "MovementCardType": 0
-          },
-          {
-            "FirstType": 16,
-            "SecondType": 4,
             "Selected": false,
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
@@ -72,10 +25,57 @@
             "HasUsedFirstType": false,
             "HasUsedSecondType": false,
             "Activated": false,
-            "MovementCardType": 1
+            "MovementCardType": 0
+          },
+          {
+            "FirstType": 1,
+            "SecondType": 8,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false,
+            "MovementCardType": 0
           }
         ],
         "Visible": false
+      }
+    },
+    {
+      "Id": 2,
+      "FieldX": 1,
+      "FieldY": 4,
+      "Activated": true,
+      "MovementDeck": {
+        "MovementCards": [
+          {
+            "FirstType": 16,
+            "SecondType": 4,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false,
+            "MovementCardType": 0
+          },
+          {
+            "FirstType": 16,
+            "SecondType": 2,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false,
+            "MovementCardType": 0
+          },
+          {
+            "FirstType": 8,
+            "SecondType": 1,
+            "Selected": false,
+            "HasUsedFirstType": false,
+            "HasUsedSecondType": false,
+            "Activated": false,
+            "MovementCardType": 0
+          }
+        ],
+        "Visible": true
       }
     }
   ],
@@ -86,13 +86,13 @@
   "Profiles": [
     {
       "Nickname": "Hero 1",
-      "Activated": true,
+      "Activated": false,
       "Lives": 3,
       "MagicBooks": []
     },
     {
       "Nickname": "Hero 2",
-      "Activated": false,
+      "Activated": true,
       "Lives": 3,
       "MagicBooks": []
     }

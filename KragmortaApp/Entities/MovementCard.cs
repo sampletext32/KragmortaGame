@@ -1,6 +1,7 @@
 ﻿using System;
 using KragmortaApp.Enums;
 using KragmortaApp.FileDatas;
+using SFML.Graphics;
 
 namespace KragmortaApp.Entities
 {
@@ -27,6 +28,8 @@ namespace KragmortaApp.Entities
         public bool HasUsedFirstType { get; set; }
         public bool HasUsedSecondType { get; set; }
         public bool Activated { get; set; }
+
+        
 
         private static Random _random = new Random(DateTime.Now.Millisecond);
 

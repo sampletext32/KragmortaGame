@@ -7,13 +7,13 @@ using SFML.System;
 
 namespace KragmortaApp.Caches
 {
-    public class IconsSpritesCache
+    public class IconsTexturesCache
     {
-        private Dictionary<string, Sprite> _sprites;
+        private Dictionary<string, Texture> _sprites;
 
         private Random _random;
 
-        public IconsSpritesCache()
+        public IconsTexturesCache()
         {
             _sprites = new();
             _random  = new Random(DateTime.Now.Millisecond);
@@ -24,7 +24,7 @@ namespace KragmortaApp.Caches
         /// </summary>
         /// <param name="cellType">Type of the cell to retrieve.</param>
         /// <returns></returns>
-        public Sprite GetOrCache(CellType cellType)
+        public Texture GetOrCache(CellType cellType)
         {
             if (!Enum.IsDefined(typeof(CellType), cellType))
                 throw new InvalidEnumArgumentException(nameof(cellType), (int)cellType, typeof(CellType));
@@ -35,38 +35,38 @@ namespace KragmortaApp.Caches
             }
 
             var sprite = new Sprite(Engine.Instance.TextureCache.GetOrCache(Enum.GetName(typeof(CellType), cellType)));
-            _sprites[nameof(cellType)] = SetUpSprite(cellType);
-            return sprite;
+            _sprites[nameof(cellType)] = SetUpTexture(cellType);
+            // return sprite;
+            return null;
         }
 
-        private Sprite SetUpSprite(CellType cellType)
+        private Texture SetUpTexture(CellType cellType)
         {
-            switch (cellType)
-            {
-                case CellType.Orange:
-                    return InitOrangeIcon();
-
-                case CellType.Blue:
-                    return InitBlueIcon();
-                
-                case CellType.Green:
-                    return InitGreenIcon();
-                
-                case CellType.Red:
-                    return InitRedIcon();
-
-                case CellType.Common:
-                    return InitCommonIcon();
-
-                default: return null;
-            }
+            // switch (cellType)
+            // {
+            //     case CellType.Orange:
+            //         return InitOrangeIcon();
+            //
+            //     case CellType.Blue:
+            //         return InitBlueIcon();
+            //     
+            //     case CellType.Green:
+            //         return InitGreenIcon();
+            //     
+            //     case CellType.Red:
+            //         return InitRedIcon();
+            //
+            //     case CellType.Common:
+            //         return InitCommonIcon();
+            //
+            //     default: return null;
+            // }
+            return null;
         }
 
-        private Sprite InitOrangeIcon()
+        private Texture InitOrangeIcon()
         {
-            var orange = new Sprite(Engine.Instance.TextureCache.GetOrCache(nameof(CellType.Orange)));
-            orange.Scale    = new Vector2f(0.6f, 0.6f);
-            orange.Rotation = _random.Next(2) % 2 == 0 ? -15f : 15f;
+            var orange = new Texture(Engine.Instance.TextureCache.GetOrCache(nameof(CellType.Orange)));
 
             return orange;
         }
