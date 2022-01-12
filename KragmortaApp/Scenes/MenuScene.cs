@@ -31,7 +31,7 @@ namespace KragmortaApp.Scenes
             rulesButton.Clicked   += RulesButtonOnClicked;
             rulesButton.TextColor =  Color.Black;
             rulesButton.TextSize  =  32;
-            _layout.AddElement(rulesButton);
+            // _layout.AddElement(rulesButton);
 
             var settingsButton = new UIButton(300, 100, "SETTINGS", font);
             settingsButton.Clicked   += SettingsButtonOnClicked;
