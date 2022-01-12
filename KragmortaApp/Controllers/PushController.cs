@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 
 namespace KragmortaApp.Controllers

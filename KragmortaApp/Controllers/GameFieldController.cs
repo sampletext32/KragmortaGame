@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 
 namespace KragmortaApp.Controllers
 {

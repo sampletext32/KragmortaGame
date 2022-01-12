@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using SFML.Audio;
-using SFML.Graphics;
 
-namespace KragmortaApp
+namespace KragmortaApp.Caches
 {
     public class MusicCache
     {

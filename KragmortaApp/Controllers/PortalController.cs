@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 using SFML.System;
 
 namespace KragmortaApp.Controllers

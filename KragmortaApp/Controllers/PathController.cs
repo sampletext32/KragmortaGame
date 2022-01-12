@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using KragmortaApp.Entities;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 
 namespace KragmortaApp.Controllers
@@ -7,7 +8,7 @@ namespace KragmortaApp.Controllers
     public class PathController : ControllerBase
     {
         public List<AbstractCell> RawPath = new List<AbstractCell>(4);
-        
+
         private Path _path;
 
         public PathController(Path path, bool initStates)
@@ -47,7 +48,13 @@ namespace KragmortaApp.Controllers
                     _path.Cells[i].Visible = false;
                     continue;
                 }
-                
+
+                if (RawPath[i].IsWorkbench && card.MovementCardType == MovementCardType.Rigor)
+                {
+                    _path.Cells[i].Visible = false;
+                    continue;
+                }
+
                 if (IsValid(card, i))
                 {
                     _path.Cells[i].X       = RawPath[i].X;
@@ -84,12 +91,14 @@ namespace KragmortaApp.Controllers
             var result = false;
             if (!card.HasUsedFirstType)
             {
-                result = (RawPath[i].Type & card.FirstType) != CellType.Empty || card.FirstType == CellType.Common;
+                result = (RawPath[i].Type & card.FirstType) != CellType.Empty || card.FirstType == CellType.Common
+                                                                              || RawPath[i].Type == CellType.Common;
             }
 
             if (!card.HasUsedSecondType)
             {
-                result |= (RawPath[i].Type & card.SecondType) != CellType.Empty || card.SecondType == CellType.Common;
+                result |= (RawPath[i].Type & card.SecondType) != CellType.Empty || card.SecondType == CellType.Common
+                    || RawPath[i].Type == CellType.Common;
             }
 
             return result;

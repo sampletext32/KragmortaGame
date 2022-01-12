@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 using KragmortaApp.FileDatas;
 using SFML.Graphics;
@@ -37,7 +38,23 @@ namespace KragmortaApp.Entities
 
             AdjustField();
             InitWalls();
+            InitWorkbench();
             LoadSpawnCells();
+        }
+
+        private void InitWorkbench()
+        {
+            GetCell(0, 8).IsWorkbench = true;
+            GetCell(0, 8).Type        = CellType.Common;
+
+            GetCell(1, 8).IsWorkbench = true;
+            GetCell(1, 8).Type        = CellType.Common;
+
+            GetCell(0, 9).IsWorkbench = true;
+            GetCell(0, 9).Type        = CellType.Common;
+
+            GetCell(1, 9).IsWorkbench = true;
+            GetCell(1, 9).Type        = CellType.Common;
         }
 
         public GameFieldFileData ToFileData()
@@ -77,6 +94,7 @@ namespace KragmortaApp.Entities
 
             AdjustField();
             InitWalls();
+            InitWorkbench();
             LoadSpawnCells();
         }
 
@@ -170,7 +188,6 @@ namespace KragmortaApp.Entities
 
         private void InitWalls()
         {
-            // TODO: Show bookshelves on the field.
             switch (FieldType)
             {
                 case FieldType.Mini:

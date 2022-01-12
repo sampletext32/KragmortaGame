@@ -5,7 +5,7 @@ using KragmortaApp.Enums;
 using SFML.Graphics;
 using SFML.System;
 
-namespace KragmortaApp
+namespace KragmortaApp.Caches
 {
     public class IconsSpritesCache
     {

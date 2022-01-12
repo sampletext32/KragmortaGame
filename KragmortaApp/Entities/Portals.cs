@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using KragmortaApp.Entities.Cells;
 using KragmortaApp.Enums;
 using SFML.System;
 
@@ -27,15 +28,6 @@ namespace KragmortaApp.Entities
 
         private void Init7X10()
         {
-            // var coords = new Vector2i[7];
-            // coords[0] = new Vector2i(0, 0);
-            // coords[1] = new Vector2i(6, 0);
-            // coords[2] = new Vector2i(3, 2);
-            // coords[3] = new Vector2i(1, 4);
-            // coords[4] = new Vector2i(5, 4);
-            // coords[5] = new Vector2i(4, 6);
-            // coords[6] = new Vector2i(6, 9);
-
             var cell = _field.GetCell(0, 0);
             _cells.Add(new PortalCell()
             {
@@ -119,19 +111,6 @@ namespace KragmortaApp.Entities
                     break;
                 }
             }
-
-            // foreach (var coord in coords)
-            // {
-            //     var cell = _field.GetCell(coord);
-            //     _cells.Add(new PortalCell()
-            //     {
-            //         X        = cell.X,
-            //         Y        = cell.Y,
-            //         Corner   = cell.Corner,
-            //         Form     = cell.Form,
-            //         IsPortal = true
-            //     });
-            // }
         }
 
         private void Init10X7()

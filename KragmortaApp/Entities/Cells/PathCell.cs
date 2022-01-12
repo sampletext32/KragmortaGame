@@ -1,6 +1,6 @@
 using KragmortaApp.FileDatas;
 
-namespace KragmortaApp.Entities
+namespace KragmortaApp.Entities.Cells
 {
     public class PathCell : AbstractCell
     {

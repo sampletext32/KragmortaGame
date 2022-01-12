@@ -64,6 +64,18 @@ namespace KragmortaApp.Controllers
 
         public void SpendType(CellType cellType)
         {
+            if (!_activatedMovementCard.HasUsedFirstType && cellType == CellType.Common)
+            {
+                _activatedMovementCard.HasUsedFirstType = true;
+                return;
+            }
+
+            if (!_activatedMovementCard.HasUsedSecondType)
+            {
+                _activatedMovementCard.HasUsedSecondType = true;
+                return;
+            }
+            
             if (!_activatedMovementCard.HasUsedFirstType &&
                 ((_activatedMovementCard.FirstType & cellType) != CellType.Empty ||
                  _activatedMovementCard.FirstType == CellType.Common))

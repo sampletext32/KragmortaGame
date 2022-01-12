@@ -35,7 +35,7 @@ namespace KragmortaApp.Handlers
             _finishButtonController  = finishButtonController;
             _portalController        = portalController;
             _profilesController      = profilesController;
-            _rigorController    = rigorController;
+            _rigorController         = rigorController;
         }
 
         public override void RawOnMousePressed(int selectedCellX, int selectedCellY, KragMouseButton mouseButton)
@@ -51,13 +51,19 @@ namespace KragmortaApp.Handlers
             var victimPreviousX = _pushController.PushedStateModel.Victim.FieldX;
             var victimPreviousY = _pushController.PushedStateModel.Victim.FieldY;
 
-            var isPortal = _gameFieldController.GetCell(nextCellX, nextCellY).IsPortal;
-            if (isPortal)
+            if (_gameFieldController.GetCell(nextCellX, nextCellY).IsPortal)
             {
                 var randPortalCell = _portalController.RandomExcept(nextCellX, nextCellY);
                 nextCellX = randPortalCell.X;
                 nextCellY = randPortalCell.Y;
                 _pushController.PushedStateModel.Victim.SetFieldPosition(nextCellX, nextCellY);
+            }
+            else if (_gameFieldController.GetCell(nextCellX, nextCellY).IsWorkbench)
+            {
+                _profilesController.GiveBookToHero(_pushController.PushedStateModel.Victim);
+                
+                var teleportingCell = _gameFieldController.GetSpawnCell();
+                _pushController.PushedStateModel.Victim.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
             }
             else
             {
@@ -81,7 +87,8 @@ namespace KragmortaApp.Handlers
             // In the destination cell there are 2 heroes
             HeroModel victimSameCellHero;
             if ((victimSameCellHero = GameState.Instance.Heroes.FirstOrDefault(h =>
-                    h != _pushController.PushedStateModel.Victim && h.FieldX == nextCellX && h.FieldY == nextCellY)) is not null)
+                h != _pushController.PushedStateModel.Victim && h.FieldX == nextCellX &&
+                h.FieldY == nextCellY)) is not null)
             {
                 // Case 1
 
@@ -102,7 +109,6 @@ namespace KragmortaApp.Handlers
             }
             else if (CheckRigorAndGoblinOnSameCell(out var victimHero))
             {
-                // TODO: Fuck goblin after his pushing.
                 var teleportingCell = _gameFieldController.GetSpawnCell();
                 victimHero.SetFieldPosition(teleportingCell.X, teleportingCell.Y);
                 _profilesController.DealDamageToHero(victimHero);
@@ -135,7 +141,7 @@ namespace KragmortaApp.Handlers
                         _profilesController.ActivateNextPlayer();
                         _movementDecksController.ActivateNextDeck();
                     }
-                    
+
                     _pushController.ClearVictim();
                     _pushController.ClearReturnMoveToPusher();
                 }
@@ -150,7 +156,8 @@ namespace KragmortaApp.Handlers
                 _finishButtonController.ShowButton();
             }
         }
-        private bool CheckRigorAndGoblinOnSameCell( out HeroModel victim)
+
+        private bool CheckRigorAndGoblinOnSameCell(out HeroModel victim)
         {
             return (victim = GameState.Instance.Heroes.FirstOrDefault(h =>
                 h.FieldX == _rigorController.Model.FieldX && h.FieldY == _rigorController.Model.FieldY)) is not null;

@@ -1,16 +1,24 @@
 ﻿using KragmortaApp.FileDatas;
 
-namespace KragmortaApp.Entities
+namespace KragmortaApp.Entities.Cells
 {
-    public class PushCell : AbstractCell
+    public class FieldCell : AbstractCell
     {
-        // public bool Visible { get; set; }
+        /// <summary>
+        /// Indicates, whether current cell is being under the mouse cursor
+        /// </summary>
+        public bool Hovered { get; set; }
 
-        public PushCell()
+        /// <summary>
+        /// Indicates, whether current cell is being under click phase
+        /// </summary>
+        public bool Clicked { get; set; }
+
+        public FieldCell()
         {
         }
 
-        public PushCell(PushCellFileData fileData)
+        public FieldCell(FieldCellFileData fileData)
         {
             X        = fileData.X;
             Y        = fileData.Y;
@@ -21,9 +29,9 @@ namespace KragmortaApp.Entities
             Visible  = fileData.Visible;
         }
 
-        public PushCellFileData ToFileData()
+        public FieldCellFileData ToFileData()
         {
-            return new PushCellFileData()
+            return new FieldCellFileData()
             {
                 X        = X,
                 Y        = Y,

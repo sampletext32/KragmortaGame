@@ -1,4 +1,4 @@
-namespace KragmortaApp.Entities
+namespace KragmortaApp.Entities.Cells
 {
     public class PortalCell : AbstractCell
     {

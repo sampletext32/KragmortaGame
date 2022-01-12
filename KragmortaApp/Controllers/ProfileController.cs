@@ -1,4 +1,5 @@
-﻿using KragmortaApp.Entities;
+﻿using System;
+using KragmortaApp.Entities;
 
 namespace KragmortaApp.Controllers
 {
@@ -6,9 +7,12 @@ namespace KragmortaApp.Controllers
     {
         private Profile _profile;
 
+        private Random _random;
+
         public ProfileController(Profile profile, bool initStates)
         {
             _profile = profile;
+            _random  = new Random(DateTime.Now.Millisecond);
         }
 
         public void Activate()
@@ -26,6 +30,12 @@ namespace KragmortaApp.Controllers
         public void TakeDamage()
         {
             _profile.Lives--;
+            _profile.MarkDirty();
+        }
+
+        public void GiveBook()
+        {
+            _profile.MagicBooks.Add(new MagicBook(_random.Next(1, 6)));
             _profile.MarkDirty();
         }
     }

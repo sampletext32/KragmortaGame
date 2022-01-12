@@ -6,6 +6,10 @@ namespace KragmortaApp.Entities
     {
         public int Power { get; set; }
 
+        public MagicBook(int power)
+        {
+            Power = power;
+        }
         public MagicBook(MagicBookFileData fileData)
         {
             Power = fileData.Power;
