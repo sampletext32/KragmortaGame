@@ -84,8 +84,7 @@ namespace KragmortaApp.Drawables
 
         private void LoadIconsTextures()
         {
-            _iconLT.Texture =
-                Engine.Instance.TextureCache.GetOrCache(Enum.GetName(typeof(CellType), _movementCard.FirstType));
+            _iconLT.Texture = Engine.Instance.TextureCache.GetOrCache(Enum.GetName(typeof(CellType), _movementCard.FirstType));
             _iconRT.Texture = Engine.Instance.TextureCache.GetOrCache(Enum.GetName(typeof(CellType), _movementCard.FirstType));
 
             _iconLB.Texture = Engine.Instance.TextureCache.GetOrCache(Enum.GetName(typeof(CellType), _movementCard.SecondType));
@@ -183,6 +182,8 @@ namespace KragmortaApp.Drawables
             _secondText.DisplayedString = _movementCard.SecondType.ToString();
 
             LoadIconsTextures();
+
+            SetIconsPositions(_x, _y);
 
             Update();
         }
